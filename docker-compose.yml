@@ -1,0 +1,50 @@
+version: "3.7"
+
+services:
+  api:
+    container_name: go_site_exam
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    networks:
+      - postgres
+    volumes:
+      - api_volume:/usr/src/app/
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: examsite
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
+  pgadmin:
+    image: dpage/pgadmin4:7.4
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mustafaakil49@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  pgadmin-data:
+  postgres:
+  api_volume:
