@@ -14,8 +14,8 @@ type Lesson struct {
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 
-	TeacherID int
-	Teacher   User `gorm:"foreignKey:TeacherID"`
+	TeacherID int  `json:"teacher_id"`
+	Teacher   User `gorm:"foreignKey:TeacherID" json:"teacher"`
 }
 
 func (u *Lesson) BeforeUpdate(tx *gorm.DB) (err error) {

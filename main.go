@@ -2,6 +2,7 @@ package main
 
 import (
 	"src/github.com/mustafaakilll/go-site-exam/db"
+	"src/github.com/mustafaakilll/go-site-exam/internal/lesson"
 	"src/github.com/mustafaakilll/go-site-exam/internal/user"
 
 	"github.com/gofiber/fiber/v2"
@@ -14,6 +15,10 @@ func main() {
 	userRepository := user.NewUserRepository(database)
 	userService := user.NewUserService(userRepository)
 	userHandler := user.NewUserHandler(userService)
+
+	lessonRepository := lesson.NewLessonRepository(database)
+	lessonService := lesson.NewLessonService(lessonRepository)
+	lessonHandler := lesson.NewLessonHandler(lessonService)
 
 	app := fiber.New()
 	api := app.Group("/api/v1")
@@ -31,6 +36,10 @@ func main() {
 	userApi.Get("/email/:email", userHandler.GetUserByEmail)
 	userApi.Get("/name/:username", userHandler.GetUserByUsername)
 	userApi.Get("/teacher/:id", userHandler.SetTeacher)
+
+	lessonAPI := api.Group("/lessons")
+	lessonAPI.Get("/", lessonHandler.GetLessons)
+	lessonAPI.Post("/", lessonHandler.CreateLessons)
 
 	app.Listen(":8081")
 }

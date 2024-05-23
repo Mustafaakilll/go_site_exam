@@ -32,5 +32,6 @@ func (u *Quiz) BeforeSave(tx *gorm.DB) (err error) {
 		u.CreatedAt = time.Now()
 	}
 	u.UpdatedAt = time.Now()
+	u.EndTime = u.StartTime.Add(time.Duration(u.Duration) * time.Minute)
 	return
 }

@@ -1,11 +1,9 @@
-version: "3.7"
-
 services:
   api:
     container_name: go_site_exam
     build: .
     ports:
-      - 8080:8080
+      - 8081:8081
     depends_on:
       - postgres
     networks:
