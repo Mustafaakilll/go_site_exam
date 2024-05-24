@@ -2,6 +2,7 @@ package main
 
 import (
 	"src/github.com/mustafaakilll/go-site-exam/db"
+	"src/github.com/mustafaakilll/go-site-exam/internal/answer"
 	"src/github.com/mustafaakilll/go-site-exam/internal/lesson"
 	"src/github.com/mustafaakilll/go-site-exam/internal/user"
 
@@ -19,6 +20,10 @@ func main() {
 	lessonRepository := lesson.NewLessonRepository(database)
 	lessonService := lesson.NewLessonService(lessonRepository)
 	lessonHandler := lesson.NewLessonHandler(lessonService)
+
+	answerRepository := answer.NewAnswerRepository(database)
+	answerService := answer.NewAnswerService(answerRepository)
+	answerHandler := answer.NewAnswerHandler(answerService)
 
 	app := fiber.New()
 	api := app.Group("/api/v1")
@@ -40,6 +45,10 @@ func main() {
 	lessonAPI := api.Group("/lessons")
 	lessonAPI.Get("/", lessonHandler.GetLessons)
 	lessonAPI.Post("/", lessonHandler.CreateLessons)
+
+	answerAPI := api.Group("/answers")
+	answerAPI.Get("/", answerHandler.GetAnswers)
+	answerAPI.Post("/", answerHandler.CreateAnswer)
 
 	app.Listen(":8081")
 }
