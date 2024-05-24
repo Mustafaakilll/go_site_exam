@@ -25,6 +25,10 @@ func main() {
 	answerService := answer.NewAnswerService(answerRepository)
 	answerHandler := answer.NewAnswerHandler(answerService)
 
+	choiceRepository := choice.NewChoiceRepository(database)
+	choiceService := choice.NewChoiceService(choiceRepository)
+	choiceHandler := choice.NewChoiceHandler(choiceService)
+
 	app := fiber.New()
 	api := app.Group("/api/v1")
 
@@ -49,6 +53,10 @@ func main() {
 	answerAPI := api.Group("/answers")
 	answerAPI.Get("/", answerHandler.GetAnswers)
 	answerAPI.Post("/", answerHandler.CreateAnswer)
+
+	choiceAPI := api.Group("/choices")
+	choiceAPI.Get("/", choiceHandler.GetChoices)
+	choiceAPI.Post("/", choiceHandler.CreateChoices)
 
 	app.Listen(":8081")
 }
