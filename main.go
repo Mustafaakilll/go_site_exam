@@ -41,6 +41,10 @@ func main() {
 	codeService := code.NewCodeService(codeRepository)
 	codeHandler := code.NewCodeHandler(codeService)
 
+	questionRepository := question.NewQuestionRepository(database)
+	questionService := question.NewQuestionService(questionRepository)
+	questionHandler := question.NewQuestionHandler(questionService)
+
 	app := fiber.New()
 	api := app.Group("/api/v1")
 
@@ -81,6 +85,10 @@ func main() {
 	codeAPI := api.Group("/codes")
 	codeAPI.Get("/", codeHandler.GetCodes)
 	codeAPI.Post("/", codeHandler.CreateCodes)
+
+	questionAPI := api.Group("/questions")
+	questionAPI.Get("/", questionHandler.GetQuestions)
+	questionAPI.Post("/", questionHandler.CreateQuestions)
 
 	app.Listen(":8081")
 }
