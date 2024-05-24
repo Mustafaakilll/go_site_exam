@@ -33,6 +33,10 @@ func main() {
 	codeAnswerService := codeAnswer.NewCodeAnswerService(codeAnswerRepository)
 	codeAnswerHandler := codeAnswer.NewCodeAnswerHandler(codeAnswerService)
 
+	codeSubmissionRepository := codeSubmission.NewCodeSubmissionRepository(database)
+	codeSubmissionService := codeSubmission.NewCodeSubmissionService(codeSubmissionRepository)
+	codeSubmissionHandler := codeSubmission.NewCodeSubmissionHandler(codeSubmissionService)
+
 	app := fiber.New()
 	api := app.Group("/api/v1")
 
@@ -65,6 +69,10 @@ func main() {
 	codeAnswerAPI := api.Group("/code-answers")
 	codeAnswerAPI.Get("/", codeAnswerHandler.GetCodeAnswers)
 	codeAnswerAPI.Post("/", codeAnswerHandler.CreateCodeAnswer)
+
+	codeSubmissionAPI := api.Group("/code-submissions")
+	codeSubmissionAPI.Get("/", codeSubmissionHandler.GetCodeSubmissions)
+	codeSubmissionAPI.Post("/", codeSubmissionHandler.CreateCodeSubmission)
 
 	app.Listen(":8081")
 }
