@@ -57,6 +57,10 @@ func main() {
 	userAnswerService := userAnswer.NewUserAnswerService(userAnswerRepository)
 	userAnswerHandler := userAnswer.NewUserAnswerHandler(userAnswerService)
 
+	userQuizRepository := userQuiz.NewUserQuizRepository(database)
+	userQuizService := userQuiz.NewUserQuizService(userQuizRepository)
+	userQuizHandler := userQuiz.NewUserQuizHandler(userQuizService)
+
 	app := fiber.New()
 	api := app.Group("/api/v1")
 
@@ -113,6 +117,10 @@ func main() {
 	userAnswerAPI := api.Group("/user-answers")
 	userAnswerAPI.Get("/", userAnswerHandler.GetUserAnswers)
 	userAnswerAPI.Post("/", userAnswerHandler.CreateUserAnswers)
+
+	userQuizAPI := api.Group("/user-quizzes")
+	userQuizAPI.Get("/", userQuizHandler.GetUserQuizzes)
+	userQuizAPI.Post("/", userQuizHandler.CreateUserQuizzes)
 
 	app.Listen(":8081")
 }
