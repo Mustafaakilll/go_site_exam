@@ -53,6 +53,10 @@ func main() {
 	userTypeService := userType.NewUserTypeService(userTypeRepository)
 	userTypeHandler := userType.NewUserTypeHandler(userTypeService)
 
+	userAnswerRepository := userAnswer.NewUserAnswerRepository(database)
+	userAnswerService := userAnswer.NewUserAnswerService(userAnswerRepository)
+	userAnswerHandler := userAnswer.NewUserAnswerHandler(userAnswerService)
+
 	app := fiber.New()
 	api := app.Group("/api/v1")
 
@@ -105,6 +109,10 @@ func main() {
 	userTypeAPI := api.Group("/user-types")
 	userTypeAPI.Get("/", userTypeHandler.GetUserTypes)
 	userTypeAPI.Post("/", userTypeHandler.CreateUserType)
+
+	userAnswerAPI := api.Group("/user-answers")
+	userAnswerAPI.Get("/", userAnswerHandler.GetUserAnswers)
+	userAnswerAPI.Post("/", userAnswerHandler.CreateUserAnswers)
 
 	app.Listen(":8081")
 }
