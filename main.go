@@ -49,6 +49,10 @@ func main() {
 	quizService := quiz.NewQuizService(quizRepository)
 	quizHandler := quiz.NewQuizHandler(quizService)
 
+	userTypeRepository := userType.NewUserTypeRepository(database)
+	userTypeService := userType.NewUserTypeService(userTypeRepository)
+	userTypeHandler := userType.NewUserTypeHandler(userTypeService)
+
 	app := fiber.New()
 	api := app.Group("/api/v1")
 
@@ -97,6 +101,10 @@ func main() {
 	quizAPI := api.Group("/quizzes")
 	quizAPI.Get("/", quizHandler.GetQuizzes)
 	quizAPI.Post("/", quizHandler.CreateQuizzes)
+
+	userTypeAPI := api.Group("/user-types")
+	userTypeAPI.Get("/", userTypeHandler.GetUserTypes)
+	userTypeAPI.Post("/", userTypeHandler.CreateUserType)
 
 	app.Listen(":8081")
 }
