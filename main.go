@@ -72,11 +72,11 @@ func main() {
 	userQuizHandler := userQuiz.NewUserQuizHandler(userQuizService)
 
 	app := fiber.New()
-	api := app.Group("/api/v1")
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
-		AllowMethods: "GET,POST,HEAD,PUT,DELETE",
+		AllowMethods: "*",
 	}))
+	api := app.Group("/api/v1")
 
 	app.Get("/ping", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"message": "Hello, World!"})
