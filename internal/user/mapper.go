@@ -26,13 +26,13 @@ type UserTypeDTO struct {
 }
 
 type CreateUserRequest struct {
-	FirstName string
-	LastName  string
-	Password  string
-	Email     string
+	FirstName string `json:"firstname"`
+	LastName  string `json:"lastname"`
+	Password  string `json:"password"`
+	Email     string `json:"email"`
 }
 
 type UpdateUserRequest struct {
-	Password string
-	Email    string
+	Password string `json:"password"`
+	Email    string `json:"email"`
 }
