@@ -73,8 +73,9 @@ func main() {
 
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowMethods: "*",
+		AllowOrigins:     "http://localhost:3000",
+		AllowMethods:     "*",
+		AllowCredentials: true,
 	}))
 	api := app.Group("/api/v1")
 
