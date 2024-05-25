@@ -2,9 +2,10 @@ package user
 
 import (
 	"errors"
-	"src/github.com/mustafaakilll/go-site-exam/db/entity"
-	"src/github.com/mustafaakilll/go-site-exam/pkg/models"
-	"src/github.com/mustafaakilll/go-site-exam/pkg/utils"
+
+	"github.com/mustafaakilll/go-site-exam/db/entity"
+	"github.com/mustafaakilll/go-site-exam/pkg/models"
+	"github.com/mustafaakilll/go-site-exam/pkg/utils"
 )
 
 type UserService struct {

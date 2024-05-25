@@ -1,4 +1,4 @@
-package answer
+package codeSubmission
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -24,7 +24,7 @@ func (cs *CodeSubmissionHandler) GetCodeSubmissions(c *fiber.Ctx) error {
 	return c.JSON(codeSubmissions)
 }
 
-func (cs *CodeSubmissionHandler) CreateCodeSubmissions(c *fiber.Ctx) error {
+func (cs *CodeSubmissionHandler) CreateCodeSubmission(c *fiber.Ctx) error {
 	p := new(CreateCodeSubmissionRequest)
 	if err := c.BodyParser(p); err != nil {
 		return err

@@ -24,7 +24,7 @@ func (u *UserTypeHandler) GetUserTypes(c *fiber.Ctx) error {
 	return c.JSON(userTypes)
 }
 
-func (u *UserTypeHandler) CreateUserTypes(c *fiber.Ctx) error {
+func (u *UserTypeHandler) CreateUserType(c *fiber.Ctx) error {
 	p := new(CreateUserTypeRequest)
 	if err := c.BodyParser(p); err != nil {
 		return err

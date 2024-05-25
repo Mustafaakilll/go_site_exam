@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"src/github.com/mustafaakilll/go-site-exam/db"
-	"src/github.com/mustafaakilll/go-site-exam/db/entity"
-	"src/github.com/mustafaakilll/go-site-exam/pkg/utils"
+	"github.com/mustafaakilll/go-site-exam/db"
+	"github.com/mustafaakilll/go-site-exam/db/entity"
+	"github.com/mustafaakilll/go-site-exam/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"

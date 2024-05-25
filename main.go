@@ -1,10 +1,19 @@
 package main
 
 import (
-	"src/github.com/mustafaakilll/go-site-exam/db"
-	"src/github.com/mustafaakilll/go-site-exam/internal/answer"
-	"src/github.com/mustafaakilll/go-site-exam/internal/lesson"
-	"src/github.com/mustafaakilll/go-site-exam/internal/user"
+	"github.com/mustafaakilll/go-site-exam/db"
+	"github.com/mustafaakilll/go-site-exam/internal/answer"
+	"github.com/mustafaakilll/go-site-exam/internal/choice"
+	"github.com/mustafaakilll/go-site-exam/internal/code"
+	codeAnswer "github.com/mustafaakilll/go-site-exam/internal/code-answer"
+	codeSubmission "github.com/mustafaakilll/go-site-exam/internal/code-submission"
+	"github.com/mustafaakilll/go-site-exam/internal/lesson"
+	"github.com/mustafaakilll/go-site-exam/internal/question"
+	"github.com/mustafaakilll/go-site-exam/internal/quiz"
+	"github.com/mustafaakilll/go-site-exam/internal/types"
+	"github.com/mustafaakilll/go-site-exam/internal/user"
+	userAnswer "github.com/mustafaakilll/go-site-exam/internal/user-answer"
+	userQuiz "github.com/mustafaakilll/go-site-exam/internal/user-quiz"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -49,9 +58,9 @@ func main() {
 	quizService := quiz.NewQuizService(quizRepository)
 	quizHandler := quiz.NewQuizHandler(quizService)
 
-	userTypeRepository := userType.NewUserTypeRepository(database)
-	userTypeService := userType.NewUserTypeService(userTypeRepository)
-	userTypeHandler := userType.NewUserTypeHandler(userTypeService)
+	userTypeRepository := types.NewUserTypeRepository(database)
+	userTypeService := types.NewUserTypeService(userTypeRepository)
+	userTypeHandler := types.NewUserTypeHandler(userTypeService)
 
 	userAnswerRepository := userAnswer.NewUserAnswerRepository(database)
 	userAnswerService := userAnswer.NewUserAnswerService(userAnswerRepository)

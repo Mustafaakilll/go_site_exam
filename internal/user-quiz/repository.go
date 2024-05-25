@@ -1,7 +1,7 @@
-package user_quiz
+package userQuiz
 
 import (
-	"src/github.com/mustafaakilll/go-site-exam/db/entity"
+	"github.com/mustafaakilll/go-site-exam/db/entity"
 
 	"gorm.io/gorm"
 )

@@ -1,4 +1,4 @@
-package answer
+package codeSubmission
 
 import "github.com/mustafaakilll/go-site-exam/db/entity"
 

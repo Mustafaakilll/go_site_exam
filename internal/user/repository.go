@@ -1,9 +1,9 @@
 package user
 
 import (
-	"src/github.com/mustafaakilll/go-site-exam/db"
-	"src/github.com/mustafaakilll/go-site-exam/db/entity"
-	"src/github.com/mustafaakilll/go-site-exam/pkg/models"
+	"github.com/mustafaakilll/go-site-exam/db"
+	"github.com/mustafaakilll/go-site-exam/db/entity"
+	"github.com/mustafaakilll/go-site-exam/pkg/models"
 
 	"gorm.io/gorm"
 )

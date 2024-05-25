@@ -1,6 +1,6 @@
 package lesson
 
-import "src/github.com/mustafaakilll/go-site-exam/db/entity"
+import "github.com/mustafaakilll/go-site-exam/db/entity"
 
 type BaseRequest struct {
 	Limit  int `json:"limit"`

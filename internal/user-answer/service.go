@@ -1,9 +1,10 @@
-package user_answer
+package userAnswer
 
 import (
 	"errors"
-	"src/github.com/mustafaakilll/go-site-exam/db/entity"
-	"src/github.com/mustafaakilll/go-site-exam/pkg/utils"
+
+	"github.com/mustafaakilll/go-site-exam/db/entity"
+	"github.com/mustafaakilll/go-site-exam/pkg/utils"
 )
 
 type UserAnswerService struct {

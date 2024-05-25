@@ -24,7 +24,7 @@ func (a *AnswerHandler) GetAnswers(c *fiber.Ctx) error {
 	return c.JSON(answers)
 }
 
-func (a *AnswerHandler) CreateAnswers(c *fiber.Ctx) error {
+func (a *AnswerHandler) CreateAnswer(c *fiber.Ctx) error {
 	p := new(CreateAnswerRequest)
 	if err := c.BodyParser(p); err != nil {
 		return err

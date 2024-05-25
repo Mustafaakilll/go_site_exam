@@ -1,4 +1,4 @@
-package answer
+package codeAnswer
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -24,7 +24,7 @@ func (ca *CodeAnswerHandler) GetCodeAnswers(c *fiber.Ctx) error {
 	return c.JSON(codeAnswers)
 }
 
-func (ca *CodeAnswerHandler) CreateCodeAnswers(c *fiber.Ctx) error {
+func (ca *CodeAnswerHandler) CreateCodeAnswer(c *fiber.Ctx) error {
 	p := new(CreateCodeAnswerRequest)
 	if err := c.BodyParser(p); err != nil {
 		return err

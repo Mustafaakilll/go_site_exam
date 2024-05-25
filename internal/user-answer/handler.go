@@ -1,4 +1,4 @@
-package user_answer
+package userAnswer
 
 import (
 	"github.com/gofiber/fiber/v2"

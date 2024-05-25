@@ -1,8 +1,8 @@
 package user
 
 import (
-	"src/github.com/mustafaakilll/go-site-exam/pkg/models"
-	"src/github.com/mustafaakilll/go-site-exam/pkg/utils"
+	"github.com/mustafaakilll/go-site-exam/pkg/models"
+	"github.com/mustafaakilll/go-site-exam/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
 )

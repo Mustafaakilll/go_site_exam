@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 
-	"src/github.com/mustafaakilll/go-site-exam/db/entity"
+	"github.com/mustafaakilll/go-site-exam/db/entity"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

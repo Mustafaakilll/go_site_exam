@@ -1,4 +1,4 @@
-package user_quiz
+package userQuiz
 
 import (
 	"github.com/gofiber/fiber/v2"
