@@ -16,6 +16,7 @@ import (
 	userQuiz "github.com/mustafaakilll/go-site-exam/internal/user-quiz"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
@@ -72,6 +73,10 @@ func main() {
 
 	app := fiber.New()
 	api := app.Group("/api/v1")
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowMethods: "GET,POST,HEAD,PUT,DELETE",
+	}))
 
 	app.Get("/ping", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"message": "Hello, World!"})
