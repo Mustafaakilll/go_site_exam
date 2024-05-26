@@ -38,3 +38,13 @@ func (r *CodeRepository) CreateCode(codeEntity entity.Code) error {
 	err := r.DB.Create(&codeEntity).Error
 	return err
 }
+
+func (r *CodeRepository) UpdateCode(codeEntity entity.Code) error {
+	err := r.DB.Save(&codeEntity).Error
+	return err
+}
+
+func (r *CodeRepository) DeleteCode(id int) error {
+	err := r.DB.Delete(&entity.Code{}, id).Error
+	return err
+}

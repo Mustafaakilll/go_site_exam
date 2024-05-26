@@ -48,3 +48,20 @@ func (s *AnswerService) CreateAnswers(answerDTO *CreateAnswerRequest) (*entity.A
 	}
 	return answerEntity, nil
 }
+
+func (s *AnswerService) UpdateAnswers(answerDTO *UpdateAnswerRequest) (*entity.Answer, error) {
+	answerEntity := new(entity.Answer)
+	if err := utils.DTOtoJSON(answerDTO, answerEntity); err != nil {
+		return nil, err
+	}
+
+	err := s.repository.UpdateAnswer(*answerEntity)
+	if err != nil {
+		return nil, err
+	}
+	return answerEntity, nil
+}
+
+func (s *AnswerService) DeleteAnswer(id int) error {
+	return s.repository.DeleteAnswer(id)
+}

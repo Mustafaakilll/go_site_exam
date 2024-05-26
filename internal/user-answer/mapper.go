@@ -18,6 +18,10 @@ type CreateUserAnswerRequest struct {
 	AnswerID int `json:"answer_id"`
 }
 
+type UpdateUserAnswerRequest struct {
+	AnswerID int `json:"answer_id"`
+}
+
 type UserAnswerResponseDTO struct {
 	Data []UserAnswerDTO `json:"data"`
 	BaseResponse

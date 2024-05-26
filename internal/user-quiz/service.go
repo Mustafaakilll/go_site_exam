@@ -49,3 +49,18 @@ func (s *UserQuizService) CreateUserQuizzes(userQuizDTO *CreateUserQuizRequest) 
 	return userQuizEntity, nil
 
 }
+
+func (s *UserQuizService) UpdateUserQuiz(userQuizDTO *UpdateUserQuizRequest) (*entity.UserQuiz, error) {
+	userQuizEntity := new(entity.UserQuiz)
+	if err := utils.DTOtoJSON(userQuizDTO, userQuizEntity); err != nil {
+		return nil, err
+	}
+	if err := s.repository.UpdateUserQuiz(*userQuizEntity); err != nil {
+		return nil, err
+	}
+	return userQuizEntity, nil
+}
+
+func (s *UserQuizService) DeleteUserQuiz(id int) error {
+	return s.repository.DeleteUserQuiz(id)
+}

@@ -24,14 +24,38 @@ func (h *CodeHandler) GetCodes(c *fiber.Ctx) error {
 	return c.JSON(codes)
 }
 
-func (h *CodeHandler) CreateCodes(c *fiber.Ctx) error {
+func (h *CodeHandler) CreateCode(c *fiber.Ctx) error {
 	p := new(CreateCodeRequest)
 	if err := c.BodyParser(p); err != nil {
 		return err
 	}
-	codes, err := h.service.CreateCodes(p)
+	codes, err := h.service.CreateCode(p)
 	if err != nil {
 		return err
 	}
 	return c.JSON(codes)
+}
+
+func (h *CodeHandler) UpdateCode(c *fiber.Ctx) error {
+	p := new(UpdateCodeRequest)
+	if err := c.BodyParser(p); err != nil {
+		return err
+	}
+	codes, err := h.service.UpdateCode(p)
+	if err != nil {
+		return err
+	}
+	return c.JSON(codes)
+}
+
+func (h *CodeHandler) DeleteCode(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	err = h.service.DeleteCode(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(fiber.Map{"message": "Code deleted successfully"})
 }

@@ -48,3 +48,19 @@ func (s *CodeSubmissionService) CreateCodeSubmissions(codeSubmissionDTO *CreateC
 	}
 	return codeSubmissionEntity, nil
 }
+
+func (s *CodeSubmissionService) UpdateCodeSubmission(codeSubmissionDTO *UpdateCodeSubmissionRequest) (*entity.CodeSubmission, error) {
+	codeSubmissionEntity := new(entity.CodeSubmission)
+	if err := utils.DTOtoJSON(codeSubmissionDTO, codeSubmissionEntity); err != nil {
+		return nil, err
+	}
+	err := s.repository.UpdateCodeSubmission(*codeSubmissionEntity)
+	if err != nil {
+		return nil, err
+	}
+	return codeSubmissionEntity, nil
+}
+
+func (s *CodeSubmissionService) DeleteCodeSubmission(id int) error {
+	return s.repository.DeleteCodeSubmission(id)
+}

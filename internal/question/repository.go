@@ -4,6 +4,7 @@ import (
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type QuestionRepository struct {
@@ -37,4 +38,12 @@ func (r *QuestionRepository) GetQuestions(req *BaseRequest) ([]entity.Question, 
 func (r *QuestionRepository) CreateQuestion(questionEntity entity.Question) error {
 	err := r.DB.Create(&questionEntity).Error
 	return err
+}
+
+func (r *QuestionRepository) UpdateQuestion(questionEntity entity.Question) error {
+	return r.DB.Omit(clause.Associations).Save(&questionEntity).Error
+}
+
+func (r *QuestionRepository) DeleteQuestion(id int) error {
+	return r.DB.Delete(&entity.Question{}, id).Error
 }

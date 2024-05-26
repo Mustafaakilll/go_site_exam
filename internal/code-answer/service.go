@@ -48,3 +48,19 @@ func (s *CodeAnswerService) CreateCodeAnswers(codeAnswerDTO *CreateCodeAnswerReq
 	}
 	return codeAnswerEntity, nil
 }
+
+func (s *CodeAnswerService) UpdateCodeAnswer(codeAnswerDTO *UpdateCodeAnswerRequest) (*entity.CodeAnswer, error) {
+	codeAnswerEntity := new(entity.CodeAnswer)
+	if err := utils.DTOtoJSON(codeAnswerDTO, codeAnswerEntity); err != nil {
+		return nil, err
+	}
+	err := s.repository.UpdateCodeAnswer(*codeAnswerEntity)
+	if err != nil {
+		return nil, err
+	}
+	return codeAnswerEntity, nil
+}
+
+func (s *CodeAnswerService) DeleteCodeAnswer(id int) error {
+	return s.repository.DeleteCodeAnswer(id)
+}

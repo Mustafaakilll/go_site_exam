@@ -35,3 +35,27 @@ func (q *QuizHandler) CreateQuizzes(c *fiber.Ctx) error {
 	}
 	return c.JSON(quizzes)
 }
+
+func (q *QuizHandler) UpdateQuiz(c *fiber.Ctx) error {
+	p := new(UpdateQuizRequest)
+	if err := c.BodyParser(p); err != nil {
+		return err
+	}
+	quizzes, err := q.service.UpdateQuiz(p)
+	if err != nil {
+		return err
+	}
+	return c.JSON(quizzes)
+}
+
+func (q *QuizHandler) DeleteQuiz(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	err = q.service.DeleteQuiz(id)
+	if err != nil {
+		return err
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}

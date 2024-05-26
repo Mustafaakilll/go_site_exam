@@ -4,6 +4,7 @@ import (
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type UserQuizRepository struct {
@@ -38,4 +39,58 @@ func (r *UserQuizRepository) GetUserQuizzes(req *BaseRequest) ([]entity.UserQuiz
 func (r *UserQuizRepository) CreateUserQuiz(userQuizEntity entity.UserQuiz) error {
 	err := r.DB.Create(&userQuizEntity).Error
 	return err
+}
+
+func (r *UserQuizRepository) UpdateUserQuiz(userQuizEntity entity.UserQuiz) error {
+	err := r.DB.Save(&userQuizEntity).Error
+	return err
+}
+
+func (r *UserQuizRepository) DeleteUserQuiz(id int) error {
+	err := r.DB.Omit(clause.Associations).Delete(&entity.UserQuiz{}, id).Error
+	return err
+}
+
+func (r *UserQuizRepository) GetUserQuizByID(id uint) (entity.UserQuiz, error) {
+	var userQuiz entity.UserQuiz
+	err := r.DB.
+		Preload("User").
+		Preload("Quiz").
+		Where("id = ?", id).
+		First(&userQuiz).
+		Error
+	return userQuiz, err
+}
+
+func (r *UserQuizRepository) GetUserQuizByUserIDAndQuizID(userID, quizID uint) (entity.UserQuiz, error) {
+	var userQuiz entity.UserQuiz
+	err := r.DB.
+		Preload("User").
+		Preload("Quiz").
+		Where("user_id = ? AND quiz_id = ?", userID, quizID).
+		First(&userQuiz).
+		Error
+	return userQuiz, err
+}
+
+func (r *UserQuizRepository) GetUserQuizByUserID(userID uint) ([]entity.UserQuiz, error) {
+	var userQuizzes []entity.UserQuiz
+	err := r.DB.
+		Preload("User").
+		Preload("Quiz").
+		Where("user_id = ?", userID).
+		Find(&userQuizzes).
+		Error
+	return userQuizzes, err
+}
+
+func (r *UserQuizRepository) GetUserQuizByQuizID(quizID uint) ([]entity.UserQuiz, error) {
+	var userQuizzes []entity.UserQuiz
+	err := r.DB.
+		Preload("User").
+		Preload("Quiz").
+		Where("quiz_id = ?", quizID).
+		Find(&userQuizzes).
+		Error
+	return userQuizzes, err
 }

@@ -38,7 +38,7 @@ func (s *CodeService) GetCodes(req *BaseRequest) (*CodeResponseDTO, error) {
 	return &resultDTO, nil
 }
 
-func (s *CodeService) CreateCodes(codeDTO *CreateCodeRequest) (*entity.Code, error) {
+func (s *CodeService) CreateCode(codeDTO *CreateCodeRequest) (*entity.Code, error) {
 	codeEntity := new(entity.Code)
 	utils.DTOtoJSON(codeDTO, codeEntity)
 
@@ -48,4 +48,20 @@ func (s *CodeService) CreateCodes(codeDTO *CreateCodeRequest) (*entity.Code, err
 	}
 	return codeEntity, nil
 
+}
+
+func (s *CodeService) UpdateCode(codeDTO *UpdateCodeRequest) (*entity.Code, error) {
+	codeEntity := new(entity.Code)
+	if err := utils.DTOtoJSON(codeDTO, codeEntity); err != nil {
+		return nil, err
+	}
+	err := s.repository.UpdateCode(*codeEntity)
+	if err != nil {
+		return nil, err
+	}
+	return codeEntity, nil
+}
+
+func (s *CodeService) DeleteCode(id int) error {
+	return s.repository.DeleteCode(id)
 }

@@ -7,16 +7,16 @@ import (
 )
 
 type UserAnswer struct {
-	ID       int `gorm:"primaryKey"`
-	UserID   int
-	User     User `gorm:"foreignKey:UserID"`
-	QuizID   int
-	Quiz     Quiz `gorm:"foreignKey:QuizID"`
-	AnswerID int
-	Answer   Answer `gorm:"foreignKey:AnswerID"`
-
+	ID        int `gorm:"primaryKey"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
+
+	UserID   int    `gorm:"user_id"`
+	User     User   `gorm:"foreignKey:UserID" json:"user"`
+	QuizID   int    `gorm:"quiz_id"`
+	Quiz     Quiz   `gorm:"foreignKey:QuizID" json:"quiz"`
+	AnswerID int    `gorm:"answer_id"`
+	Answer   Answer `gorm:"foreignKey:AnswerID" json:"answer"`
 }
 
 func (u *UserAnswer) BeforeUpdate(tx *gorm.DB) (err error) {

@@ -49,3 +49,19 @@ func (s *QuestionService) CreateQuestions(questionDTO *CreateQuestionRequest) (*
 	return questionEntity, nil
 
 }
+
+func (s *QuestionService) UpdateQuestion(questionDTO *UpdateQuestionRequest) (*entity.Question, error) {
+	questionEntity := new(entity.Question)
+	if err := utils.DTOtoJSON(questionDTO, questionEntity); err != nil {
+		return nil, err
+	}
+	err := s.repository.UpdateQuestion(*questionEntity)
+	if err != nil {
+		return nil, err
+	}
+	return questionEntity, nil
+}
+
+func (s *QuestionService) DeleteQuestion(id int) error {
+	return s.repository.DeleteQuestion(id)
+}

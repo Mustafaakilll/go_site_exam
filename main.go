@@ -96,34 +96,50 @@ func main() {
 	lessonAPI := api.Group("/lessons")
 	lessonAPI.Get("/", lessonHandler.GetLessons)
 	lessonAPI.Post("/", lessonHandler.CreateLessons)
+	lessonAPI.Delete("/:id", lessonHandler.DeleteLessons)
+	lessonAPI.Put("/", lessonHandler.UpdateLessons)
 
 	answerAPI := api.Group("/answers")
 	answerAPI.Get("/", answerHandler.GetAnswers)
 	answerAPI.Post("/", answerHandler.CreateAnswer)
+	answerAPI.Put("/", answerHandler.UpdateAnswer)
+	answerAPI.Delete("/", answerHandler.DeleteAnswer)
 
 	choiceAPI := api.Group("/choices")
 	choiceAPI.Get("/", choiceHandler.GetChoices)
 	choiceAPI.Post("/", choiceHandler.CreateChoices)
+	choiceAPI.Put("/", choiceHandler.UpdateChoices)
+	choiceAPI.Delete("/:id", choiceHandler.UpdateChoices)
 
 	codeAnswerAPI := api.Group("/code-answers")
 	codeAnswerAPI.Get("/", codeAnswerHandler.GetCodeAnswers)
 	codeAnswerAPI.Post("/", codeAnswerHandler.CreateCodeAnswer)
+	codeAnswerAPI.Delete("/:id", codeAnswerHandler.DeleteCodeAnswer)
+	codeAnswerAPI.Put("/", codeAnswerHandler.UpdateCodeAnswer)
 
 	codeSubmissionAPI := api.Group("/code-submissions")
 	codeSubmissionAPI.Get("/", codeSubmissionHandler.GetCodeSubmissions)
 	codeSubmissionAPI.Post("/", codeSubmissionHandler.CreateCodeSubmission)
+	codeSubmissionAPI.Delete("/:id", codeSubmissionHandler.DeleteCodeSubmission)
+	codeSubmissionAPI.Put("/", codeSubmissionHandler.UpdateCodeSubmission)
 
 	codeAPI := api.Group("/codes")
 	codeAPI.Get("/", codeHandler.GetCodes)
-	codeAPI.Post("/", codeHandler.CreateCodes)
+	codeAPI.Post("/", codeHandler.CreateCode)
+	codeAPI.Put("/", codeHandler.UpdateCode)
+	codeAPI.Delete("/:id", codeHandler.DeleteCode)
 
 	questionAPI := api.Group("/questions")
 	questionAPI.Get("/", questionHandler.GetQuestions)
 	questionAPI.Post("/", questionHandler.CreateQuestions)
+	questionAPI.Put("/", questionHandler.UpdateQuestion)
+	questionAPI.Delete("/:id", questionHandler.DeleteQuestion)
 
 	quizAPI := api.Group("/quizzes")
 	quizAPI.Get("/", quizHandler.GetQuizzes)
 	quizAPI.Post("/", quizHandler.CreateQuizzes)
+	quizAPI.Put("/", quizHandler.UpdateQuiz)
+	quizAPI.Delete("/:id", quizHandler.DeleteQuiz)
 
 	userTypeAPI := api.Group("/user-types")
 	userTypeAPI.Get("/", userTypeHandler.GetUserTypes)
@@ -132,10 +148,14 @@ func main() {
 	userAnswerAPI := api.Group("/user-answers")
 	userAnswerAPI.Get("/", userAnswerHandler.GetUserAnswers)
 	userAnswerAPI.Post("/", userAnswerHandler.CreateUserAnswers)
+	userAnswerAPI.Delete("/:id", userAnswerHandler.DeleteUserAnswer)
+	userAnswerAPI.Put("/", userAnswerHandler.UpdateUserAnswer)
 
 	userQuizAPI := api.Group("/user-quizzes")
 	userQuizAPI.Get("/", userQuizHandler.GetUserQuizzes)
-	userQuizAPI.Post("/", userQuizHandler.CreateUserQuizzes)
+	userQuizAPI.Post("/", userQuizHandler.CreateUserQuiz)
+	userQuizAPI.Put("/", userQuizHandler.UpdateUserQuiz)
+	userQuizAPI.Delete("/:id", userQuizHandler.DeleteUserQuiz)
 
 	app.Listen(":8081")
 }

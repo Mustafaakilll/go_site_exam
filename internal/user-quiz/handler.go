@@ -24,7 +24,7 @@ func (u *UserQuizHandler) GetUserQuizzes(c *fiber.Ctx) error {
 	return c.JSON(userQuizzes)
 }
 
-func (u *UserQuizHandler) CreateUserQuizzes(c *fiber.Ctx) error {
+func (u *UserQuizHandler) CreateUserQuiz(c *fiber.Ctx) error {
 	p := new(CreateUserQuizRequest)
 	if err := c.BodyParser(p); err != nil {
 		return err
@@ -34,4 +34,28 @@ func (u *UserQuizHandler) CreateUserQuizzes(c *fiber.Ctx) error {
 		return err
 	}
 	return c.JSON(userQuiz)
+}
+
+func (u *UserQuizHandler) UpdateUserQuiz(c *fiber.Ctx) error {
+	p := new(UpdateUserQuizRequest)
+	if err := c.BodyParser(p); err != nil {
+		return err
+	}
+	userQuiz, err := u.service.UpdateUserQuiz(p)
+	if err != nil {
+		return err
+	}
+	return c.JSON(userQuiz)
+}
+
+func (u *UserQuizHandler) DeleteUserQuiz(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	err = u.service.DeleteUserQuiz(id)
+	if err != nil {
+		return err
+	}
+	return c.SendStatus(fiber.StatusNoContent)
 }

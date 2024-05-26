@@ -49,3 +49,19 @@ func (s *QuizService) CreateQuizzes(quizDTO *CreateQuizRequest) (*entity.Quiz, e
 	return quizEntity, nil
 
 }
+
+func (s *QuizService) UpdateQuiz(quizDTO *UpdateQuizRequest) (*entity.Quiz, error) {
+	quizEntity := new(entity.Quiz)
+	if err := utils.DTOtoJSON(quizDTO, quizEntity); err != nil {
+		return nil, err
+	}
+	err := s.repository.UpdateQuiz(*quizEntity)
+	if err != nil {
+		return nil, err
+	}
+	return quizEntity, nil
+}
+
+func (s *QuizService) DeleteQuiz(id int) error {
+	return s.repository.DeleteQuiz(id)
+}

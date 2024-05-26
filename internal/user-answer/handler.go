@@ -35,3 +35,27 @@ func (u *UserAnswerHandler) CreateUserAnswers(c *fiber.Ctx) error {
 	}
 	return c.JSON(userAnswers)
 }
+
+func (u *UserAnswerHandler) UpdateUserAnswer(c *fiber.Ctx) error {
+	p := new(UpdateUserAnswerRequest)
+	if err := c.BodyParser(p); err != nil {
+		return err
+	}
+	userAnswers, err := u.service.UpdateUserAnswer(p)
+	if err != nil {
+		return err
+	}
+	return c.JSON(userAnswers)
+}
+
+func (u *UserAnswerHandler) DeleteUserAnswer(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	err = u.service.DeleteUserAnswer(id)
+	if err != nil {
+		return err
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}

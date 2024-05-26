@@ -47,5 +47,22 @@ func (s *LessonService) CreateLessons(lessonDTO *CreateLessonRequest) (*entity.L
 		return nil, err
 	}
 	return lessonEntity, nil
+}
 
+func (s *LessonService) DeleteLesson(id int) error {
+	err := s.repository.DeleteLesson(id)
+	return err
+}
+
+func (s *LessonService) UpdateLesson(lessonDTO *UpdateLessonRequest) (*entity.Lesson, error) {
+	lessonEntity := new(entity.Lesson)
+	if err := utils.DTOtoJSON(lessonDTO, lessonEntity); err != nil {
+		return nil, err
+	}
+
+	err := s.repository.UpdateLesson(*lessonEntity)
+	if err != nil {
+		return nil, err
+	}
+	return lessonEntity, nil
 }

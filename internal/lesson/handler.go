@@ -35,3 +35,27 @@ func (l *LessonHandler) CreateLessons(c *fiber.Ctx) error {
 	}
 	return c.JSON(lessons)
 }
+
+func (l *LessonHandler) UpdateLessons(c *fiber.Ctx) error {
+	p := new(UpdateLessonRequest)
+	if err := c.BodyParser(p); err != nil {
+		return err
+	}
+	lessons, err := l.service.UpdateLesson(p)
+	if err != nil {
+		return err
+	}
+	return c.JSON(lessons)
+}
+
+func (l *LessonHandler) DeleteLessons(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	err = l.service.DeleteLesson(id)
+	if err != nil {
+		return err
+	}
+	return c.SendStatus(fiber.StatusOK)
+}

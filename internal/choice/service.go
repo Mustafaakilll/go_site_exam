@@ -49,3 +49,17 @@ func (s *ChoiceService) CreateChoices(choiceDTO *CreateChoiceRequest) (*entity.C
 	return choiceEntity, nil
 
 }
+
+func (s *ChoiceService) UpdateChoices(choiceDTO *UpdateChoiceRequest) (*entity.Choice, error) {
+	choiceEntity := new(entity.Choice)
+	utils.DTOtoJSON(choiceDTO, choiceEntity)
+	err := s.repository.UpdateChoice(*choiceEntity)
+	if err != nil {
+		return nil, err
+	}
+	return choiceEntity, nil
+}
+
+func (s *ChoiceService) DeleteChoices(id int) error {
+	return s.repository.DeleteChoice(id)
+}

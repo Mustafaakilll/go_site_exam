@@ -49,3 +49,18 @@ func (s *UserAnswerService) CreateUserAnswers(userAnswerDTO *CreateUserAnswerReq
 	return userAnswerEntity, nil
 
 }
+
+func (s *UserAnswerService) UpdateUserAnswer(userAnswerDTO *UpdateUserAnswerRequest) (*entity.UserAnswer, error) {
+	userAnswerEntity := new(entity.UserAnswer)
+	if err := utils.DTOtoJSON(userAnswerDTO, userAnswerEntity); err != nil {
+		return nil, err
+	}
+	if err := s.repository.UpdateUserAnswer(*userAnswerEntity); err != nil {
+		return nil, err
+	}
+	return userAnswerEntity, nil
+}
+
+func (s *UserAnswerService) DeleteUserAnswer(id int) error {
+	return s.repository.DeleteUserAnswer(id)
+}

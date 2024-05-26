@@ -4,6 +4,7 @@ import (
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type ChoiceRepository struct {
@@ -35,6 +36,16 @@ func (r *ChoiceRepository) GetChoices(req *BaseRequest) ([]entity.Choice, error)
 }
 
 func (r *ChoiceRepository) CreateChoice(choiceEntity entity.Choice) error {
-	err := r.DB.Create(&choiceEntity).Error
+	err := r.DB.Omit(clause.Associations).Create(&choiceEntity).Error
+	return err
+}
+
+func (r *ChoiceRepository) UpdateChoice(choiceEntity entity.Choice) error {
+	err := r.DB.Omit(clause.Associations).Save(&choiceEntity).Error
+	return err
+}
+
+func (r *ChoiceRepository) DeleteChoice(id int) error {
+	err := r.DB.Delete(&entity.Choice{}, id).Error
 	return err
 }

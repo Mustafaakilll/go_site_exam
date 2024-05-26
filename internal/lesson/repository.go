@@ -4,6 +4,7 @@ import (
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type LessonRepository struct {
@@ -37,5 +38,15 @@ func (r *LessonRepository) GetLessons(req *BaseRequest) ([]entity.Lesson, error)
 
 func (r *LessonRepository) CreateLesson(lessonEntity entity.Lesson) error {
 	err := r.DB.Create(&lessonEntity).Error
+	return err
+}
+
+func (r *LessonRepository) DeleteLesson(id int) error {
+	err := r.DB.Omit(clause.Associations).Delete(&entity.Lesson{}, id).Error
+	return err
+}
+
+func (r *LessonRepository) UpdateLesson(lessonEntity entity.Lesson) error {
+	err := r.DB.Omit(clause.Associations).Save(&lessonEntity).Error
 	return err
 }
