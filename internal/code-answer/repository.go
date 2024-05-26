@@ -35,9 +35,9 @@ func (r *CodeAnswerRepository) GetCodeAnswers(req *BaseRequest) ([]entity.CodeAn
 	return codeAnswers, nil
 }
 
-func (r *CodeAnswerRepository) CreateCodeAnswer(codeAnswerEntity entity.CodeAnswer) error {
+func (r *CodeAnswerRepository) CreateCodeAnswer(codeAnswerEntity *entity.CodeAnswer) (*entity.CodeAnswer, error) {
 	err := r.DB.Create(&codeAnswerEntity).Error
-	return err
+	return codeAnswerEntity, err
 }
 
 func (r *CodeAnswerRepository) UpdateCodeAnswer(codeAnswerEntity entity.CodeAnswer) error {

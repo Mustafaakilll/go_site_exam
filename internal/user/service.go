@@ -48,15 +48,15 @@ func (u *UserService) GetUserByID(id int) (*UserDTO, error) {
 	return userDTO, nil
 }
 
-func (u *UserService) CreateUser(user *CreateUserRequest) error {
+func (u *UserService) CreateUser(user *CreateUserRequest) (*entity.User, error) {
 	userEntity := new(entity.User)
 	utils.DTOtoJSON(user, userEntity)
 
-	err := u.repository.CreateUser(userEntity)
+	createdUser, err := u.repository.CreateUser(userEntity)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return createdUser, nil
 
 }
 
@@ -97,4 +97,24 @@ func (u *UserService) GetUserByUsername(username string) (*UserDTO, error) {
 
 func (u *UserService) SetTeacher(userID int) error {
 	return u.repository.SetTeacher(userID)
+}
+
+func (u *UserService) GetStudents() (*PaginatedUserResponse, error) {
+	users, err := u.repository.GetStudents()
+	if err != nil {
+		return nil, err
+	}
+	userDTOs := []UserDTO{}
+	for i := range users {
+		userDTO := new(UserDTO)
+		err := utils.JSONtoDTO(users[i], userDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert user entity to user dto")
+		}
+		userDTOs = append(userDTOs, *userDTO)
+	}
+	return &PaginatedUserResponse{
+		Count: len(userDTOs),
+		Data:  userDTOs,
+	}, nil
 }

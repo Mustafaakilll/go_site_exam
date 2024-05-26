@@ -29,7 +29,7 @@ func (cs *CodeSubmissionHandler) CreateCodeSubmission(c *fiber.Ctx) error {
 	if err := c.BodyParser(p); err != nil {
 		return err
 	}
-	codeSubmissions, err := cs.service.CreateCodeSubmissions(p)
+	codeSubmissions, err := cs.service.CreateCodeSubmission(p)
 	if err != nil {
 		return err
 	}

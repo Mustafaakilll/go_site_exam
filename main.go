@@ -92,6 +92,7 @@ func main() {
 	userApi.Get("/email/:email", userHandler.GetUserByEmail)
 	userApi.Get("/name/:username", userHandler.GetUserByUsername)
 	userApi.Get("/teacher/:id", userHandler.SetTeacher)
+	userApi.Get("/student", userHandler.GetStudents)
 
 	lessonAPI := api.Group("/lessons")
 	lessonAPI.Get("/", lessonHandler.GetLessons)

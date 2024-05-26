@@ -32,9 +32,9 @@ func (r *UserAnswerRepository) GetUserAnswers(req *BaseRequest) ([]entity.UserAn
 	return userAnswers, nil
 }
 
-func (r *UserAnswerRepository) CreateUserAnswer(userAnswerEntity entity.UserAnswer) error {
+func (r *UserAnswerRepository) CreateUserAnswer(userAnswerEntity *entity.UserAnswer) (*entity.UserAnswer, error) {
 	err := r.DB.Create(&userAnswerEntity).Error
-	return err
+	return userAnswerEntity, err
 }
 
 func (r *UserAnswerRepository) UpdateUserAnswer(userAnswerEntity entity.UserAnswer) error {

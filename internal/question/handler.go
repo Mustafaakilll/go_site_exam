@@ -29,7 +29,7 @@ func (q *QuestionHandler) CreateQuestions(c *fiber.Ctx) error {
 	if err := c.BodyParser(p); err != nil {
 		return err
 	}
-	questions, err := q.service.CreateQuestions(p)
+	questions, err := q.service.CreateQuestion(p)
 	if err != nil {
 		return err
 	}

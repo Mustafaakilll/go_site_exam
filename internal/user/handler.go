@@ -45,11 +45,11 @@ func (u *UserHandler) CreateUser(c *fiber.Ctx) error {
 		return err
 	}
 
-	err := u.service.CreateUser(p)
+	createdUser, err := u.service.CreateUser(p)
 	if err != nil {
 		return err
 	}
-	return nil
+	return c.JSON(createdUser)
 
 }
 
@@ -97,4 +97,12 @@ func (u *UserHandler) SetTeacher(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	return u.service.SetTeacher(utils.StringToInt(id))
+}
+
+func (u *UserHandler) GetStudents(c *fiber.Ctx) error {
+	users, err := u.service.GetStudents()
+	if err != nil {
+		return err
+	}
+	return c.JSON(users)
 }

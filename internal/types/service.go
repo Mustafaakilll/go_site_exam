@@ -38,14 +38,14 @@ func (s *UserTypeService) GetUserTypes(req *BaseRequest) (*UserTypeResponseDTO, 
 	return &resultDTO, nil
 }
 
-func (s *UserTypeService) CreateUserTypes(userTypeDTO *CreateUserTypeRequest) (*entity.UserType, error) {
+func (s *UserTypeService) CreateUserType(userTypeDTO *CreateUserTypeRequest) (*entity.UserType, error) {
 	userTypeEntity := new(entity.UserType)
 	utils.DTOtoJSON(userTypeDTO, userTypeEntity)
 
-	err := s.repository.CreateUserType(*userTypeEntity)
+	createdType, err := s.repository.CreateUserType(userTypeEntity)
 	if err != nil {
 		return nil, err
 	}
-	return userTypeEntity, nil
+	return createdType, nil
 
 }

@@ -29,11 +29,11 @@ func (c *ChoiceHandler) CreateChoices(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(p); err != nil {
 		return err
 	}
-	choices, err := c.service.CreateChoices(p)
+	choice, err := c.service.CreateChoice(p)
 	if err != nil {
 		return err
 	}
-	return ctx.JSON(choices)
+	return ctx.JSON(choice)
 }
 
 func (c *ChoiceHandler) UpdateChoices(ctx *fiber.Ctx) error {

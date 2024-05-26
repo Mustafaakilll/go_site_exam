@@ -38,15 +38,15 @@ func (s *CodeSubmissionService) GetCodeSubmissions(req *BaseRequest) (*CodeSubmi
 	return &resultDTO, nil
 }
 
-func (s *CodeSubmissionService) CreateCodeSubmissions(codeSubmissionDTO *CreateCodeSubmissionRequest) (*entity.CodeSubmission, error) {
+func (s *CodeSubmissionService) CreateCodeSubmission(codeSubmissionDTO *CreateCodeSubmissionRequest) (*entity.CodeSubmission, error) {
 	codeSubmissionEntity := new(entity.CodeSubmission)
 	utils.DTOtoJSON(codeSubmissionDTO, codeSubmissionEntity)
 
-	err := s.repository.CreateCodeSubmission(*codeSubmissionEntity)
+	createdCodeSubmission, err := s.repository.CreateCodeSubmission(codeSubmissionEntity)
 	if err != nil {
 		return nil, err
 	}
-	return codeSubmissionEntity, nil
+	return createdCodeSubmission, nil
 }
 
 func (s *CodeSubmissionService) UpdateCodeSubmission(codeSubmissionDTO *UpdateCodeSubmissionRequest) (*entity.CodeSubmission, error) {

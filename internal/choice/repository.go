@@ -35,9 +35,9 @@ func (r *ChoiceRepository) GetChoices(req *BaseRequest) ([]entity.Choice, error)
 	return choices, nil
 }
 
-func (r *ChoiceRepository) CreateChoice(choiceEntity entity.Choice) error {
+func (r *ChoiceRepository) CreateChoice(choiceEntity *entity.Choice) (*entity.Choice, error) {
 	err := r.DB.Omit(clause.Associations).Create(&choiceEntity).Error
-	return err
+	return choiceEntity, err
 }
 
 func (r *ChoiceRepository) UpdateChoice(choiceEntity entity.Choice) error {

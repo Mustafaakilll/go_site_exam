@@ -35,9 +35,9 @@ func (r *QuestionRepository) GetQuestions(req *BaseRequest) ([]entity.Question, 
 	return questions, nil
 }
 
-func (r *QuestionRepository) CreateQuestion(questionEntity entity.Question) error {
+func (r *QuestionRepository) CreateQuestion(questionEntity *entity.Question) (*entity.Question, error) {
 	err := r.DB.Create(&questionEntity).Error
-	return err
+	return questionEntity, err
 }
 
 func (r *QuestionRepository) UpdateQuestion(questionEntity entity.Question) error {

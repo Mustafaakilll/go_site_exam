@@ -42,11 +42,11 @@ func (s *CodeAnswerService) CreateCodeAnswers(codeAnswerDTO *CreateCodeAnswerReq
 	codeAnswerEntity := new(entity.CodeAnswer)
 	utils.DTOtoJSON(codeAnswerDTO, codeAnswerEntity)
 
-	err := s.repository.CreateCodeAnswer(*codeAnswerEntity)
+	createdCodeAnswer, err := s.repository.CreateCodeAnswer(codeAnswerEntity)
 	if err != nil {
 		return nil, err
 	}
-	return codeAnswerEntity, nil
+	return createdCodeAnswer, nil
 }
 
 func (s *CodeAnswerService) UpdateCodeAnswer(codeAnswerDTO *UpdateCodeAnswerRequest) (*entity.CodeAnswer, error) {

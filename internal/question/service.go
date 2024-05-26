@@ -38,15 +38,15 @@ func (s *QuestionService) GetQuestions(req *BaseRequest) (*QuestionResponseDTO, 
 	return &resultDTO, nil
 }
 
-func (s *QuestionService) CreateQuestions(questionDTO *CreateQuestionRequest) (*entity.Question, error) {
+func (s *QuestionService) CreateQuestion(questionDTO *CreateQuestionRequest) (*entity.Question, error) {
 	questionEntity := new(entity.Question)
 	utils.DTOtoJSON(questionDTO, questionEntity)
 
-	err := s.repository.CreateQuestion(*questionEntity)
+	createdQuestion, err := s.repository.CreateQuestion(questionEntity)
 	if err != nil {
 		return nil, err
 	}
-	return questionEntity, nil
+	return createdQuestion, nil
 
 }
 

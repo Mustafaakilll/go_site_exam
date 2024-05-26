@@ -34,9 +34,9 @@ func (r *CodeRepository) GetCodes(req *BaseRequest) ([]entity.Code, error) {
 	return codes, nil
 }
 
-func (r *CodeRepository) CreateCode(codeEntity entity.Code) error {
+func (r *CodeRepository) CreateCode(codeEntity *entity.Code) (*entity.Code, error) {
 	err := r.DB.Create(&codeEntity).Error
-	return err
+	return codeEntity, err
 }
 
 func (r *CodeRepository) UpdateCode(codeEntity entity.Code) error {

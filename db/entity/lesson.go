@@ -10,7 +10,7 @@ type Lesson struct {
 	ID         int `gorm:"primaryKey"`
 	Name       string
 	Definition string
-	LessonCode string
+	LessonCode string `json:"lesson_code"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 

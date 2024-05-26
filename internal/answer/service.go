@@ -42,11 +42,11 @@ func (s *AnswerService) CreateAnswers(answerDTO *CreateAnswerRequest) (*entity.A
 	answerEntity := new(entity.Answer)
 	utils.DTOtoJSON(answerDTO, answerEntity)
 
-	err := s.repository.CreateAnswer(*answerEntity)
+	createdAnswer, err := s.repository.CreateAnswer(answerEntity)
 	if err != nil {
 		return nil, err
 	}
-	return answerEntity, nil
+	return createdAnswer, nil
 }
 
 func (s *AnswerService) UpdateAnswers(answerDTO *UpdateAnswerRequest) (*entity.Answer, error) {

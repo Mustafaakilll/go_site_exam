@@ -56,6 +56,7 @@ func Connect() {
 	if err := Seed(); err != nil {
 		fmt.Println("failed to seed database")
 	}
+	fmt.Println("Database Seeded")
 }
 
 func Seed() error {

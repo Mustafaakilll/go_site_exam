@@ -1,6 +1,10 @@
 package user
 
-import "time"
+import (
+	"time"
+
+	"github.com/mustafaakilll/go-site-exam/internal/lesson"
+)
 
 type PaginatedUserResponse struct {
 	Count int       `json:"count"`
@@ -17,7 +21,7 @@ type UserDTO struct {
 	CreatedAt time.Time    `json:"createdat"`
 	UpdatedAt time.Time    `json:"updatedat"`
 
-	// Lessons []Lesson `gorm:"many2many:user_lessons;"`
+	Lessons []lesson.LessonDTO `json:"lessons"`
 }
 
 type UserTypeDTO struct {

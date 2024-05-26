@@ -31,7 +31,7 @@ func (r *UserTypeRepository) GetUserTypes(req *BaseRequest) ([]entity.UserType, 
 	return userTypes, nil
 }
 
-func (r *UserTypeRepository) CreateUserType(userTypeEntity entity.UserType) error {
+func (r *UserTypeRepository) CreateUserType(userTypeEntity *entity.UserType) (*entity.UserType, error) {
 	err := r.DB.Create(&userTypeEntity).Error
-	return err
+	return userTypeEntity, err
 }

@@ -42,11 +42,11 @@ func (s *CodeService) CreateCode(codeDTO *CreateCodeRequest) (*entity.Code, erro
 	codeEntity := new(entity.Code)
 	utils.DTOtoJSON(codeDTO, codeEntity)
 
-	err := s.repository.CreateCode(*codeEntity)
+	createdCode, err := s.repository.CreateCode(codeEntity)
 	if err != nil {
 		return nil, err
 	}
-	return codeEntity, nil
+	return createdCode, nil
 
 }
 

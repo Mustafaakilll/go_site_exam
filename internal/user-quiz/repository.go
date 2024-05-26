@@ -36,9 +36,9 @@ func (r *UserQuizRepository) GetUserQuizzes(req *BaseRequest) ([]entity.UserQuiz
 	return userQuizzes, nil
 }
 
-func (r *UserQuizRepository) CreateUserQuiz(userQuizEntity entity.UserQuiz) error {
+func (r *UserQuizRepository) CreateUserQuiz(userQuizEntity *entity.UserQuiz) (*entity.UserQuiz, error) {
 	err := r.DB.Create(&userQuizEntity).Error
-	return err
+	return userQuizEntity, err
 }
 
 func (r *UserQuizRepository) UpdateUserQuiz(userQuizEntity entity.UserQuiz) error {

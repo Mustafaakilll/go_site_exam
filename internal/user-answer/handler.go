@@ -29,7 +29,7 @@ func (u *UserAnswerHandler) CreateUserAnswers(c *fiber.Ctx) error {
 	if err := c.BodyParser(p); err != nil {
 		return err
 	}
-	userAnswers, err := u.service.CreateUserAnswers(p)
+	userAnswers, err := u.service.CreateUserAnswer(p)
 	if err != nil {
 		return err
 	}

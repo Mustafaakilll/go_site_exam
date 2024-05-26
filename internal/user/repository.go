@@ -42,8 +42,9 @@ func (u *UserRepository) GetUserByID(id int) (entity.User, error) {
 	return user, err
 }
 
-func (u *UserRepository) CreateUser(user *entity.User) error {
-	return db.DB.Create(&user).Error
+func (u *UserRepository) CreateUser(user *entity.User) (*entity.User, error) {
+	err := db.DB.Create(&user).Error
+	return user, err
 }
 
 func (u *UserRepository) UpdateUser(user *entity.User) error {
@@ -79,3 +80,25 @@ func (u *UserRepository) SetTeacher(userID int) error {
 		Update("user_type_id", 2).
 		Error
 }
+
+func (u *UserRepository) GetStudents() ([]entity.User, error) {
+	var users []entity.User
+	err := db.DB.
+		Preload("UserType").
+		Preload("Lessons").
+		Find(&users, "user_type_id = ?", 3).Error
+	return users, err
+}
+
+func (u *UserRepository) GetTeachers() ([]entity.User, error) {
+	var users []entity.User
+	err := db.DB.
+		Preload("UserType").
+		Preload("Lessons").
+		Find(&users, "user_type_id = ?", 2).Error
+	return users, err
+}
+
+// func (u *UserRepository) GetAdmins() ([]entity.User, error) {
+//
+// }

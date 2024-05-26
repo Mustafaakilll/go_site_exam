@@ -20,7 +20,7 @@ type User struct {
 
 	UserTypeID int      // 0: admin, 1: teacher, 2: student
 	UserType   UserType `json:"user_types" gorm:"foreignKey:UserTypeID;"`
-	Lessons    []Lesson `gorm:"many2many:user_lessons;"`
+	Lessons    []Lesson `gorm:"many2many:user_lessons;" json:"lessons"`
 }
 
 func (u *User) BeforeUpdate(tx *gorm.DB) (err error) {

@@ -29,7 +29,7 @@ func (u *UserTypeHandler) CreateUserType(c *fiber.Ctx) error {
 	if err := c.BodyParser(p); err != nil {
 		return err
 	}
-	userTypes, err := u.service.CreateUserTypes(p)
+	userTypes, err := u.service.CreateUserType(p)
 	if err != nil {
 		return err
 	}

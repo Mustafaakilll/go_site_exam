@@ -42,11 +42,11 @@ func (s *LessonService) CreateLessons(lessonDTO *CreateLessonRequest) (*entity.L
 	lessonEntity := new(entity.Lesson)
 	utils.DTOtoJSON(lessonDTO, lessonEntity)
 
-	err := s.repository.CreateLesson(*lessonEntity)
+	createdLesson, err := s.repository.CreateLesson(lessonEntity)
 	if err != nil {
 		return nil, err
 	}
-	return lessonEntity, nil
+	return createdLesson, nil
 }
 
 func (s *LessonService) DeleteLesson(id int) error {
@@ -60,7 +60,7 @@ func (s *LessonService) UpdateLesson(lessonDTO *UpdateLessonRequest) (*entity.Le
 		return nil, err
 	}
 
-	err := s.repository.UpdateLesson(*lessonEntity)
+	err := s.repository.UpdateLesson(lessonEntity)
 	if err != nil {
 		return nil, err
 	}

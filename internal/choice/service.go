@@ -38,15 +38,15 @@ func (s *ChoiceService) GetChoices(req *BaseRequest) (*ChoiceResponseDTO, error)
 	return &resultDTO, nil
 }
 
-func (s *ChoiceService) CreateChoices(choiceDTO *CreateChoiceRequest) (*entity.Choice, error) {
+func (s *ChoiceService) CreateChoice(choiceDTO *CreateChoiceRequest) (*entity.Choice, error) {
 	choiceEntity := new(entity.Choice)
 	utils.DTOtoJSON(choiceDTO, choiceEntity)
 
-	err := s.repository.CreateChoice(*choiceEntity)
+	createdChoice, err := s.repository.CreateChoice(choiceEntity)
 	if err != nil {
 		return nil, err
 	}
-	return choiceEntity, nil
+	return createdChoice, nil
 
 }
 

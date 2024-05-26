@@ -38,15 +38,15 @@ func (s *UserAnswerService) GetUserAnswers(req *BaseRequest) (*UserAnswerRespons
 	return &resultDTO, nil
 }
 
-func (s *UserAnswerService) CreateUserAnswers(userAnswerDTO *CreateUserAnswerRequest) (*entity.UserAnswer, error) {
+func (s *UserAnswerService) CreateUserAnswer(userAnswerDTO *CreateUserAnswerRequest) (*entity.UserAnswer, error) {
 	userAnswerEntity := new(entity.UserAnswer)
 	utils.DTOtoJSON(userAnswerDTO, userAnswerEntity)
 
-	err := s.repository.CreateUserAnswer(*userAnswerEntity)
+	createdUserAnswer, err := s.repository.CreateUserAnswer(userAnswerEntity)
 	if err != nil {
 		return nil, err
 	}
-	return userAnswerEntity, nil
+	return createdUserAnswer, nil
 
 }
 

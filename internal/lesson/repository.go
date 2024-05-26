@@ -36,9 +36,9 @@ func (r *LessonRepository) GetLessons(req *BaseRequest) ([]entity.Lesson, error)
 	return lessons, nil
 }
 
-func (r *LessonRepository) CreateLesson(lessonEntity entity.Lesson) error {
+func (r *LessonRepository) CreateLesson(lessonEntity *entity.Lesson) (*entity.Lesson, error) {
 	err := r.DB.Create(&lessonEntity).Error
-	return err
+	return lessonEntity, err
 }
 
 func (r *LessonRepository) DeleteLesson(id int) error {
@@ -46,7 +46,13 @@ func (r *LessonRepository) DeleteLesson(id int) error {
 	return err
 }
 
-func (r *LessonRepository) UpdateLesson(lessonEntity entity.Lesson) error {
+func (r *LessonRepository) UpdateLesson(lessonEntity *entity.Lesson) error {
 	err := r.DB.Omit(clause.Associations).Save(&lessonEntity).Error
 	return err
+}
+
+func (r *LessonRepository) GetLessonById(id int) (*entity.Lesson, error) {
+	var lesson entity.Lesson
+	err := r.DB.Preload("Teacher").Preload("Teacher.UserType").First(&lesson, id).Error
+	return &lesson, err
 }

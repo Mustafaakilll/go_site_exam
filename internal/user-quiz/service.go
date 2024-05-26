@@ -42,11 +42,11 @@ func (s *UserQuizService) CreateUserQuizzes(userQuizDTO *CreateUserQuizRequest) 
 	userQuizEntity := new(entity.UserQuiz)
 	utils.DTOtoJSON(userQuizDTO, userQuizEntity)
 
-	err := s.repository.CreateUserQuiz(*userQuizEntity)
+	createdUserQuiz, err := s.repository.CreateUserQuiz(userQuizEntity)
 	if err != nil {
 		return nil, err
 	}
-	return userQuizEntity, nil
+	return createdUserQuiz, nil
 
 }
 

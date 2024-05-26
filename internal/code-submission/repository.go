@@ -34,9 +34,9 @@ func (r *CodeSubmissionRepository) GetCodeSubmissions(req *BaseRequest) ([]entit
 	return codeSubmissions, nil
 }
 
-func (r *CodeSubmissionRepository) CreateCodeSubmission(codeSubmissionEntity entity.CodeSubmission) error {
+func (r *CodeSubmissionRepository) CreateCodeSubmission(codeSubmissionEntity *entity.CodeSubmission) (*entity.CodeSubmission, error) {
 	err := r.DB.Create(&codeSubmissionEntity).Error
-	return err
+	return codeSubmissionEntity, err
 }
 
 func (r *CodeSubmissionRepository) UpdateCodeSubmission(codeSubmissionEntity entity.CodeSubmission) error {
