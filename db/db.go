@@ -6,9 +6,11 @@ import (
 	"os"
 
 	"github.com/mustafaakilll/go-site-exam/db/entity"
+	"github.com/mustafaakilll/go-site-exam/db/seeders"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 var DB *gorm.DB
@@ -51,8 +53,15 @@ func Connect() {
 	}
 
 	fmt.Println("Connection Opened to Database")
+	if err := Seed(); err != nil {
+		fmt.Println("failed to seed database")
+	}
 }
 
-func Migrate() {
-	// Migrate database
+func Seed() error {
+	userSeeder := seeders.UserTypeSeeder{}
+	return DB.Clauses(clause.OnConflict{
+		Columns:   []clause.Column{{Name: "id"}},
+		UpdateAll: true,
+	}).Create(userSeeder.Run()).Error
 }
