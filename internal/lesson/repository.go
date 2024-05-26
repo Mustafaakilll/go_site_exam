@@ -56,3 +56,14 @@ func (r *LessonRepository) GetLessonById(id int) (*entity.Lesson, error) {
 	err := r.DB.Preload("Teacher").Preload("Teacher.UserType").First(&lesson, id).Error
 	return &lesson, err
 }
+
+func (r *LessonRepository) GetLessonByTeacher(teacherID int) ([]entity.Lesson, error) {
+	var lesson []entity.Lesson
+	err := r.DB.
+		Preload("Teacher").
+		Preload("Teacher.UserType").
+		Where("teacher_id = ?", teacherID).
+		Find(&lesson).
+		Error
+	return lesson, err
+}

@@ -66,3 +66,26 @@ func (s *LessonService) UpdateLesson(lessonDTO *UpdateLessonRequest) (*entity.Le
 	}
 	return lessonEntity, nil
 }
+
+func (s *LessonService) GetLessonByTeacher(teacherID int) (*LessonResponseDTO, error) {
+	lessons, err := s.repository.GetLessonByTeacher(teacherID)
+	if err != nil {
+		return nil, err
+	}
+	lessonDTOs := []LessonDTO{}
+	for i := range lessons {
+		lessonDTO := new(LessonDTO)
+		err := utils.JSONtoDTO(lessons[i], lessonDTO)
+
+		if err != nil {
+			return nil, errors.New("failed to convert lesson entity to lesson dto")
+		}
+		lessonDTOs = append(lessonDTOs, *lessonDTO)
+	}
+
+	var resultDTO LessonResponseDTO
+	resultDTO.Count = len(lessonDTOs)
+	resultDTO.Data = lessonDTOs
+
+	return &resultDTO, nil
+}

@@ -59,3 +59,15 @@ func (l *LessonHandler) DeleteLessons(c *fiber.Ctx) error {
 	}
 	return c.SendStatus(fiber.StatusOK)
 }
+
+func (l *LessonHandler) GetLessonByTeacher(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	lessons, err := l.service.GetLessonByTeacher(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(lessons)
+}

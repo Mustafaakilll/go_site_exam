@@ -118,3 +118,7 @@ func (u *UserService) GetStudents() (*PaginatedUserResponse, error) {
 		Data:  userDTOs,
 	}, nil
 }
+
+func (u *UserService) AddLessonToUser(userID, lessonID int) error {
+	return u.repository.AddLessonToUser(userID, lessonID)
+}

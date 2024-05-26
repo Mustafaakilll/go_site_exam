@@ -106,3 +106,19 @@ func (u *UserHandler) GetStudents(c *fiber.Ctx) error {
 	}
 	return c.JSON(users)
 }
+
+func (u *UserHandler) AddLessonToUser(c *fiber.Ctx) error {
+	userID, err := c.ParamsInt("userID")
+	if err != nil {
+		return err
+	}
+	lessonID, err := c.ParamsInt("lessonID")
+	if err != nil {
+		return err
+	}
+	err = u.service.AddLessonToUser(userID, lessonID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(fiber.Map{"message": "Lesson added to user"})
+}

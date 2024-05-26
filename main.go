@@ -93,12 +93,14 @@ func main() {
 	userApi.Get("/name/:username", userHandler.GetUserByUsername)
 	userApi.Get("/teacher/:id", userHandler.SetTeacher)
 	userApi.Get("/student", userHandler.GetStudents)
+	userApi.Get("/:lessonID/:userID", userHandler.GetStudents)
 
 	lessonAPI := api.Group("/lessons")
 	lessonAPI.Get("/", lessonHandler.GetLessons)
 	lessonAPI.Post("/", lessonHandler.CreateLessons)
 	lessonAPI.Delete("/:id", lessonHandler.DeleteLessons)
 	lessonAPI.Put("/", lessonHandler.UpdateLessons)
+	lessonAPI.Get("/teacher/:id", lessonHandler.GetLessonByTeacher)
 
 	answerAPI := api.Group("/answers")
 	answerAPI.Get("/", answerHandler.GetAnswers)

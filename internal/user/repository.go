@@ -99,6 +99,9 @@ func (u *UserRepository) GetTeachers() ([]entity.User, error) {
 	return users, err
 }
 
-// func (u *UserRepository) GetAdmins() ([]entity.User, error) {
-//
-// }
+func (u *UserRepository) AddLessonToUser(userID, lessonID int) error {
+	return db.DB.
+		Model(&entity.User{}).
+		Association("Lessons").
+		Append(&entity.Lesson{ID: lessonID}, &entity.User{ID: userID})
+}
