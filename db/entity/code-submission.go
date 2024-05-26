@@ -13,8 +13,8 @@ type CodeSubmission struct {
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 
-	CodeID int
-	Code   Code `gorm:"foreignKey:CodeID"`
+	CodeID int  `json:"code_id"`
+	Code   Code `gorm:"foreignKey:CodeID" json:"code"`
 }
 
 func (u *CodeSubmission) BeforeUpdate(tx *gorm.DB) (err error) {

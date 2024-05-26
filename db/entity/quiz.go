@@ -16,10 +16,10 @@ type Quiz struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 
-	TeacherID int
-	Teacher   User `gorm:"foreignKey:TeacherID"`
-	LessonID  int
-	Lesson    Lesson `gorm:"foreignKey:LessonID"`
+	TeacherID int    `json:"teacher_id"`
+	Teacher   User   `gorm:"foreignKey:TeacherID" json:"teacher"`
+	LessonID  int    `json:"lesson_id"`
+	Lesson    Lesson `gorm:"foreignKey:LessonID" json:"lesson"`
 }
 
 func (u *Quiz) BeforeUpdate(tx *gorm.DB) (err error) {

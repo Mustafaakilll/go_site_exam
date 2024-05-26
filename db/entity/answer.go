@@ -12,12 +12,12 @@ type Answer struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
-	QuestionID int
-	Question   Question `gorm:"foreignKey:QuestionID"`
-	ChoiceID   int
-	Choice     Choice `gorm:"foreignKey:ChoiceID"`
-	UserID     int
-	User       User `gorm:"foreignKey:UserID"`
+	QuestionID int      `json:"question_id"`
+	Question   Question `gorm:"foreignKey:QuestionID" json:"question"`
+	ChoiceID   int      `json:"choice_id"`
+	Choice     Choice   `gorm:"foreignKey:ChoiceID" json:"choice"`
+	UserID     int      `json:"user_id"`
+	User       User     `gorm:"foreignKey:UserID" json:"user"`
 }
 
 func (u *Answer) BeforeUpdate(tx *gorm.DB) (err error) {

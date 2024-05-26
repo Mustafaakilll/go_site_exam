@@ -13,8 +13,8 @@ type Choice struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
-	QuestionID int
-	Question   Question `gorm:"foreignKey:QuestionID"`
+	QuestionID int      `json:"question_id"`
+	Question   Question `gorm:"foreignKey:QuestionID" json:"question"`
 }
 
 func (u *Choice) BeforeUpdate(tx *gorm.DB) (err error) {

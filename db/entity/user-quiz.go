@@ -13,10 +13,10 @@ type UserQuiz struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
-	UserID int
-	User   User `gorm:"foreignKey:UserID"`
-	QuizID int
-	Quiz   Quiz `gorm:"foreignKey:QuizID"`
+	UserID int  `json:"user_id"`
+	User   User `gorm:"foreignKey:UserID" json:"user"`
+	QuizID int  `json:"quiz_id"`
+	Quiz   Quiz `gorm:"foreignKey:QuizID" json:"quiz"`
 }
 
 func (u *UserQuiz) BeforeUpdate(tx *gorm.DB) (err error) {

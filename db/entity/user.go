@@ -18,7 +18,7 @@ type User struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
-	UserTypeID int      // 0: admin, 1: teacher, 2: student
+	UserTypeID int      `json:"user_type_id"`
 	UserType   UserType `json:"user_types" gorm:"foreignKey:UserTypeID;"`
 	Lessons    []Lesson `gorm:"many2many:user_lessons;" json:"lessons"`
 }
@@ -34,6 +34,6 @@ func (u *User) BeforeSave(tx *gorm.DB) (err error) {
 	}
 	u.UpdatedAt = time.Now()
 	u.UserTypeID = 3
-	u.Username = u.FirstName + u.LastName + strings.Split(uuid.New().String(), "-")[0]
+	u.Username = u.FirstName + u.LastName + "-" + strings.Split(uuid.New().String(), "-")[0]
 	return
 }

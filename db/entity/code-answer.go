@@ -12,10 +12,10 @@ type CodeAnswer struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
-	UserID int
-	User   User `gorm:"foreignKey:UserID"`
-	CodeID int
-	Code   Code `gorm:"foreignKey:CodeID"`
+	UserID int  `json:"user_id"`
+	User   User `gorm:"foreignKey:UserID" json:"user"`
+	CodeID int  `json:"code_id"`
+	Code   Code `gorm:"foreignKey:CodeID" json:"code"`
 }
 
 func (u *CodeAnswer) BeforeUpdate(tx *gorm.DB) (err error) {
