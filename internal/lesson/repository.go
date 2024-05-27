@@ -91,8 +91,7 @@ func (r *LessonRepository) GetStudentsByNotInLesson(lessonID int) ([]entity.User
 	var users []entity.User
 	err := r.DB.
 		Preload("UserType").
-		Joins("JOIN user_lessons ON user_lessons.user_id <> users.id").
-		Where("user_lessons.lesson_id = ?", lessonID).
+		Not("id IN (?)", r.DB.Table("user_lessons").Select("user_id").Where("lesson_id = ?", lessonID)).
 		Where("user_type_id = 3").
 		Find(&users).
 		Error
