@@ -95,8 +95,8 @@ func (u *UserService) GetUserByUsername(username string) (*UserDTO, error) {
 	return userDTO, nil
 }
 
-func (u *UserService) SetTeacher(userID int) error {
-	return u.repository.SetTeacher(userID)
+func (u *UserService) SetTeacher(userID, lessonID int) error {
+	return u.repository.SetTeacher(userID, lessonID)
 }
 
 func (u *UserService) GetStudents() (*PaginatedUserResponse, error) {
@@ -121,4 +121,45 @@ func (u *UserService) GetStudents() (*PaginatedUserResponse, error) {
 
 func (u *UserService) AddLessonToUser(userID, lessonID int) error {
 	return u.repository.AddLessonToUser(userID, lessonID)
+}
+
+func (u *UserService) GetTeachers(request *models.PaginateRequest) (*PaginatedUserResponse, error) {
+	users, err := u.repository.GetTeachers()
+	if err != nil {
+		return nil, err
+	}
+	userDTOs := []UserDTO{}
+	for i := range users {
+		userDTO := new(UserDTO)
+		err := utils.JSONtoDTO(users[i], userDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert user entity to user dto")
+		}
+		userDTOs = append(userDTOs, *userDTO)
+	}
+	return &PaginatedUserResponse{
+		Count: len(userDTOs),
+		Data:  userDTOs,
+	}, nil
+
+}
+
+func (u *UserService) GetStudentsByTeacher(teacherID int) (*PaginatedUserResponse, error) {
+	users, err := u.repository.GetStudentsByTeacher(teacherID)
+	if err != nil {
+		return nil, err
+	}
+	userDTOs := []UserDTO{}
+	for i := range users {
+		userDTO := new(UserDTO)
+		err := utils.JSONtoDTO(users[i], userDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert user entity to user dto")
+		}
+		userDTOs = append(userDTOs, *userDTO)
+	}
+	return &PaginatedUserResponse{
+		Count: len(userDTOs),
+		Data:  userDTOs,
+	}, nil
 }

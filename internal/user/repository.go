@@ -28,6 +28,8 @@ func (u *UserRepository) GetUsers(req *models.PaginateRequest) ([]entity.User, e
 	err := query.
 		Preload("UserType").
 		Preload("Lessons").
+		Preload("Lessons.Teacher").
+		Preload("Lessons.Teacher.UserType").
 		Find(&users).
 		Error
 	return users, err
@@ -38,6 +40,8 @@ func (u *UserRepository) GetUserByID(id int) (entity.User, error) {
 	err := db.DB.
 		Preload("UserType").
 		Preload("Lessons").
+		Preload("Lessons.Teacher").
+		Preload("Lessons.Teacher.UserType").
 		First(&user, id).
 		Error
 	return user, err
@@ -74,12 +78,23 @@ func (u *UserRepository) GetUserByUsername(username string) (entity.User, error)
 	return user, err
 }
 
-func (u *UserRepository) SetTeacher(userID int) error {
-	return db.DB.
+func (u *UserRepository) SetTeacher(userID, lessonID int) error {
+	err := db.DB.
 		Model(&entity.User{}).
 		Where("id = ?", userID).
 		Update("user_type_id", 2).
 		Error
+	if err != nil {
+		return err
+	}
+	err = db.DB.Model(&entity.Lesson{}).
+		Where("id = ?", lessonID).
+		Update("teacher_id", userID).
+		Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (u *UserRepository) GetStudents() ([]entity.User, error) {
@@ -87,6 +102,8 @@ func (u *UserRepository) GetStudents() ([]entity.User, error) {
 	err := db.DB.
 		Preload("UserType").
 		Preload("Lessons").
+		Preload("Lessons.Teacher").
+		Preload("Lessons.Teacher.UserType").
 		Find(&users, "user_type_id=?", 3).Error
 	return users, err
 }
@@ -102,7 +119,19 @@ func (u *UserRepository) GetTeachers() ([]entity.User, error) {
 
 func (u *UserRepository) AddLessonToUser(userID, lessonID int) error {
 	return db.DB.
-		Model(&entity.User{}).
+		Model(&entity.User{ID: userID}).
 		Association("Lessons").
 		Append(&entity.Lesson{ID: lessonID}, &entity.User{ID: userID})
+}
+
+func (u *UserRepository) GetStudentsByTeacher(teacherID int) ([]entity.User, error) {
+	var users []entity.User
+	err := db.DB.
+		Preload("UserType").
+		Joins("JOIN user_lessons ON user_lessons.user_id = users.id").
+		Joins("JOIN lessons ON lessons.id = user_lessons.lesson_id").
+		Where("lessons.teacher_id = ?", teacherID).
+		Find(&users).
+		Error
+	return users, err
 }

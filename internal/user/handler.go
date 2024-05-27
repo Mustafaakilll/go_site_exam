@@ -94,9 +94,16 @@ func (u *UserHandler) GetUserByUsername(c *fiber.Ctx) error {
 }
 
 func (u *UserHandler) SetTeacher(c *fiber.Ctx) error {
-	id := c.Params("id")
+	userID, err := c.ParamsInt("userID")
+	if err != nil {
+		return err
+	}
+	lessonID, err := c.ParamsInt("lessonID")
+	if err != nil {
+		return err
+	}
 
-	return u.service.SetTeacher(utils.StringToInt(id))
+	return u.service.SetTeacher(userID, lessonID)
 }
 
 func (u *UserHandler) GetStudents(c *fiber.Ctx) error {
@@ -121,4 +128,29 @@ func (u *UserHandler) AddLessonToUser(c *fiber.Ctx) error {
 		return err
 	}
 	return c.JSON(fiber.Map{"message": "Lesson added to user"})
+}
+
+func (u *UserHandler) GetTeacher(c *fiber.Ctx) error {
+	request := new(models.PaginateRequest)
+	if err := c.QueryParser(request); err != nil {
+		return err
+	}
+
+	users, err := u.service.GetTeachers(request)
+	if err != nil {
+		return err
+	}
+	return c.JSON(users)
+}
+
+func (u *UserHandler) GetStudentsByTeacher(c *fiber.Ctx) error {
+	userID, err := c.ParamsInt("lessonID")
+	if err != nil {
+		return err
+	}
+	users, err := u.service.GetStudentsByTeacher(userID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(users)
 }
