@@ -73,9 +73,9 @@ func main() {
 	userQuizService := userQuiz.NewUserQuizService(userQuizRepository)
 	userQuizHandler := userQuiz.NewUserQuizHandler(userQuizService)
 
-	authQuizRepository := auth.NewAuthRepository(database)
-	authQuizService := auth.NewAuthService(authQuizRepository, userRepository)
-	authQuizHandler := auth.NewAuthHandler(authQuizService)
+	authRepository := auth.NewAuthRepository(database)
+	authService := auth.NewAuthService(authRepository, userRepository)
+	authHandler := auth.NewAuthHandler(authService)
 
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
@@ -88,8 +88,8 @@ func main() {
 		return c.JSON(fiber.Map{"message": "Hello, World!"})
 	})
 
-	app.Post("/login", authQuizHandler.Login)
-	app.Post("/register", authQuizHandler.Register)
+	app.Post("/login", authHandler.Login)
+	app.Post("/register", authHandler.Register)
 
 	api := app.Group("/api/v1")
 	api = api.Use(middleware.AuthMiddleware)
@@ -101,20 +101,34 @@ func main() {
 	userApi.Delete("/:id", userHandler.DeleteUser)
 	userApi.Get("/email/:email", userHandler.GetUserByEmail)
 	userApi.Get("/name/:username", userHandler.GetUserByUsername)
-	userApi.Get("/:lessonID/:userID", userHandler.GetStudents)
 
 	studentAPI := api.Group("/students")
 	studentAPI.Get("/", userHandler.GetStudents)
+	studentAPI.Get("/:lessonID", lessonHandler.GetStudentsByLesson)
+	studentAPI.Get("/:lessonID/:userID", userHandler.AddLessonToUser)
+
+	studentLessonAPI := api.Group("/student-lesson")
+	studentLessonAPI.Get("/:lessonID", lessonHandler.GetStudentsByNotInLesson)
+
+	studentQuizAPI := api.Group("/student-quiz")
+	studentQuizAPI.Get("/:userID", userQuizHandler.GetUsersQuizByUserID)
+
+	studentTeacherAPI := api.Group("/student-teacher")
+	studentTeacherAPI.Get("/:lessonID", userHandler.GetStudentsByTeacher)
 
 	teacherAPI := api.Group("/teacher")
-	teacherAPI.Get("/:id", userHandler.SetTeacher)
+	teacherAPI.Get("/", userHandler.GetTeacher)
+
+	teacherLessonAPI := api.Group("/teacher-lesson")
+	teacherLessonAPI.Get("/:userID/:lessonID", userHandler.SetTeacher)
+	teacherLessonAPI.Get("/:userID", lessonHandler.GetLessonByTeacher)
 
 	lessonAPI := api.Group("/lessons")
 	lessonAPI.Get("/", lessonHandler.GetLessons)
+	lessonAPI.Get("/:id", lessonHandler.GetLessonByID)
 	lessonAPI.Post("/", lessonHandler.CreateLessons)
 	lessonAPI.Delete("/:id", lessonHandler.DeleteLessons)
 	lessonAPI.Put("/", lessonHandler.UpdateLessons)
-	lessonAPI.Get("/teacher/:id", lessonHandler.GetLessonByTeacher)
 
 	answerAPI := api.Group("/answers")
 	answerAPI.Get("/", answerHandler.GetAnswers)
@@ -163,6 +177,9 @@ func main() {
 	quizAPI.Delete("/:id", quizHandler.DeleteQuiz)
 	quizAPI.Get("/:id", quizHandler.GetQuizByID)
 
+	teacherQuizAPI := api.Group("/teacher-quizzes")
+	teacherQuizAPI.Get("/:userID", quizHandler.GetQuizByTeacher)
+
 	userTypeAPI := api.Group("/user-types")
 	userTypeAPI.Get("/", userTypeHandler.GetUserTypes)
 	userTypeAPI.Post("/", userTypeHandler.CreateUserType)
@@ -172,6 +189,9 @@ func main() {
 	userAnswerAPI.Post("/", userAnswerHandler.CreateUserAnswers)
 	userAnswerAPI.Delete("/:id", userAnswerHandler.DeleteUserAnswer)
 	userAnswerAPI.Put("/", userAnswerHandler.UpdateUserAnswer)
+
+	userAnswerQuizAPI := api.Group("/user-answer-quizzes")
+	userAnswerQuizAPI.Get("/:questionID", userAnswerHandler.GetUserAnswerByQuestionID)
 
 	userQuizAPI := api.Group("/user-quizzes")
 	userQuizAPI.Get("/", userQuizHandler.GetUserQuizzes)
