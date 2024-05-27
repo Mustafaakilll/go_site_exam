@@ -15,6 +15,7 @@ import (
 	"github.com/mustafaakilll/go-site-exam/internal/user"
 	userAnswer "github.com/mustafaakilll/go-site-exam/internal/user-answer"
 	userQuiz "github.com/mustafaakilll/go-site-exam/internal/user-quiz"
+	"github.com/mustafaakilll/go-site-exam/pkg/middleware"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -88,10 +89,10 @@ func main() {
 		return c.JSON(fiber.Map{"message": "Hello, World!"})
 	})
 
-	authAPI := api.Group("/auth")
-	authAPI.Post("/login", authQuizHandler.Login)
-	authAPI.Post("/register", authQuizHandler.Register)
+	api.Post("/login", authQuizHandler.Login)
+	api.Post("/register", authQuizHandler.Register)
 
+	app.Use(middleware.AuthMiddleware)
 	userApi := api.Group("/users")
 	userApi.Get("/", userHandler.GetUsers)
 	userApi.Get("/:id", userHandler.GetUserByID)
