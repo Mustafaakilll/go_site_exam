@@ -64,3 +64,23 @@ func (s *UserQuizService) UpdateUserQuiz(userQuizDTO *UpdateUserQuizRequest) (*e
 func (s *UserQuizService) DeleteUserQuiz(id int) error {
 	return s.repository.DeleteUserQuiz(id)
 }
+
+func (s *UserQuizService) GetUsersQuizzesByUserID(request *BaseRequest, userID int) (*UserQuizResponseDTO, error) {
+	userQuizzes, err := s.repository.GetUsersQuizzesByUserID(userID, request)
+	if err != nil {
+		return nil, err
+	}
+	userQuizDTOs := []UserQuizDTO{}
+	for i := range userQuizzes {
+		userQuizDTO := new(UserQuizDTO)
+		err := utils.JSONtoDTO(userQuizzes[i], userQuizDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert user quiz entity to user quiz dto")
+		}
+		userQuizDTOs = append(userQuizDTOs, *userQuizDTO)
+	}
+	var resultDTO UserQuizResponseDTO
+	resultDTO.Count = len(userQuizDTOs)
+	resultDTO.Data = userQuizDTOs
+	return &resultDTO, nil
+}

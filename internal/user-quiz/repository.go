@@ -94,3 +94,21 @@ func (r *UserQuizRepository) GetUserQuizByQuizID(quizID uint) ([]entity.UserQuiz
 		Error
 	return userQuizzes, err
 }
+
+func (r *UserQuizRepository) GetUsersQuizzesByUserID(userID int, req *BaseRequest) ([]entity.UserQuiz, error) {
+	var userQuizzes []entity.UserQuiz
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Preload("User").
+		Preload("Quiz").
+		Where("user_id = ?", userID).
+		Find(&userQuizzes).
+		Error
+	return userQuizzes, err
+}
