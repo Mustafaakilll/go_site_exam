@@ -59,3 +59,19 @@ func (q *QuestionHandler) DeleteQuestion(c *fiber.Ctx) error {
 	}
 	return c.SendStatus(fiber.StatusNoContent)
 }
+
+func (q *QuestionHandler) GetQuestionsByQuizID(c *fiber.Ctx) error {
+	p := new(BaseRequest)
+	if err := c.QueryParser(p); err != nil {
+		return err
+	}
+	quizID, err := c.ParamsInt("quiz_id")
+	if err != nil {
+		return err
+	}
+	questions, err := q.service.GetQuestionsByQuizID(p, quizID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(questions)
+}

@@ -65,3 +65,26 @@ func (s *QuestionService) UpdateQuestion(questionDTO *UpdateQuestionRequest) (*e
 func (s *QuestionService) DeleteQuestion(id int) error {
 	return s.repository.DeleteQuestion(id)
 }
+
+func (s *QuestionService) GetQuestionsByQuizID(req *BaseRequest, quizID int) (*QuestionResponseDTO, error) {
+	questions, err := s.repository.GetQuestionsByQuizID(req, quizID)
+	if err != nil {
+		return nil, err
+	}
+	questionDTOs := []QuestionDTO{}
+	for i := range questions {
+		questionDTO := new(QuestionDTO)
+		err := utils.JSONtoDTO(questions[i], questionDTO)
+
+		if err != nil {
+			return nil, errors.New("failed to convert question entity to question dto")
+		}
+		questionDTOs = append(questionDTOs, *questionDTO)
+	}
+
+	var resultDTO QuestionResponseDTO
+	resultDTO.Count = len(questionDTOs)
+	resultDTO.Data = questionDTOs
+
+	return &resultDTO, nil
+}

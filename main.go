@@ -137,6 +137,7 @@ func main() {
 	questionAPI.Post("/", questionHandler.CreateQuestions)
 	questionAPI.Put("/", questionHandler.UpdateQuestion)
 	questionAPI.Delete("/:id", questionHandler.DeleteQuestion)
+	questionAPI.Get("/quiz/:id", questionHandler.GetQuestionsByQuizID)
 
 	quizAPI := api.Group("/quizzes")
 	quizAPI.Get("/", quizHandler.GetQuizzes)

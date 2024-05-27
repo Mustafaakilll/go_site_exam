@@ -47,3 +47,24 @@ func (r *QuestionRepository) UpdateQuestion(questionEntity entity.Question) erro
 func (r *QuestionRepository) DeleteQuestion(id int) error {
 	return r.DB.Delete(&entity.Question{}, id).Error
 }
+
+func (r *QuestionRepository) GetQuestionsByQuizID(req *BaseRequest, quizID int) ([]entity.Question, error) {
+	var questions []entity.Question
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Preload("Quiz").
+		Where("quiz_id = ?", quizID).
+		Find(&questions).
+		Error
+
+	if err != nil {
+		return nil, err
+	}
+	return questions, nil
+}
