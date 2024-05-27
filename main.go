@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/mustafaakilll/go-site-exam/db"
 	"github.com/mustafaakilll/go-site-exam/internal/answer"
+	"github.com/mustafaakilll/go-site-exam/internal/auth"
 	"github.com/mustafaakilll/go-site-exam/internal/choice"
 	"github.com/mustafaakilll/go-site-exam/internal/code"
 	codeAnswer "github.com/mustafaakilll/go-site-exam/internal/code-answer"
@@ -71,6 +72,10 @@ func main() {
 	userQuizService := userQuiz.NewUserQuizService(userQuizRepository)
 	userQuizHandler := userQuiz.NewUserQuizHandler(userQuizService)
 
+	authQuizRepository := auth.NewAuthRepository(database)
+	authQuizService := auth.NewAuthService(authQuizRepository, userRepository)
+	authQuizHandler := auth.NewAuthHandler(authQuizService)
+
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "http://localhost:3000",
@@ -82,6 +87,10 @@ func main() {
 	app.Get("/ping", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"message": "Hello, World!"})
 	})
+
+	authAPI := api.Group("/auth")
+	authAPI.Post("/login", authQuizHandler.Login)
+	authAPI.Post("/register", authQuizHandler.Register)
 
 	userApi := api.Group("/users")
 	userApi.Get("/", userHandler.GetUsers)
