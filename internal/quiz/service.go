@@ -66,8 +66,8 @@ func (s *QuizService) DeleteQuiz(id int) error {
 	return s.repository.DeleteQuiz(id)
 }
 
-func (s *QuizService) GetQuizByID(req *BaseRequest, id int) (*QuizResponseDTO, error) {
-	quiz, err := s.repository.GetQuizByID(req, id)
+func (s *QuizService) GetQuizByID(id int) (*QuizResponseDTO, error) {
+	quiz, err := s.repository.GetQuizByID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -81,5 +81,25 @@ func (s *QuizService) GetQuizByID(req *BaseRequest, id int) (*QuizResponseDTO, e
 	resultDTO.Count = 1
 	resultDTO.Data = []QuizDTO{*quizDTO}
 
+	return &resultDTO, nil
+}
+
+func (s *QuizService) GetQuizByTeacher(req *BaseRequest, teacherID int) (*QuizResponseDTO, error) {
+	quizzes, err := s.repository.GetQuizByTeacher(req, teacherID)
+	if err != nil {
+		return nil, err
+	}
+	quizDTOs := []QuizDTO{}
+	for i := range quizzes {
+		quizDTO := new(QuizDTO)
+		err := utils.JSONtoDTO(quizzes[i], quizDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert quiz entity to quiz dto")
+		}
+		quizDTOs = append(quizDTOs, *quizDTO)
+	}
+	var resultDTO QuizResponseDTO
+	resultDTO.Count = len(quizDTOs)
+	resultDTO.Data = quizDTOs
 	return &resultDTO, nil
 }

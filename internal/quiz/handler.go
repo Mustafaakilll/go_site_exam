@@ -69,9 +69,25 @@ func (q *QuizHandler) GetQuizByID(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	quiz, err := q.service.GetQuizByID(p, id)
+	quiz, err := q.service.GetQuizByID(id)
 	if err != nil {
 		return err
 	}
 	return c.JSON(quiz)
+}
+
+func (q *QuizHandler) GetQuizByTeacher(c *fiber.Ctx) error {
+	p := new(BaseRequest)
+	if err := c.QueryParser(p); err != nil {
+		return err
+	}
+	teacherID, err := c.ParamsInt("teacher_id")
+	if err != nil {
+		return err
+	}
+	quizzes, err := q.service.GetQuizByTeacher(p, teacherID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(quizzes)
 }

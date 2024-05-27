@@ -37,6 +37,20 @@ func (r *QuizRepository) GetQuizzes(req *BaseRequest) ([]entity.Quiz, error) {
 	return quizzes, nil
 }
 
+func (r *QuizRepository) GetQuizByID(id int) (*entity.Quiz, error) {
+	var quiz entity.Quiz
+	err := r.DB.
+		Preload("Teacher").
+		Preload("Teacher.UserType").
+		Preload("Lesson").
+		First(&quiz, id).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return &quiz, nil
+}
+
 func (r *QuizRepository) CreateQuiz(quizEntity entity.Quiz) error {
 	err := r.DB.Create(&quizEntity).Error
 	return err
@@ -50,8 +64,8 @@ func (r *QuizRepository) DeleteQuiz(id int) error {
 	return r.DB.Delete(&entity.Quiz{}, id).Error
 }
 
-func (r *QuizRepository) GetQuizByID(req *BaseRequest, id int) (*entity.Quiz, error) {
-	var quiz entity.Quiz
+func (r *QuizRepository) GetQuizByTeacher(req *BaseRequest, teacherID int) ([]entity.Quiz, error) {
+	var quizzes []entity.Quiz
 	query := r.DB
 	if req.Limit != 0 {
 		query = query.Limit(req.Limit)
@@ -63,11 +77,8 @@ func (r *QuizRepository) GetQuizByID(req *BaseRequest, id int) (*entity.Quiz, er
 		Preload("Teacher").
 		Preload("Teacher.UserType").
 		Preload("Lesson").
-		First(&quiz, id).
+		Where("teacher_id = ?", teacherID).
+		Find(&quizzes).
 		Error
-
-	if err != nil {
-		return nil, err
-	}
-	return &quiz, nil
+	return quizzes, err
 }
