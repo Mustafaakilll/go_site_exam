@@ -83,16 +83,16 @@ func main() {
 		AllowMethods:     "GET, POST, PUT, DELETE",
 		AllowCredentials: true,
 	}))
-	api := app.Group("/api/v1")
 
 	app.Get("/ping", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"message": "Hello, World!"})
 	})
 
-	api.Post("/login", authQuizHandler.Login)
-	api.Post("/register", authQuizHandler.Register)
+	app.Post("/login", authQuizHandler.Login)
+	app.Post("/register", authQuizHandler.Register)
 
-	app.Use(middleware.AuthMiddleware)
+	api := app.Group("/api/v1")
+	api = api.Use(middleware.AuthMiddleware)
 	userApi := api.Group("/users")
 	userApi.Get("/", userHandler.GetUsers)
 	userApi.Get("/:id", userHandler.GetUserByID)
@@ -101,9 +101,13 @@ func main() {
 	userApi.Delete("/:id", userHandler.DeleteUser)
 	userApi.Get("/email/:email", userHandler.GetUserByEmail)
 	userApi.Get("/name/:username", userHandler.GetUserByUsername)
-	userApi.Get("/teacher/:id", userHandler.SetTeacher)
-	userApi.Get("/student", userHandler.GetStudents)
 	userApi.Get("/:lessonID/:userID", userHandler.GetStudents)
+
+	studentAPI := api.Group("/students")
+	studentAPI.Get("/", userHandler.GetStudents)
+
+	teacherAPI := api.Group("/teacher")
+	teacherAPI.Get("/:id", userHandler.SetTeacher)
 
 	lessonAPI := api.Group("/lessons")
 	lessonAPI.Get("/", lessonHandler.GetLessons)

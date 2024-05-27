@@ -50,7 +50,7 @@ func (r *QuizRepository) DeleteQuiz(id int) error {
 	return r.DB.Delete(&entity.Quiz{}, id).Error
 }
 
-func (r *QuizRepository) GetQuizByID(req *BaseRequest, id int) (entity.Quiz, error) {
+func (r *QuizRepository) GetQuizByID(req *BaseRequest, id int) (*entity.Quiz, error) {
 	var quiz entity.Quiz
 	query := r.DB
 	if req.Limit != 0 {
@@ -69,5 +69,5 @@ func (r *QuizRepository) GetQuizByID(req *BaseRequest, id int) (entity.Quiz, err
 	if err != nil {
 		return nil, err
 	}
-	return quiz, nil
+	return &quiz, nil
 }

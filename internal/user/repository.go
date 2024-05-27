@@ -38,7 +38,8 @@ func (u *UserRepository) GetUserByID(id int) (entity.User, error) {
 	err := db.DB.
 		Preload("UserType").
 		Preload("Lessons").
-		First(&user, id).Error
+		First(&user, id).
+		Error
 	return user, err
 }
 
@@ -86,7 +87,7 @@ func (u *UserRepository) GetStudents() ([]entity.User, error) {
 	err := db.DB.
 		Preload("UserType").
 		Preload("Lessons").
-		Find(&users, "user_type_id = ?", 3).Error
+		Find(&users, "user_type_id=?", 3).Error
 	return users, err
 }
 
