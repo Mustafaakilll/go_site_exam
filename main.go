@@ -80,7 +80,7 @@ func main() {
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "http://localhost:3000",
-		AllowMethods:     "*",
+		AllowMethods:     "GET, POST, PUT, DELETE",
 		AllowCredentials: true,
 	}))
 	api := app.Group("/api/v1")
