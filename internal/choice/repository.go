@@ -49,3 +49,23 @@ func (r *ChoiceRepository) DeleteChoice(id int) error {
 	err := r.DB.Delete(&entity.Choice{}, id).Error
 	return err
 }
+
+func (r *ChoiceRepository) GetChoicesByQuestionID(req *BaseRequest, questionID int) ([]entity.Choice, error) {
+	var choices []entity.Choice
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Preload("Question").
+		Where("question_id = ?", questionID).
+		Find(&choices).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return choices, nil
+}

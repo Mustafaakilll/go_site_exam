@@ -63,3 +63,23 @@ func (s *ChoiceService) UpdateChoices(choiceDTO *UpdateChoiceRequest) (*entity.C
 func (s *ChoiceService) DeleteChoices(id int) error {
 	return s.repository.DeleteChoice(id)
 }
+
+func (s *ChoiceService) GetChoicesByQuestionID(req *BaseRequest, questionID int) (*ChoiceResponseDTO, error) {
+	choices, err := s.repository.GetChoicesByQuestionID(req, questionID)
+	if err != nil {
+		return nil, err
+	}
+	choiceDTOs := []ChoiceDTO{}
+	for i := range choices {
+		choiceDTO := new(ChoiceDTO)
+		err := utils.JSONtoDTO(choices[i], choiceDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert choice entity to choice dto")
+		}
+		choiceDTOs = append(choiceDTOs, *choiceDTO)
+	}
+	var resultDTO ChoiceResponseDTO
+	resultDTO.Count = len(choiceDTOs)
+	resultDTO.Data = choiceDTOs
+	return &resultDTO, nil
+}

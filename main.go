@@ -128,6 +128,9 @@ func main() {
 	choiceAPI.Put("/", choiceHandler.UpdateChoices)
 	choiceAPI.Delete("/:id", choiceHandler.UpdateChoices)
 
+	questionChoiceAPI := api.Group("/question-choices")
+	questionChoiceAPI.Get("/:questionID", choiceHandler.GetChoicesByQuestionID)
+
 	codeAnswerAPI := api.Group("/code-answers")
 	codeAnswerAPI.Get("/", codeAnswerHandler.GetCodeAnswers)
 	codeAnswerAPI.Post("/", codeAnswerHandler.CreateCodeAnswer)

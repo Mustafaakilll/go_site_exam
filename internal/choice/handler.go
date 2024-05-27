@@ -59,3 +59,19 @@ func (c *ChoiceHandler) DeleteChoices(ctx *fiber.Ctx) error {
 	}
 	return ctx.SendStatus(fiber.StatusNoContent)
 }
+
+func (c *ChoiceHandler) GetChoicesByQuestionID(ctx *fiber.Ctx) error {
+	id, err := ctx.ParamsInt("questionID")
+	if err != nil {
+		return err
+	}
+	p := new(BaseRequest)
+	if err := ctx.QueryParser(p); err != nil {
+		return err
+	}
+	choice, err := c.service.GetChoicesByQuestionID(p, id)
+	if err != nil {
+		return err
+	}
+	return ctx.JSON(choice)
+}
