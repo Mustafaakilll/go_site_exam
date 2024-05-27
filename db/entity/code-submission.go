@@ -9,7 +9,7 @@ import (
 type CodeSubmission struct {
 	ID             int `gorm:"primaryKey"`
 	Input          string
-	ExpectedOutput string
+	ExpectedOutput string `json:"expected_output"`
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 
