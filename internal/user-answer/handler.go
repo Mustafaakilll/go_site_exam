@@ -59,3 +59,15 @@ func (u *UserAnswerHandler) DeleteUserAnswer(c *fiber.Ctx) error {
 	}
 	return c.SendStatus(fiber.StatusNoContent)
 }
+
+func (u *UserAnswerHandler) GetUserAnswerByQuestionID(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("questionID")
+	if err != nil {
+		return err
+	}
+	userAnswer, err := u.service.GetUserAnswerByQuestionID(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(userAnswer)
+}

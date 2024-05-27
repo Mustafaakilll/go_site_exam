@@ -44,3 +44,15 @@ func (r *UserAnswerRepository) UpdateUserAnswer(userAnswerEntity entity.UserAnsw
 func (r *UserAnswerRepository) DeleteUserAnswer(id int) error {
 	return r.DB.Omit(clause.Associations).Delete(&entity.UserAnswer{}, id).Error
 }
+
+func (r *UserAnswerRepository) GetUserAnswerByQuestionID(id int) (entity.UserAnswer, error) {
+	var userAnswer entity.UserAnswer
+	err := r.DB.
+		Preload("User").
+		Preload("Quiz").
+		Preload("Answer").
+		Where("question_id = ?", id).
+		First(&userAnswer).
+		Error
+	return userAnswer, err
+}

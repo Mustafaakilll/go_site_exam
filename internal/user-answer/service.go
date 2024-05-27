@@ -64,3 +64,16 @@ func (s *UserAnswerService) UpdateUserAnswer(userAnswerDTO *UpdateUserAnswerRequ
 func (s *UserAnswerService) DeleteUserAnswer(id int) error {
 	return s.repository.DeleteUserAnswer(id)
 }
+
+func (s *UserAnswerService) GetUserAnswerByQuestionID(id int) (*UserAnswerDTO, error) {
+	userAnswer, err := s.repository.GetUserAnswerByQuestionID(id)
+	if err != nil {
+		return nil, err
+	}
+	userAnswerDTO := new(UserAnswerDTO)
+	err = utils.JSONtoDTO(userAnswer, userAnswerDTO)
+	if err != nil {
+		return nil, errors.New("failed to convert user answer entity to user answer dto")
+	}
+	return userAnswerDTO, nil
+}
