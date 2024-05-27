@@ -49,3 +49,25 @@ func (r *QuizRepository) UpdateQuiz(quizEntity entity.Quiz) error {
 func (r *QuizRepository) DeleteQuiz(id int) error {
 	return r.DB.Delete(&entity.Quiz{}, id).Error
 }
+
+func (r *QuizRepository) GetQuizByID(req *BaseRequest, id int) (entity.Quiz, error) {
+	var quiz entity.Quiz
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Preload("Teacher").
+		Preload("Teacher.UserType").
+		Preload("Lesson").
+		First(&quiz, id).
+		Error
+
+	if err != nil {
+		return nil, err
+	}
+	return quiz, nil
+}

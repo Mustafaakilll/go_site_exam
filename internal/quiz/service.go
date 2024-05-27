@@ -65,3 +65,21 @@ func (s *QuizService) UpdateQuiz(quizDTO *UpdateQuizRequest) (*entity.Quiz, erro
 func (s *QuizService) DeleteQuiz(id int) error {
 	return s.repository.DeleteQuiz(id)
 }
+
+func (s *QuizService) GetQuizByID(req *BaseRequest, id int) (*QuizResponseDTO, error) {
+	quiz, err := s.repository.GetQuizByID(req, id)
+	if err != nil {
+		return nil, err
+	}
+	quizDTO := new(QuizDTO)
+	err = utils.JSONtoDTO(quiz, quizDTO)
+	if err != nil {
+		return nil, errors.New("failed to convert quiz entity to quiz dto")
+	}
+
+	var resultDTO QuizResponseDTO
+	resultDTO.Count = 1
+	resultDTO.Data = []QuizDTO{*quizDTO}
+
+	return &resultDTO, nil
+}

@@ -144,6 +144,7 @@ func main() {
 	quizAPI.Post("/", quizHandler.CreateQuizzes)
 	quizAPI.Put("/", quizHandler.UpdateQuiz)
 	quizAPI.Delete("/:id", quizHandler.DeleteQuiz)
+	quizAPI.Get("/:id", quizHandler.GetQuizByID)
 
 	userTypeAPI := api.Group("/user-types")
 	userTypeAPI.Get("/", userTypeHandler.GetUserTypes)
