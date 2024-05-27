@@ -24,6 +24,18 @@ func (l *LessonHandler) GetLessons(c *fiber.Ctx) error {
 	return c.JSON(lessons)
 }
 
+func (l *LessonHandler) GetLessonByID(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	lesson, err := l.service.GetLessonByID(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(lesson)
+}
+
 func (l *LessonHandler) CreateLessons(c *fiber.Ctx) error {
 	p := new(CreateLessonRequest)
 	if err := c.BodyParser(p); err != nil {
@@ -61,7 +73,7 @@ func (l *LessonHandler) DeleteLessons(c *fiber.Ctx) error {
 }
 
 func (l *LessonHandler) GetLessonByTeacher(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("id")
+	id, err := c.ParamsInt("userID")
 	if err != nil {
 		return err
 	}
@@ -70,4 +82,40 @@ func (l *LessonHandler) GetLessonByTeacher(c *fiber.Ctx) error {
 		return err
 	}
 	return c.JSON(lessons)
+}
+
+func (l *LessonHandler) GetStudentsByLesson(c *fiber.Ctx) error {
+	lessonID, err := c.ParamsInt("lessonID")
+	if err != nil {
+		return err
+	}
+	users, err := l.service.GetStudentsByLesson(lessonID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(users)
+}
+
+func (l *LessonHandler) GetStudentsByNotInLesson(c *fiber.Ctx) error {
+	lessonID, err := c.ParamsInt("lessonID")
+	if err != nil {
+		return err
+	}
+	users, err := l.service.GetStudentsByNotInLesson(lessonID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(users)
+}
+
+func (l *LessonHandler) SetTeacherToLesson(c *fiber.Ctx) error {
+	lessonID, err := c.ParamsInt("lessonID")
+	if err != nil {
+		return err
+	}
+	userID, err := c.ParamsInt("userID")
+	if err != nil {
+		return err
+	}
+	return l.service.SetTeacherToLesson(lessonID, userID)
 }

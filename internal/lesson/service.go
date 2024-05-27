@@ -38,6 +38,19 @@ func (s *LessonService) GetLessons(req *BaseRequest) (*LessonResponseDTO, error)
 	return &resultDTO, nil
 }
 
+func (s *LessonService) GetLessonByID(id int) (*LessonDTO, error) {
+	lesson, err := s.repository.GetLessonByID(id)
+	if err != nil {
+		return nil, err
+	}
+	lessonDTO := new(LessonDTO)
+	err = utils.JSONtoDTO(lesson, lessonDTO)
+	if err != nil {
+		return nil, errors.New("failed to convert lesson entity to lesson dto")
+	}
+	return lessonDTO, nil
+}
+
 func (s *LessonService) CreateLessons(lessonDTO *CreateLessonRequest) (*entity.Lesson, error) {
 	lessonEntity := new(entity.Lesson)
 	utils.DTOtoJSON(lessonDTO, lessonEntity)
@@ -88,4 +101,60 @@ func (s *LessonService) GetLessonByTeacher(teacherID int) (*LessonResponseDTO, e
 	resultDTO.Data = lessonDTOs
 
 	return &resultDTO, nil
+}
+
+func (s *LessonService) GetStudentsByLesson(lessonID int) (*PaginatedUserResponse, error) {
+	users, err := s.repository.GetStudentsByLesson(lessonID)
+
+	if err != nil {
+		return nil, err
+	}
+	userDTOs := []UserDTO{}
+	for i := range users {
+		userDTO := new(UserDTO)
+		err := utils.JSONtoDTO(users[i], userDTO)
+
+		if err != nil {
+			return nil, errors.New("failed to convert lesson entity to lesson dto")
+		}
+		userDTOs = append(userDTOs, *userDTO)
+	}
+
+	var resultDTO PaginatedUserResponse
+	resultDTO.Count = len(userDTOs)
+	resultDTO.Data = userDTOs
+
+	return &resultDTO, nil
+}
+
+func (s *LessonService) GetStudentsByNotInLesson(lessonID int) (*PaginatedUserResponse, error) {
+	users, err := s.repository.GetStudentsByNotInLesson(lessonID)
+
+	if err != nil {
+		return nil, err
+	}
+	userDTOs := []UserDTO{}
+	for i := range users {
+		userDTO := new(UserDTO)
+		err := utils.JSONtoDTO(users[i], userDTO)
+
+		if err != nil {
+			return nil, errors.New("failed to convert lesson entity to lesson dto")
+		}
+		userDTOs = append(userDTOs, *userDTO)
+	}
+
+	var resultDTO PaginatedUserResponse
+	resultDTO.Count = len(userDTOs)
+	resultDTO.Data = userDTOs
+
+	return &resultDTO, nil
+}
+
+func (s *LessonService) SetTeacherToLesson(lessonID, userID int) error {
+	err := s.repository.SetTeacherToLesson(lessonID, userID)
+	if err != nil {
+		return err
+	}
+	return nil
 }
