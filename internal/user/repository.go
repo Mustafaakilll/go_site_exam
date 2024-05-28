@@ -142,3 +142,25 @@ func (u *UserRepository) GetStudentsByTeacher(teacherID int) ([]entity.User, err
 		Error
 	return users, err
 }
+
+func (u *UserRepository) GetUsersQuizzesByLessonID(lessonID int, req *models.PaginateRequest) ([]entity.User, error) {
+	var users []entity.User
+	query := db.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Preload("UserType").
+		Joins("JOIN user_lessons ON user_lessons.user_id = users.id").
+		Joins("JOIN lessons ON lessons.id = user_lessons.lesson_id").
+		Joins("JOIN quizzes ON quizzes.lesson_id = lessons.id").
+		Where("users.id not in (select id from user_quizzes where user_quizzes.user_id = users.id)").
+		Where("lessons.id = ?", lessonID).
+		Where("user_type_id = 3").
+		Find(&users).
+		Error
+	return users, err
+}

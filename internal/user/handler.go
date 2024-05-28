@@ -170,3 +170,19 @@ func (u *UserHandler) GetStudentsByTeacher(c *fiber.Ctx) error {
 	}
 	return c.JSON(users)
 }
+
+func (u *UserHandler) GetUsersQuizzesByLessonID(c *fiber.Ctx) error {
+	lessonID, err := c.ParamsInt("lessonID")
+	if err != nil {
+		return err
+	}
+	request := new(models.PaginateRequest)
+	if err := c.QueryParser(request); err != nil {
+		return err
+	}
+	users, err := u.service.GetUsersQuizzesByLessonID(lessonID, request)
+	if err != nil {
+		return err
+	}
+	return c.JSON(users)
+}

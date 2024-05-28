@@ -167,3 +167,23 @@ func (u *UserService) GetStudentsByTeacher(teacherID int) (*PaginatedUserRespons
 		Data:  userDTOs,
 	}, nil
 }
+
+func (u *UserService) GetUsersQuizzesByLessonID(lessonID int, req *models.PaginateRequest) (*PaginatedUserResponse, error) {
+	users, err := u.repository.GetUsersQuizzesByLessonID(lessonID, req)
+	if err != nil {
+		return nil, err
+	}
+	userDTOs := []UserDTO{}
+	for i := range users {
+		userDTO := new(UserDTO)
+		err := utils.JSONtoDTO(users[i], userDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert user entity to user dto")
+		}
+		userDTOs = append(userDTOs, *userDTO)
+	}
+	return &PaginatedUserResponse{
+		Count: len(userDTOs),
+		Data:  userDTOs,
+	}, nil
+}
