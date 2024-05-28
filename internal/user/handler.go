@@ -143,7 +143,7 @@ func (u *UserHandler) RemoveLessonFromUser(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	return c.JSON(fiber.Map{"message": "Lesson added to user"})
+	return c.JSON(fiber.Map{"message": "Lesson removed from user"})
 }
 
 func (u *UserHandler) GetTeacher(c *fiber.Ctx) error {
