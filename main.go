@@ -151,7 +151,7 @@ func main() {
 
 	questionChoiceAPI := api.Group("/question-choices")
 	questionChoiceAPI.Get("/:questionID", choiceHandler.GetChoicesByQuestionID)
-	questionChoiceAPI.Get("quiz/:quizID", choiceHandler.GetChoicesWithQuestions)
+	questionChoiceAPI.Get("quiz/:quizID", questionHandler.GetQuestionsWithChoices)
 
 	codeAnswerAPI := api.Group("/code-answers")
 	codeAnswerAPI.Get("/", codeAnswerHandler.GetCodeAnswers)
