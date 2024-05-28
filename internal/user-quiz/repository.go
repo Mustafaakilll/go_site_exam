@@ -112,3 +112,22 @@ func (r *UserQuizRepository) GetUsersQuizzesByUserID(userID int, req *BaseReques
 		Error
 	return userQuizzes, err
 }
+
+func (r *UserQuizRepository) GetUsersQuizzesByLessonID(lessonID int, req *BaseRequest) ([]entity.UserQuiz, error) {
+	var userQuizzes []entity.UserQuiz
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Preload("User").
+		Preload("Quiz").
+		Preload("Quiz.Lesson").
+		Where("lesson_id = ?", lessonID).
+		Find(&userQuizzes).
+		Error
+	return userQuizzes, err
+}

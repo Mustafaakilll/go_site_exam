@@ -75,3 +75,19 @@ func (u *UserQuizHandler) GetUsersQuizByUserID(c *fiber.Ctx) error {
 	}
 	return c.JSON(userQuiz)
 }
+
+func (u *UserQuizHandler) GetUsersQuizzesByLessonID(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("lessonID")
+	if err != nil {
+		return err
+	}
+	p := new(BaseRequest)
+	if err := c.QueryParser(p); err != nil {
+		return err
+	}
+	userQuiz, err := u.service.GetUsersQuizzesByLessonID(p, id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(userQuiz)
+}
