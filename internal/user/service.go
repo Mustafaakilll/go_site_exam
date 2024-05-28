@@ -123,6 +123,10 @@ func (u *UserService) AddLessonToUser(userID, lessonID int) error {
 	return u.repository.AddLessonToUser(userID, lessonID)
 }
 
+func (u *UserService) RemoveLessonFromUser(userID, lessonID int) error {
+	return u.repository.RemoveLessonFromUser(userID, lessonID)
+}
+
 func (u *UserService) GetTeachers(request *models.PaginateRequest) (*PaginatedUserResponse, error) {
 	users, err := u.repository.GetTeachers()
 	if err != nil {

@@ -109,6 +109,7 @@ func main() {
 
 	studentLessonAPI := api.Group("/student-lesson")
 	studentLessonAPI.Get("/:lessonID", lessonHandler.GetStudentsByNotInLesson)
+	studentLessonAPI.Get("/remove/:lessonID/:userID", userHandler.RemoveLessonFromUser)
 
 	studentQuizAPI := api.Group("/student-quiz")
 	studentQuizAPI.Get("/:userID", userQuizHandler.GetUsersQuizByUserID)

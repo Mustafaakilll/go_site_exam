@@ -121,7 +121,14 @@ func (u *UserRepository) AddLessonToUser(userID, lessonID int) error {
 	return db.DB.
 		Model(&entity.User{ID: userID}).
 		Association("Lessons").
-		Append(&entity.Lesson{ID: lessonID}, &entity.User{ID: userID})
+		Append(&entity.Lesson{ID: lessonID})
+}
+
+func (u *UserRepository) RemoveLessonFromUser(userID, lessonID int) error {
+	return db.DB.
+		Model(&entity.User{ID: userID}).
+		Association("Lessons").
+		Delete(&entity.Lesson{ID: lessonID})
 }
 
 func (u *UserRepository) GetStudentsByTeacher(teacherID int) ([]entity.User, error) {
