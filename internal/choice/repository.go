@@ -80,3 +80,23 @@ func (r *ChoiceRepository) GetChoiceByID(id int) (entity.Choice, error) {
 		Error
 	return choice, err
 }
+
+func (r *ChoiceRepository) GetChoicesWithQuestions(req *BaseRequest) ([]entity.Choice, error) {
+	var choices []entity.Choice
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Preload("Question").
+		Preload("Question.Quiz").
+		Find(&choices).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return choices, nil
+}
