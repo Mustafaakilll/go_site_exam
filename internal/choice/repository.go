@@ -81,7 +81,7 @@ func (r *ChoiceRepository) GetChoiceByID(id int) (entity.Choice, error) {
 	return choice, err
 }
 
-func (r *ChoiceRepository) GetChoicesWithQuestions(req *BaseRequest) ([]entity.Choice, error) {
+func (r *ChoiceRepository) GetChoicesWithQuestions(quizID int, req *BaseRequest) ([]entity.Choice, error) {
 	var choices []entity.Choice
 	query := r.DB
 	if req.Limit != 0 {
@@ -92,7 +92,8 @@ func (r *ChoiceRepository) GetChoicesWithQuestions(req *BaseRequest) ([]entity.C
 	}
 	err := query.
 		Preload("Question").
-		Preload("Question.Quiz").
+		Preload("Question.Quiz", "id = ?", quizID).
+		// Where("quiz.id = ?", 1).
 		Find(&choices).
 		Error
 	if err != nil {

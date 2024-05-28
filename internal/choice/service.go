@@ -97,8 +97,8 @@ func (s *ChoiceService) GetChoiceByID(id int) (*ChoiceDTO, error) {
 	return choiceDTO, nil
 }
 
-func (s *ChoiceService) GetChoicesWithQuestions(req *BaseRequest) (*ChoiceResponseDTO, error) {
-	choices, err := s.repository.GetChoicesWithQuestions(req)
+func (s *ChoiceService) GetChoicesWithQuestions(quizID int, req *BaseRequest) (*ChoiceResponseDTO, error) {
+	choices, err := s.repository.GetChoicesWithQuestions(quizID, req)
 	if err != nil {
 		return nil, err
 	}

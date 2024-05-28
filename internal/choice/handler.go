@@ -93,7 +93,11 @@ func (c *ChoiceHandler) GetChoicesWithQuestions(ctx *fiber.Ctx) error {
 	if err := ctx.QueryParser(p); err != nil {
 		return err
 	}
-	choices, err := c.service.GetChoicesWithQuestions(p)
+	quizID, err := ctx.ParamsInt("quizID")
+	if err != nil {
+		return err
+	}
+	choices, err := c.service.GetChoicesWithQuestions(quizID, p)
 	if err != nil {
 		return err
 	}
