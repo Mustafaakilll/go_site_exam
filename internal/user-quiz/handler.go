@@ -24,6 +24,18 @@ func (u *UserQuizHandler) GetUserQuizzes(c *fiber.Ctx) error {
 	return c.JSON(userQuizzes)
 }
 
+func (u *UserQuizHandler) GetUserQuizByID(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	userQuiz, err := u.service.GetUserQuizByID(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(userQuiz)
+}
+
 func (u *UserQuizHandler) CreateUserQuiz(c *fiber.Ctx) error {
 	p := new(CreateUserQuizRequest)
 	if err := c.BodyParser(p); err != nil {

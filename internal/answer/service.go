@@ -65,3 +65,33 @@ func (s *AnswerService) UpdateAnswers(answerDTO *UpdateAnswerRequest) (*entity.A
 func (s *AnswerService) DeleteAnswer(id int) error {
 	return s.repository.DeleteAnswer(id)
 }
+
+func (s *AnswerService) GetAnswerByID(id int) (*AnswerDTO, error) {
+	answer, err := s.repository.GetAnswerByID(id)
+	if err != nil {
+		return nil, err
+	}
+	answerDTO := new(AnswerDTO)
+	utils.JSONtoDTO(answer, answerDTO)
+	return answerDTO, nil
+}
+
+func (s *AnswerService) GetAnswersByQuestionID(req *BaseRequest, questionID int) (*AnswerResponseDTO, error) {
+	answers, err := s.repository.GetAnswersByQuestionID(req, questionID)
+	if err != nil {
+		return nil, err
+	}
+	answerDTOs := []AnswerDTO{}
+	for i := range answers {
+		answerDTO := new(AnswerDTO)
+		err := utils.JSONtoDTO(answers[i], answerDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert answer entity to answer dto")
+		}
+		answerDTOs = append(answerDTOs, *answerDTO)
+	}
+	var resultDTO AnswerResponseDTO
+	resultDTO.Count = len(answerDTOs)
+	resultDTO.Data = answerDTOs
+	return &resultDTO, nil
+}

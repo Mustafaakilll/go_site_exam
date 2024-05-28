@@ -69,3 +69,14 @@ func (r *ChoiceRepository) GetChoicesByQuestionID(req *BaseRequest, questionID i
 	}
 	return choices, nil
 }
+
+func (r *ChoiceRepository) GetChoiceByID(id int) (entity.Choice, error) {
+	var choice entity.Choice
+	err := r.DB.
+		Preload("Question").
+		Preload("Question.Quiz").
+		Where("id = ?", id).
+		First(&choice).
+		Error
+	return choice, err
+}

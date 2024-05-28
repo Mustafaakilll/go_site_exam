@@ -88,3 +88,16 @@ func (s *QuestionService) GetQuestionsByQuizID(req *BaseRequest, quizID int) (*Q
 
 	return &resultDTO, nil
 }
+
+func (s *QuestionService) GetQuestionByID(id int) (*QuestionDTO, error) {
+	question, err := s.repository.GetQuestionByID(id)
+	if err != nil {
+		return nil, err
+	}
+	questionDTO := new(QuestionDTO)
+	err = utils.JSONtoDTO(question, questionDTO)
+	if err != nil {
+		return nil, errors.New("failed to convert question entity to question dto")
+	}
+	return questionDTO, nil
+}

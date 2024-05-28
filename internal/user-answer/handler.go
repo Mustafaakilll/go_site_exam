@@ -71,3 +71,15 @@ func (u *UserAnswerHandler) GetUserAnswerByQuestionID(c *fiber.Ctx) error {
 	}
 	return c.JSON(userAnswer)
 }
+
+func (u *UserAnswerHandler) GetUserAnswerByID(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	userAnswer, err := u.service.GetUserAnswerByID(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(userAnswer)
+}

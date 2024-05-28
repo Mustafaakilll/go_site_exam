@@ -38,6 +38,19 @@ func (s *UserQuizService) GetUserQuizzes(req *BaseRequest) (*UserQuizResponseDTO
 	return &resultDTO, nil
 }
 
+func (s *UserQuizService) GetUserQuizByID(id int) (*UserQuizDTO, error) {
+	userQuiz, err := s.repository.GetUserQuizByID(id)
+	if err != nil {
+		return nil, err
+	}
+	userQuizDTO := new(UserQuizDTO)
+	err = utils.JSONtoDTO(userQuiz, userQuizDTO)
+	if err != nil {
+		return nil, errors.New("failed to convert user quiz entity to user quiz dto")
+	}
+	return userQuizDTO, nil
+}
+
 func (s *UserQuizService) CreateUserQuizzes(userQuizDTO *CreateUserQuizRequest) (*entity.UserQuiz, error) {
 	userQuizEntity := new(entity.UserQuiz)
 	utils.DTOtoJSON(userQuizDTO, userQuizEntity)

@@ -134,12 +134,17 @@ func main() {
 
 	answerAPI := api.Group("/answers")
 	answerAPI.Get("/", answerHandler.GetAnswers)
+	answerAPI.Get("/:id", answerHandler.GetAnswerByID)
 	answerAPI.Post("/", answerHandler.CreateAnswer)
 	answerAPI.Put("/", answerHandler.UpdateAnswer)
 	answerAPI.Delete("/", answerHandler.DeleteAnswer)
 
+	answerQuestionAPI := api.Group("/answer-question")
+	answerQuestionAPI.Get("/", answerHandler.GetAnswersByQuestionID)
+
 	choiceAPI := api.Group("/choices")
 	choiceAPI.Get("/", choiceHandler.GetChoices)
+	choiceAPI.Get("/:id", choiceHandler.GetChoiceByID)
 	choiceAPI.Post("/", choiceHandler.CreateChoices)
 	choiceAPI.Put("/", choiceHandler.UpdateChoices)
 	choiceAPI.Delete("/:id", choiceHandler.DeleteChoices)
@@ -149,24 +154,34 @@ func main() {
 
 	codeAnswerAPI := api.Group("/code-answers")
 	codeAnswerAPI.Get("/", codeAnswerHandler.GetCodeAnswers)
+	codeAnswerAPI.Get("/:id", codeAnswerHandler.GetCodeAnswerByID)
 	codeAnswerAPI.Post("/", codeAnswerHandler.CreateCodeAnswer)
 	codeAnswerAPI.Delete("/:id", codeAnswerHandler.DeleteCodeAnswer)
 	codeAnswerAPI.Put("/", codeAnswerHandler.UpdateCodeAnswer)
 
+	codeAnswerUserAPI := api.Group("/code-answer-users")
+	codeAnswerUserAPI.Get("/:user_id", codeAnswerHandler.GetCodeAnswersByUserID)
+
 	codeSubmissionAPI := api.Group("/code-submissions")
 	codeSubmissionAPI.Get("/", codeSubmissionHandler.GetCodeSubmissions)
+	codeSubmissionAPI.Get("/:id", codeSubmissionHandler.GetCodeSubmissionByID)
 	codeSubmissionAPI.Post("/", codeSubmissionHandler.CreateCodeSubmission)
 	codeSubmissionAPI.Delete("/:id", codeSubmissionHandler.DeleteCodeSubmission)
 	codeSubmissionAPI.Put("/", codeSubmissionHandler.UpdateCodeSubmission)
 
 	codeAPI := api.Group("/codes")
 	codeAPI.Get("/", codeHandler.GetCodes)
+	codeAPI.Get("/:id", codeHandler.GetCodeByID)
 	codeAPI.Post("/", codeHandler.CreateCode)
 	codeAPI.Put("/", codeHandler.UpdateCode)
 	codeAPI.Delete("/:id", codeHandler.DeleteCode)
 
+	codeLessonAPI := api.Group("/code-lesson")
+	codeLessonAPI.Get("/:lessonID", codeHandler.GetCodesByLessonID)
+
 	questionAPI := api.Group("/questions")
 	questionAPI.Get("/", questionHandler.GetQuestions)
+	questionAPI.Get("/:id", questionHandler.GetQuestionByID)
 	questionAPI.Post("/", questionHandler.CreateQuestions)
 	questionAPI.Put("/", questionHandler.UpdateQuestion)
 	questionAPI.Delete("/:id", questionHandler.DeleteQuestion)
@@ -188,6 +203,7 @@ func main() {
 
 	userAnswerAPI := api.Group("/user-answers")
 	userAnswerAPI.Get("/", userAnswerHandler.GetUserAnswers)
+	userAnswerAPI.Get("/:id", userAnswerHandler.GetUserAnswerByID)
 	userAnswerAPI.Post("/", userAnswerHandler.CreateUserAnswers)
 	userAnswerAPI.Delete("/:id", userAnswerHandler.DeleteUserAnswer)
 	userAnswerAPI.Put("/", userAnswerHandler.UpdateUserAnswer)
@@ -197,6 +213,7 @@ func main() {
 
 	userQuizAPI := api.Group("/user-quizzes")
 	userQuizAPI.Get("/", userQuizHandler.GetUserQuizzes)
+	userQuizAPI.Get("/:id", userQuizHandler.GetUserQuizByID)
 	userQuizAPI.Post("/", userQuizHandler.CreateUserQuiz)
 	userQuizAPI.Put("/", userQuizHandler.UpdateUserQuiz)
 	userQuizAPI.Delete("/:id", userQuizHandler.DeleteUserQuiz)

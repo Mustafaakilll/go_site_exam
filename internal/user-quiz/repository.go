@@ -51,7 +51,7 @@ func (r *UserQuizRepository) DeleteUserQuiz(id int) error {
 	return err
 }
 
-func (r *UserQuizRepository) GetUserQuizByID(id uint) (entity.UserQuiz, error) {
+func (r *UserQuizRepository) GetUserQuizByID(id int) (entity.UserQuiz, error) {
 	var userQuiz entity.UserQuiz
 	err := r.DB.
 		Preload("User").

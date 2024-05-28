@@ -68,3 +68,15 @@ func (r *QuestionRepository) GetQuestionsByQuizID(req *BaseRequest, quizID int) 
 	}
 	return questions, nil
 }
+
+func (r *QuestionRepository) GetQuestionByID(id int) (*entity.Question, error) {
+	var question entity.Question
+	err := r.DB.
+		Preload("Quiz").
+		First(&question, id).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return &question, nil
+}

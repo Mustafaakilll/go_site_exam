@@ -37,6 +37,40 @@ func (r *AnswerRepository) GetAnswers(req *BaseRequest) ([]entity.Answer, error)
 	return answers, nil
 }
 
+func (r *AnswerRepository) GetAnswersByQuestionID(req *BaseRequest, questionID int) ([]entity.Answer, error) {
+	var answers []entity.Answer
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Preload("Choice").
+		Preload("Question").
+		Preload("User").
+		Where("question_id = ?", questionID).
+		Find(&answers).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return answers, nil
+}
+
+func (r *AnswerRepository) GetAnswerByID(id int) (entity.Answer, error) {
+	var answer entity.Answer
+	err := r.DB.
+		Preload("Choice").
+		Preload("Question").
+		Preload("User").
+		Where("id = ?", id).
+		First(&answer).
+		Error
+	return answer, err
+}
+
 func (r *AnswerRepository) CreateAnswer(answerEntity *entity.Answer) (*entity.Answer, error) {
 	err := r.DB.Create(&answerEntity).Error
 	return answerEntity, err

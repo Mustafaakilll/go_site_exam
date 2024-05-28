@@ -48,3 +48,16 @@ func (r *CodeSubmissionRepository) DeleteCodeSubmission(id int) error {
 	err := r.DB.Delete(&entity.CodeSubmission{}, id).Error
 	return err
 }
+
+func (r *CodeSubmissionRepository) GetCodeSubmissionByID(id int) (*entity.CodeSubmission, error) {
+	var codeSubmission entity.CodeSubmission
+	err := r.DB.
+		Preload("Code").
+		Preload("Code.Lesson").
+		First(&codeSubmission, id).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return &codeSubmission, nil
+}

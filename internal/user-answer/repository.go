@@ -56,3 +56,15 @@ func (r *UserAnswerRepository) GetUserAnswerByQuestionID(id int) (entity.UserAns
 		Error
 	return userAnswer, err
 }
+
+func (r *UserAnswerRepository) GetUserAnswerByID(id int) (entity.UserAnswer, error) {
+	var userAnswer entity.UserAnswer
+	err := r.DB.
+		Preload("User").
+		Preload("Quiz").
+		Preload("Answer").
+		Where("id = ?", id).
+		First(&userAnswer).
+		Error
+	return userAnswer, err
+}

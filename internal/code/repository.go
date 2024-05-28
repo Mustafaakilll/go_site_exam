@@ -49,3 +49,28 @@ func (r *CodeRepository) DeleteCode(id int) error {
 	err := r.DB.Delete(&entity.Code{}, id).Error
 	return err
 }
+
+func (r *CodeRepository) GetCodesByLessonID(req *BaseRequest, lessonID int) ([]entity.Code, error) {
+	var codes []entity.Code
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Where("lesson_id = ?", lessonID).
+		Find(&codes).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return codes, nil
+}
+
+func (r *CodeRepository) GetCodeByID(id int) (*entity.Code, error) {
+	var code entity.Code
+	err := r.DB.Preload("Lesson").First(&code, id).Error
+	return &code, err
+}

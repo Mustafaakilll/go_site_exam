@@ -77,3 +77,16 @@ func (s *UserAnswerService) GetUserAnswerByQuestionID(id int) (*UserAnswerDTO, e
 	}
 	return userAnswerDTO, nil
 }
+
+func (s *UserAnswerService) GetUserAnswerByID(id int) (*UserAnswerDTO, error) {
+	userAnswer, err := s.repository.GetUserAnswerByID(id)
+	if err != nil {
+		return nil, err
+	}
+	userAnswerDTO := new(UserAnswerDTO)
+	err = utils.JSONtoDTO(userAnswer, userAnswerDTO)
+	if err != nil {
+		return nil, errors.New("failed to convert user answer entity to user answer dto")
+	}
+	return userAnswerDTO, nil
+}

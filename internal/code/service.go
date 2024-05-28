@@ -65,3 +65,36 @@ func (s *CodeService) UpdateCode(codeDTO *UpdateCodeRequest) (*entity.Code, erro
 func (s *CodeService) DeleteCode(id int) error {
 	return s.repository.DeleteCode(id)
 }
+
+func (s *CodeService) GetCodeByID(id int) (*CodeDTO, error) {
+	code, err := s.repository.GetCodeByID(id)
+	if err != nil {
+		return nil, err
+	}
+	codeDTO := new(CodeDTO)
+	err = utils.JSONtoDTO(code, codeDTO)
+	if err != nil {
+		return nil, errors.New("failed to convert code entity to code dto")
+	}
+	return codeDTO, nil
+}
+
+func (s *CodeService) GetCodesByLessonID(req *BaseRequest, lessonID int) (*CodeResponseDTO, error) {
+	codes, err := s.repository.GetCodesByLessonID(req, lessonID)
+	if err != nil {
+		return nil, err
+	}
+	codeDTOs := []CodeDTO{}
+	for i := range codes {
+		codeDTO := new(CodeDTO)
+		err := utils.JSONtoDTO(codes[i], codeDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert code entity to code dto")
+		}
+		codeDTOs = append(codeDTOs, *codeDTO)
+	}
+	var resultDTO CodeResponseDTO
+	resultDTO.Count = len(codeDTOs)
+	resultDTO.Data = codeDTOs
+	return &resultDTO, nil
+}

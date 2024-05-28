@@ -2,6 +2,7 @@ package codeSubmission
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/mustafaakilll/go-site-exam/pkg/utils"
 )
 
 type CodeSubmissionHandler struct {
@@ -58,4 +59,13 @@ func (cs *CodeSubmissionHandler) DeleteCodeSubmission(c *fiber.Ctx) error {
 		return err
 	}
 	return c.JSON(fiber.Map{"message": "Code Submission deleted successfully"})
+}
+
+func (cs *CodeSubmissionHandler) GetCodeSubmissionByID(c *fiber.Ctx) error {
+	id := c.Params("id")
+	codeSubmission, err := cs.service.GetCodeSubmissionByID(utils.StringToInt(id))
+	if err != nil {
+		return err
+	}
+	return c.JSON(codeSubmission)
 }

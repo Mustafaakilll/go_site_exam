@@ -75,3 +75,15 @@ func (q *QuestionHandler) GetQuestionsByQuizID(c *fiber.Ctx) error {
 	}
 	return c.JSON(questions)
 }
+
+func (q *QuestionHandler) GetQuestionByID(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	question, err := q.service.GetQuestionByID(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(question)
+}

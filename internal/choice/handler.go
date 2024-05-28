@@ -75,3 +75,15 @@ func (c *ChoiceHandler) GetChoicesByQuestionID(ctx *fiber.Ctx) error {
 	}
 	return ctx.JSON(choice)
 }
+
+func (c *ChoiceHandler) GetChoiceByID(ctx *fiber.Ctx) error {
+	id, err := ctx.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	choice, err := c.service.GetChoiceByID(id)
+	if err != nil {
+		return err
+	}
+	return ctx.JSON(choice)
+}

@@ -59,3 +59,31 @@ func (h *CodeHandler) DeleteCode(c *fiber.Ctx) error {
 	}
 	return c.JSON(fiber.Map{"message": "Code deleted successfully"})
 }
+
+func (h *CodeHandler) GetCodesByLessonID(c *fiber.Ctx) error {
+	p := new(BaseRequest)
+	if err := c.QueryParser(p); err != nil {
+		return err
+	}
+	id, err := c.ParamsInt("lessonID")
+	if err != nil {
+		return err
+	}
+	codes, err := h.service.GetCodesByLessonID(p, id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(codes)
+}
+
+func (h *CodeHandler) GetCodeByID(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	code, err := h.service.GetCodeByID(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(code)
+}

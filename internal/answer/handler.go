@@ -2,6 +2,7 @@ package answer
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/mustafaakilll/go-site-exam/pkg/utils"
 )
 
 type AnswerHandler struct {
@@ -58,4 +59,29 @@ func (a *AnswerHandler) DeleteAnswer(c *fiber.Ctx) error {
 		return err
 	}
 	return c.SendStatus(fiber.StatusNoContent)
+}
+
+func (a *AnswerHandler) GetAnswerByID(c *fiber.Ctx) error {
+	id := c.Params("id")
+	answer, err := a.service.GetAnswerByID(utils.StringToInt(id))
+	if err != nil {
+		return err
+	}
+	return c.JSON(answer)
+}
+
+func (a *AnswerHandler) GetAnswersByQuestionID(c *fiber.Ctx) error {
+	p := new(BaseRequest)
+	if err := c.QueryParser(p); err != nil {
+		return err
+	}
+	questionID, err := c.ParamsInt("question_id")
+	if err != nil {
+		return err
+	}
+	answers, err := a.service.GetAnswersByQuestionID(p, questionID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(answers)
 }

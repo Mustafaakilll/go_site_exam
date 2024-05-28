@@ -64,3 +64,33 @@ func (s *CodeAnswerService) UpdateCodeAnswer(codeAnswerDTO *UpdateCodeAnswerRequ
 func (s *CodeAnswerService) DeleteCodeAnswer(id int) error {
 	return s.repository.DeleteCodeAnswer(id)
 }
+
+func (s *CodeAnswerService) GetCodeAnswersByUserID(req *BaseRequest, userID int) (*CodeAnswerResponseDTO, error) {
+	codeAnswers, err := s.repository.GetCodeAnswersByUserID(req, userID)
+	if err != nil {
+		return nil, err
+	}
+	codeAnswerDTOs := []CodeAnswerDTO{}
+	for i := range codeAnswers {
+		codeAnswerDTO := new(CodeAnswerDTO)
+		err := utils.JSONtoDTO(codeAnswers[i], codeAnswerDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert code answer entity to code answer dto")
+		}
+		codeAnswerDTOs = append(codeAnswerDTOs, *codeAnswerDTO)
+	}
+	var resultDTO CodeAnswerResponseDTO
+	resultDTO.Count = len(codeAnswerDTOs)
+	resultDTO.Data = codeAnswerDTOs
+	return &resultDTO, nil
+}
+
+func (s *CodeAnswerService) GetCodeAnswerByID(id int) (*CodeAnswerDTO, error) {
+	codeAnswer, err := s.repository.GetCodeAnswerByID(id)
+	if err != nil {
+		return nil, err
+	}
+	codeAnswerDTO := new(CodeAnswerDTO)
+	utils.JSONtoDTO(codeAnswer, codeAnswerDTO)
+	return codeAnswerDTO, nil
+}

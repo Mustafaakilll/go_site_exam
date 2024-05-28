@@ -23,7 +23,7 @@ type CreateQuestionRequest struct {
 type UpdateQuestionRequest struct {
 	ID    int    `json:"id"`
 	Text  string `json:"text"`
-	Type  string `json:"type"`
+	Type  int    `json:"type"`
 	Point int    `json:"point"`
 }
 

@@ -64,3 +64,16 @@ func (s *CodeSubmissionService) UpdateCodeSubmission(codeSubmissionDTO *UpdateCo
 func (s *CodeSubmissionService) DeleteCodeSubmission(id int) error {
 	return s.repository.DeleteCodeSubmission(id)
 }
+
+func (s *CodeSubmissionService) GetCodeSubmissionByID(id int) (*CodeSubmissionDTO, error) {
+	codeSubmission, err := s.repository.GetCodeSubmissionByID(id)
+	if err != nil {
+		return nil, err
+	}
+	codeSubmissionDTO := new(CodeSubmissionDTO)
+	err = utils.JSONtoDTO(codeSubmission, codeSubmissionDTO)
+	if err != nil {
+		return nil, errors.New("failed to convert code submission entity to code submission dto")
+	}
+	return codeSubmissionDTO, nil
+}

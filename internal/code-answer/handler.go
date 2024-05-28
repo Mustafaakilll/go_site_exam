@@ -59,3 +59,32 @@ func (ca *CodeAnswerHandler) DeleteCodeAnswer(c *fiber.Ctx) error {
 	}
 	return c.SendStatus(fiber.StatusNoContent)
 }
+
+func (ca *CodeAnswerHandler) GetCodeAnswersByUserID(c *fiber.Ctx) error {
+	p := new(BaseRequest)
+	if err := c.QueryParser(p); err != nil {
+		return err
+	}
+	userID := c.Locals("user_id").(int)
+	codeAnswers, err := ca.service.GetCodeAnswersByUserID(p, userID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(codeAnswers)
+}
+
+func (ca *CodeAnswerHandler) GetCodeAnswerByID(c *fiber.Ctx) error {
+	p := new(BaseRequest)
+	if err := c.QueryParser(p); err != nil {
+		return err
+	}
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+	codeAnswer, err := ca.service.GetCodeAnswerByID(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(codeAnswer)
+}
