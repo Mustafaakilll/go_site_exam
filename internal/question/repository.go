@@ -41,7 +41,7 @@ func (r *QuestionRepository) CreateQuestion(questionEntity *entity.Question) (*e
 }
 
 func (r *QuestionRepository) UpdateQuestion(questionEntity entity.Question) error {
-	return r.DB.Omit(clause.Associations).Save(&questionEntity).Error
+	return r.DB.Omit(clause.Associations).Updates(&questionEntity).Error
 }
 
 func (r *QuestionRepository) DeleteQuestion(id int) error {

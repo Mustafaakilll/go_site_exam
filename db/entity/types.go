@@ -7,8 +7,9 @@ import (
 )
 
 type UserType struct {
-	ID   int `gorm:"primaryKey"`
-	Name string
+	ID        int `gorm:"primaryKey"`
+	Name      string
+	DeletedAt gorm.DeletedAt
 
 	CreatedAt time.Time
 	UpdatedAt time.Time

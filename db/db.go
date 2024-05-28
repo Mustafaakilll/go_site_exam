@@ -3,7 +3,6 @@ package db
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 	"github.com/mustafaakilll/go-site-exam/db/seeders"
@@ -11,25 +10,28 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
 
 func Connect() {
-	host := os.Getenv("DB_HOST")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	database := os.Getenv("DB_DATABASE")
-	port := os.Getenv("DB_PORT")
+	// host := os.Getenv("DB_HOST")
+	// user := os.Getenv("DB_USER")
+	// password := os.Getenv("DB_PASSWORD")
+	// database := os.Getenv("DB_DATABASE")
+	// port := os.Getenv("DB_PORT")
 	var err error
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%v sslmode=disable",
-		host,
-		user,
-		password,
-		database,
-		port,
+		"127.0.0.1",
+		"postgres",
+		"password",
+		"examsite",
+		5432,
 	)
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 
 	if err != nil {
 		log.Panicf("failed to connect database,err: %v", err)

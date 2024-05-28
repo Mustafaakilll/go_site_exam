@@ -40,7 +40,7 @@ func (r *CodeSubmissionRepository) CreateCodeSubmission(codeSubmissionEntity *en
 }
 
 func (r *CodeSubmissionRepository) UpdateCodeSubmission(codeSubmissionEntity entity.CodeSubmission) error {
-	err := r.DB.Omit(clause.Associations).Save(&codeSubmissionEntity).Error
+	err := r.DB.Omit(clause.Associations).Updates(&codeSubmissionEntity).Error
 	return err
 }
 

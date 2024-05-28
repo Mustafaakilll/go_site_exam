@@ -11,6 +11,7 @@ type Answer struct {
 	Text      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt
 
 	QuestionID int      `json:"question_id"`
 	Question   Question `gorm:"foreignKey:QuestionID" json:"question"`

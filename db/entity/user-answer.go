@@ -10,6 +10,7 @@ type UserAnswer struct {
 	ID        int `gorm:"primaryKey"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt
 
 	UserID   int    `gorm:"user_id"`
 	User     User   `gorm:"foreignKey:UserID" json:"user"`

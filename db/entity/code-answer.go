@@ -11,6 +11,7 @@ type CodeAnswer struct {
 	Status    string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt
 
 	UserID int  `json:"user_id"`
 	User   User `gorm:"foreignKey:UserID" json:"user"`

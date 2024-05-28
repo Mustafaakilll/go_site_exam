@@ -13,6 +13,7 @@ type Lesson struct {
 	LessonCode string `json:"lesson_code"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
+	DeletedAt  gorm.DeletedAt
 
 	TeacherID int  `json:"teacher_id"`
 	Teacher   User `gorm:"foreignKey:TeacherID" json:"teacher"`

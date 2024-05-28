@@ -43,7 +43,7 @@ func (r *AnswerRepository) CreateAnswer(answerEntity *entity.Answer) (*entity.An
 }
 
 func (r *AnswerRepository) UpdateAnswer(answerEntity entity.Answer) error {
-	err := r.DB.Omit(clause.Associations).Save(&answerEntity).Error
+	err := r.DB.Omit(clause.Associations).Updates(&answerEntity).Error
 	return err
 }
 

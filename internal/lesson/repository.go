@@ -53,7 +53,7 @@ func (r *LessonRepository) DeleteLesson(id int) error {
 }
 
 func (r *LessonRepository) UpdateLesson(lessonEntity *entity.Lesson) error {
-	err := r.DB.Omit(clause.Associations).Save(&lessonEntity).Error
+	err := r.DB.Omit(clause.Associations).Updates(&lessonEntity).Error
 	return err
 }
 

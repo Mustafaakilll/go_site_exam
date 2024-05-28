@@ -21,10 +21,8 @@ type CreateQuizRequest struct {
 	Description string    `json:"description"`
 	Duration    int       `json:"duration"`
 	StartTime   time.Time `json:"start_time"`
-	EndTime     time.Time `json:"end_time"`
 
-	TeacherID int `json:"teacher_id"`
-	LessonID  int `json:"lesson_id"`
+	LessonID int `json:"lesson_id"`
 }
 
 type UpdateQuizRequest struct {
@@ -33,7 +31,6 @@ type UpdateQuizRequest struct {
 	Description string    `json:"description"`
 	Duration    int       `json:"duration"`
 	StartTime   time.Time `json:"start_time"`
-	EndTime     time.Time `json:"end_time"`
 }
 
 type QuizResponseDTO struct {

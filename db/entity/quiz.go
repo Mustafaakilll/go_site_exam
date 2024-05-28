@@ -15,6 +15,7 @@ type Quiz struct {
 	EndTime     time.Time
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
+	DeletedAt   gorm.DeletedAt
 
 	TeacherID int    `json:"teacher_id"`
 	Teacher   User   `gorm:"foreignKey:TeacherID" json:"teacher"`

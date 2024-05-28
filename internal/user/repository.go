@@ -53,7 +53,7 @@ func (u *UserRepository) CreateUser(user *entity.User) (*entity.User, error) {
 }
 
 func (u *UserRepository) UpdateUser(user *entity.User) error {
-	return db.DB.Save(user).Error
+	return db.DB.Updates(&user).Error
 }
 
 func (u *UserRepository) DeleteUser(userID int) error {

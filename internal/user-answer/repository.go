@@ -38,7 +38,7 @@ func (r *UserAnswerRepository) CreateUserAnswer(userAnswerEntity *entity.UserAns
 }
 
 func (r *UserAnswerRepository) UpdateUserAnswer(userAnswerEntity entity.UserAnswer) error {
-	return r.DB.Omit(clause.Associations).Save(&userAnswerEntity).Error
+	return r.DB.Omit(clause.Associations).Updates(&userAnswerEntity).Error
 }
 
 func (r *UserAnswerRepository) DeleteUserAnswer(id int) error {

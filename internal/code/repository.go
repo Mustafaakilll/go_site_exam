@@ -4,6 +4,7 @@ import (
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type CodeRepository struct {
@@ -40,7 +41,7 @@ func (r *CodeRepository) CreateCode(codeEntity *entity.Code) (*entity.Code, erro
 }
 
 func (r *CodeRepository) UpdateCode(codeEntity entity.Code) error {
-	err := r.DB.Save(&codeEntity).Error
+	err := r.DB.Omit(clause.Associations).Updates(&codeEntity).Error
 	return err
 }
 

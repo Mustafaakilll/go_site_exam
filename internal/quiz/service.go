@@ -38,9 +38,13 @@ func (s *QuizService) GetQuizzes(req *BaseRequest) (*QuizResponseDTO, error) {
 	return &resultDTO, nil
 }
 
-func (s *QuizService) CreateQuizzes(quizDTO *CreateQuizRequest) (*entity.Quiz, error) {
+func (s *QuizService) CreateQuizzes(quizDTO *CreateQuizRequest, userID int) (*entity.Quiz, error) {
 	quizEntity := new(entity.Quiz)
-	utils.DTOtoJSON(quizDTO, quizEntity)
+	if err := utils.DTOtoJSON(quizDTO, quizEntity); err != nil {
+		return nil, err
+	}
+
+	quizEntity.TeacherID = userID
 
 	err := s.repository.CreateQuiz(*quizEntity)
 	if err != nil {

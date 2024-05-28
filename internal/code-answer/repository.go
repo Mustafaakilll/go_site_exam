@@ -41,7 +41,7 @@ func (r *CodeAnswerRepository) CreateCodeAnswer(codeAnswerEntity *entity.CodeAns
 }
 
 func (r *CodeAnswerRepository) UpdateCodeAnswer(codeAnswerEntity entity.CodeAnswer) error {
-	err := r.DB.Omit(clause.Associations).Save(&codeAnswerEntity).Error
+	err := r.DB.Omit(clause.Associations).Updates(&codeAnswerEntity).Error
 	return err
 }
 

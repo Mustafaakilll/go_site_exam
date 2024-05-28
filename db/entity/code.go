@@ -11,6 +11,7 @@ type Code struct {
 	Question  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt
 
 	LessonID int    `json:"lesson_id"`
 	Lesson   Lesson `gorm:"foreignKey:LessonID" json:"lesson"`

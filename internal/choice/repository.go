@@ -41,7 +41,7 @@ func (r *ChoiceRepository) CreateChoice(choiceEntity *entity.Choice) (*entity.Ch
 }
 
 func (r *ChoiceRepository) UpdateChoice(choiceEntity entity.Choice) error {
-	err := r.DB.Omit(clause.Associations).Save(&choiceEntity).Error
+	err := r.DB.Omit(clause.Associations).Updates(&choiceEntity).Error
 	return err
 }
 

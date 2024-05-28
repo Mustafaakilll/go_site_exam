@@ -57,11 +57,11 @@ func (r *QuizRepository) CreateQuiz(quizEntity entity.Quiz) error {
 }
 
 func (r *QuizRepository) UpdateQuiz(quizEntity entity.Quiz) error {
-	return r.DB.Omit(clause.Associations).Save(&quizEntity).Error
+	return r.DB.Omit(clause.Associations).Updates(&quizEntity).Error
 }
 
 func (r *QuizRepository) DeleteQuiz(id int) error {
-	return r.DB.Delete(&entity.Quiz{}, id).Error
+	return r.DB.Omit(clause.Associations).Delete(&entity.Quiz{}, id).Error
 }
 
 func (r *QuizRepository) GetQuizByTeacher(req *BaseRequest, teacherID int) ([]entity.Quiz, error) {

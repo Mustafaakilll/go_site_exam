@@ -42,7 +42,7 @@ func (r *UserQuizRepository) CreateUserQuiz(userQuizEntity *entity.UserQuiz) (*e
 }
 
 func (r *UserQuizRepository) UpdateUserQuiz(userQuizEntity entity.UserQuiz) error {
-	err := r.DB.Save(&userQuizEntity).Error
+	err := r.DB.Omit(clause.Associations).Updates(&userQuizEntity).Error
 	return err
 }
 

@@ -13,6 +13,7 @@ type Question struct {
 	Point     int
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt
 
 	QuizID int  `json:"quiz_id"`
 	Quiz   Quiz `gorm:"foreignKey:QuizID" json:"quiz"`

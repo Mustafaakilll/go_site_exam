@@ -17,6 +17,7 @@ type User struct {
 	Email     string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt
 
 	UserTypeID int      `json:"user_type_id"`
 	UserType   UserType `json:"user_types" gorm:"foreignKey:UserTypeID;"`

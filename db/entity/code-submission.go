@@ -12,6 +12,7 @@ type CodeSubmission struct {
 	ExpectedOutput string `json:"expected_output"`
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
+	DeletedAt      gorm.DeletedAt
 
 	CodeID int  `json:"code_id"`
 	Code   Code `gorm:"foreignKey:CodeID" json:"code"`
