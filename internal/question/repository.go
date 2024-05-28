@@ -80,3 +80,12 @@ func (r *QuestionRepository) GetQuestionByID(id int) (*entity.Question, error) {
 	}
 	return &question, nil
 }
+
+func (r *QuestionRepository) GetQuestionsWithChoicesByQuizID(quizID int) ([]QuestionWithChoicesDTO, error) {
+	var result []QuestionWithChoicesDTO
+
+	err := r.DB.
+		Raw("select * from questions join choices on choices.question_id = questions.id join quizzes on quizzes.id = questions.quiz_id where quizzes.id=?", quizID).
+		Scan(&result).Error
+	return result, err
+}

@@ -87,19 +87,3 @@ func (c *ChoiceHandler) GetChoiceByID(ctx *fiber.Ctx) error {
 	}
 	return ctx.JSON(choice)
 }
-
-func (c *ChoiceHandler) GetChoicesWithQuestions(ctx *fiber.Ctx) error {
-	p := new(BaseRequest)
-	if err := ctx.QueryParser(p); err != nil {
-		return err
-	}
-	quizID, err := ctx.ParamsInt("quizID")
-	if err != nil {
-		return err
-	}
-	choices, err := c.service.GetChoicesWithQuestions(quizID, p)
-	if err != nil {
-		return err
-	}
-	return ctx.JSON(choices)
-}

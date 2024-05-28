@@ -39,3 +39,20 @@ type QuestionDTO struct {
 	Point int         `json:"point"`
 	Quiz  entity.Quiz `json:"quiz"`
 }
+
+type QuestionWithChoicesDTO struct {
+	ID          int    `json:"id"`
+	Text        string `json:"text"`
+	Type        int    `json:"type"`
+	Point       int    `json:"point"`
+	IsCorrect   bool   `json:"is_correct"`
+	QuizID      int    `json:"quiz_id"`
+	QuestionID  int    `json:"question_id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Duration    int    `json:"duration"`
+	StartTime   string `json:"start_time"`
+	EndTime     string `json:"end_time"`
+	TeacherID   int    `json:"teacher_id"`
+	LessonID    int    `json:"lesson_id"`
+}

@@ -30,6 +30,18 @@ type ChoiceResponseDTO struct {
 	BaseResponse
 }
 
+type ChoiceWithQuestionResponseDTO struct {
+	BaseResponse
+	Data []ChoiceDTO `json:"data"`
+}
+
+type ChoiceWithQuestionDTO struct {
+	ID        int             `json:"id"`
+	Text      string          `json:"text"`
+	IsCorrect bool            `json:"is_correct"`
+	Question  entity.Question `json:"question"`
+}
+
 type ChoiceDTO struct {
 	ID        int             `json:"id"`
 	Text      string          `json:"text"`
