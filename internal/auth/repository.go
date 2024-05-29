@@ -17,7 +17,7 @@ func (a *AuthRepository) Login(req *LoginRequest) (*entity.User, error) {
 	var user entity.User
 	err := a.DB.
 		Model(&entity.User{}).
-		Where("username = ?", req.Username).
+		Where("email = ?", req.Email).
 		First(&user).Error
 
 	return &user, err

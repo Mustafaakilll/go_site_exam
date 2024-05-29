@@ -25,7 +25,7 @@ func (a *AuthService) Login(req *LoginRequest) (*string, error) {
 		return nil, err
 	}
 
-	token, err := utils.GenerateJWT(user.ID)
+	token, err := utils.GenerateJWT(user.ID, user.UserType.Name)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (a *AuthService) RegisterUser(userReq *user.CreateUserRequest) (*string, *e
 		return nil, nil, err
 	}
 
-	token, err := utils.GenerateJWT(createdUser.ID)
+	token, err := utils.GenerateJWT(createdUser.ID, createdUser.UserType.Name)
 	if err != nil {
 		return nil, nil, err
 	}

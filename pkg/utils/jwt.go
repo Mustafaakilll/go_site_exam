@@ -10,13 +10,15 @@ import (
 var jwtSecret = []byte("MyVeryVerySecretKey")
 
 type JWTClaims struct {
-	UserId int `json:"user_id"`
+	UserId   int    `json:"user_id"`
+	UserType string `json:"user_type"`
 	jwt.StandardClaims
 }
 
-func GenerateJWT(userId int) (string, error) {
+func GenerateJWT(userId int, userType string) (string, error) {
 	claims := &JWTClaims{
-		UserId: userId,
+		UserId:   userId,
+		UserType: userType,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(time.Hour * 24).Unix(), // 24 Hours
 		},
