@@ -205,7 +205,7 @@ func main() {
 	quizAPI.Get("/:id", quizHandler.GetQuizByID)
 
 	teacherQuizAPI := api.Group("/teacher-quizzes")
-	teacherQuizAPI.Get("/:userID", quizHandler.GetQuizByTeacher)
+	teacherQuizAPI.Get("/:teacher_id", quizHandler.GetQuizByTeacher)
 
 	userTypeAPI := api.Group("/user-types")
 	userTypeAPI.Get("/", userTypeHandler.GetUserTypes)
