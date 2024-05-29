@@ -180,6 +180,9 @@ func main() {
 	codeLessonAPI := api.Group("/code-lesson")
 	codeLessonAPI.Get("/:lessonID", codeHandler.GetCodesByLessonID)
 
+	codeTeacherAPI := api.Group("/code-teacher")
+	codeTeacherAPI.Get("/:userID", codeHandler.GetCodesByTeacher)
+
 	questionAPI := api.Group("/questions")
 	questionAPI.Get("/", questionHandler.GetQuestions)
 	questionAPI.Get("/:id", questionHandler.GetQuestionByID)

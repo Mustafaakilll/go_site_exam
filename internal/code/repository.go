@@ -74,3 +74,23 @@ func (r *CodeRepository) GetCodeByID(id int) (*entity.Code, error) {
 	err := r.DB.Preload("Lesson").First(&code, id).Error
 	return &code, err
 }
+
+func (r *CodeRepository) GetCodesByTeacherID(req *BaseRequest, teacherID int) ([]entity.Code, error) {
+	var codes []entity.Code
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Join("Lesson").
+		Where("teacher_id = ?", teacherID).
+		Find(&codes).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return codes, nil
+}
