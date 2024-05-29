@@ -95,3 +95,26 @@ func (r *CodeRepository) GetCodesByTeacherID(req *BaseRequest, teacherID int) ([
 	}
 	return codes, nil
 }
+
+func (r *CodeRepository) GetUsersCodes(req *BaseRequest, userID int) ([]entity.Code, error) {
+	var codes []entity.Code
+	query := r.DB
+	if req.Limit != 0 {
+		query = query.Limit(req.Limit)
+	}
+	if req.Offset != 0 {
+		query = query.Offset(req.Offset)
+	}
+	err := query.
+		Preload("Lesson").
+		Preload("Lesson.Teacher").
+		Preload("Lesson.Teacher.UserType").
+		Joins("JOIN user_lessons ON codes.lesson_id = user_lessons.lesson_id").
+		Where("user_lessons.user_id = ?", userID).
+		Find(&codes).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return codes, nil
+}

@@ -119,3 +119,23 @@ func (s *CodeService) GetCodesByTeacherID(req *BaseRequest, teacherID int) (*Cod
 
 	return &resultDTO, nil
 }
+
+func (s *CodeService) GetUsersCodes(req *BaseRequest, userID int) (*CodeResponseDTO, error) {
+	codes, err := s.repository.GetUsersCodes(req, userID)
+	if err != nil {
+		return nil, err
+	}
+	codeDTOs := []CodeDTO{}
+	for i := range codes {
+		codeDTO := new(CodeDTO)
+		err := utils.JSONtoDTO(codes[i], codeDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert code entity to code dto")
+		}
+		codeDTOs = append(codeDTOs, *codeDTO)
+	}
+	var resultDTO CodeResponseDTO
+	resultDTO.Count = len(codeDTOs)
+	resultDTO.Data = codeDTOs
+	return &resultDTO, nil
+}

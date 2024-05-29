@@ -183,8 +183,11 @@ func main() {
 	codeLessonAPI := api.Group("/code-lesson")
 	codeLessonAPI.Get("/:lessonID", codeHandler.GetCodesByLessonID)
 
-	codeTeacherAPI := api.Group("/code-user")
+	codeTeacherAPI := api.Group("/code-teacher")
 	codeTeacherAPI.Get("/:userID", codeHandler.GetCodesByTeacherID)
+
+	codeUserAPI := api.Group("/code-user")
+	codeUserAPI.Get("/:userID", codeHandler.GetUsersCodes)
 
 	questionAPI := api.Group("/questions")
 	questionAPI.Get("/", questionHandler.GetQuestions)
