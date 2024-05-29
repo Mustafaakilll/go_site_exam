@@ -85,7 +85,8 @@ func (r *CodeRepository) GetCodesByTeacherID(req *BaseRequest, teacherID int) ([
 		query = query.Offset(req.Offset)
 	}
 	err := query.
-		Join("Lesson").
+		Preload("Lesson").
+		Preload("Lesson.Teacher").
 		Where("teacher_id = ?", teacherID).
 		Find(&codes).
 		Error
