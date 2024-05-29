@@ -134,6 +134,7 @@ func (u *UserRepository) RemoveLessonFromUser(userID, lessonID int) error {
 func (u *UserRepository) GetStudentsByTeacher(teacherID int) ([]entity.User, error) {
 	var users []entity.User
 	err := db.DB.
+		Distinct().
 		Preload("UserType").
 		Joins("JOIN user_lessons ON user_lessons.user_id = users.id").
 		Joins("JOIN lessons ON lessons.id = user_lessons.lesson_id").
