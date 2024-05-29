@@ -7,12 +7,13 @@ import (
 )
 
 type UserQuiz struct {
-	ID        int `gorm:"primaryKey"`
-	Result    int
-	IsReview  bool
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt
+	ID           int `gorm:"primaryKey"`
+	Result       int
+	IsReview     bool
+	StartingTime time.Time "json:starting_time"
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	DeletedAt    gorm.DeletedAt
 
 	UserID int  `json:"user_id"`
 	User   User `gorm:"foreignKey:UserID" json:"user"`

@@ -1,6 +1,8 @@
 package userQuiz
 
 import (
+	"time"
+
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 
 	"gorm.io/gorm"
@@ -37,6 +39,7 @@ func (r *UserQuizRepository) GetUserQuizzes(req *BaseRequest) ([]entity.UserQuiz
 }
 
 func (r *UserQuizRepository) CreateUserQuiz(userQuizEntity *entity.UserQuiz) (*entity.UserQuiz, error) {
+	userQuizEntity.StartingTime = time.Now()
 	err := r.DB.Create(&userQuizEntity).Error
 	return userQuizEntity, err
 }
