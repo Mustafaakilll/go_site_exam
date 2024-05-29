@@ -71,10 +71,7 @@ func (cs *CodeSubmissionHandler) GetCodeSubmissionByID(c *fiber.Ctx) error {
 }
 
 func (cs *CodeSubmissionHandler) GetCodeSubmissionsByCodeID(c *fiber.Ctx) error {
-	codeID, err := c.ParamsInt("codeID")
-	if err != nil {
-		return err
-	}
+	codeID := c.Params("codeID")
 	codeSubmissions, err := cs.service.GetCodeSubmissionsByCodeID(utils.StringToInt(codeID))
 	if err != nil {
 		return err

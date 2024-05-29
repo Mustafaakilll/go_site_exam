@@ -171,7 +171,7 @@ func main() {
 	codeSubmissionAPI.Put("/", codeSubmissionHandler.UpdateCodeSubmission)
 
 	codeSubmissionCodeAPI := api.Group("/code-submission-code")
-	codeSubmissionCodeAPI.Get("/:codeID", codeSubmissionHandler.GetCodeSubmissionByCodeID)
+	codeSubmissionCodeAPI.Get("/:codeID", codeSubmissionHandler.GetCodeSubmissionsByCodeID)
 
 	codeAPI := api.Group("/codes")
 	codeAPI.Get("/", codeHandler.GetCodes)
@@ -183,8 +183,8 @@ func main() {
 	codeLessonAPI := api.Group("/code-lesson")
 	codeLessonAPI.Get("/:lessonID", codeHandler.GetCodesByLessonID)
 
-	codeTeacherAPI := api.Group("/code-teacher")
-	codeTeacherAPI.Get("/:userID", codeHandler.GetCodesByTeacher)
+	codeTeacherAPI := api.Group("/code-user")
+	codeTeacherAPI.Get("/:userID", codeHandler.GetCodesByTeacherID)
 
 	questionAPI := api.Group("/questions")
 	questionAPI.Get("/", questionHandler.GetQuestions)

@@ -62,7 +62,7 @@ func (r *CodeSubmissionRepository) GetCodeSubmissionByID(id int) (*entity.CodeSu
 	return &codeSubmission, nil
 }
 
-func (r *CodeSubmissionRepository) GetCodeSubmissionsByCodeID(codeID int) (*entity.CodeSubmission, error) {
+func (r *CodeSubmissionRepository) GetCodeSubmissionsByCodeID(codeID int) ([]entity.CodeSubmission, error) {
 	var codeSubmissions []entity.CodeSubmission
 	err := r.DB.
 		Preload("Code").
@@ -73,5 +73,5 @@ func (r *CodeSubmissionRepository) GetCodeSubmissionsByCodeID(codeID int) (*enti
 	if err != nil {
 		return nil, err
 	}
-	return &codeSubmissions, nil
+	return codeSubmissions, nil
 }
