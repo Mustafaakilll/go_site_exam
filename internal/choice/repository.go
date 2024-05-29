@@ -81,25 +81,26 @@ func (r *ChoiceRepository) GetChoiceByID(id int) (entity.Choice, error) {
 	return choice, err
 }
 
-func (r *ChoiceRepository) GetQuestionsWithChoicesByQuizID(quizID int) ([]entity.Choice, error) {
-	// select * from quizzes join questions on questions.quiz_id = quizzes.id join choices on choices.question_id = questions.id where quizzes.id = 1
+func (r *ChoiceRepository) GetQuestionsWithChoicesByQuizID(quizID int) ([]entity.Choice, []entity.Question, error) {
+	var questions []entity.Question
+	err := r.DB.
+		Omit(clause.Associations).
+		Joins("Quiz").
+		Where("quiz_id = ?", quizID).
+		Find(&questions).
+		Error
 
 	var choices []entity.Choice
-	err := r.DB.
+	err = r.DB.
+		Omit(clause.Associations).
 		Joins("Question").
 		Joins("Question.Quiz").
 		Where("quiz_id = ?", quizID).
 		Find(&choices).
 		Error
 
-	// var choices []entity.Choice
-	// err := r.DB.
-	// 	Preload("Question").
-	// 	Preload("Question.Quiz").
-	// 	Find(&choices).
-	// 	Error
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return choices, nil
+	return choices, questions, nil
 }

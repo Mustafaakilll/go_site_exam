@@ -78,18 +78,11 @@ func (u *UserRepository) GetUserByUsername(username string) (entity.User, error)
 	return user, err
 }
 
-func (u *UserRepository) SetTeacher(userID, lessonID int) error {
+func (u *UserRepository) SetTeacher(userID int) error {
 	err := db.DB.
 		Model(&entity.User{}).
 		Where("id = ?", userID).
 		Update("user_type_id", 2).
-		Error
-	if err != nil {
-		return err
-	}
-	err = db.DB.Model(&entity.Lesson{}).
-		Where("id = ?", lessonID).
-		Update("teacher_id", userID).
 		Error
 	if err != nil {
 		return err

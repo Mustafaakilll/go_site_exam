@@ -97,25 +97,35 @@ func (s *ChoiceService) GetChoiceByID(id int) (*ChoiceDTO, error) {
 	return choiceDTO, nil
 }
 
-func (r *ChoiceService) GetQuestionsWithChoicesByQuizID(quizID int) (*QuestionWithChoicesDTO, error) {
-	question, err := r.repository.GetQuestionsWithChoicesByQuizID(quizID)
+func (r *ChoiceService) GetQuestionsWithChoicesByQuizID(quizID int) ([]Data, error) {
+	choices, questions, err := r.repository.GetQuestionsWithChoicesByQuizID(quizID)
 	if err != nil {
 		return nil, err
 	}
-	choiceWithQuestionResponse := new(QuestionWithChoicesDTO)
-	for i := range question {
-		choiceDTO := new(ChoiceDTO)
-		err := utils.JSONtoDTO(question[i], choiceDTO)
+	data := []Data{}
+
+	for i := range questions {
+		questionDTO := new(QuestionDTO)
+		err := utils.JSONtoDTO(questions[i], questionDTO)
 		if err != nil {
-			return nil, errors.New("failed to convert choice entity to choice dto")
+			return nil, errors.New("failed to convert question entity to question dto")
 		}
-		choiceWithQuestionResponse.ID = question[i].ID
-		choiceWithQuestionResponse.Text = question[i].Question.Text
-		choiceWithQuestionResponse.Point = question[i].Question.Point
-		choiceWithQuestionResponse.Type = question[i].Question.Type
-		choiceWithQuestionResponse.Choices = append(choiceWithQuestionResponse.Choices, *choiceDTO)
+		data = append(data, Data{Question: *questionDTO})
 	}
 
-	return choiceWithQuestionResponse, nil
+	for i := range choices {
+		for j := range data {
+			choiceDTO := new(ChoiceDTO)
+			err := utils.JSONtoDTO(choices[i], choiceDTO)
+			if err != nil {
+				return nil, errors.New("failed to convert choice entity to choice dto")
+			}
+			if choiceDTO.QuestionID == data[j].Question.ID {
+				data[j].Question.Choices = append(data[j].Question.Choices, *choiceDTO)
+			}
+			choiceDTO = nil
+		}
+	}
 
+	return data, nil
 }

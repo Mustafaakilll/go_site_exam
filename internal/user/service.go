@@ -95,8 +95,8 @@ func (u *UserService) GetUserByUsername(username string) (*UserDTO, error) {
 	return userDTO, nil
 }
 
-func (u *UserService) SetTeacher(userID, lessonID int) error {
-	return u.repository.SetTeacher(userID, lessonID)
+func (u *UserService) SetTeacher(userID int) error {
+	return u.repository.SetTeacher(userID)
 }
 
 func (u *UserService) GetStudents() (*PaginatedUserResponse, error) {

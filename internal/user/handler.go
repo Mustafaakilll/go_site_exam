@@ -98,12 +98,8 @@ func (u *UserHandler) SetTeacher(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	lessonID, err := c.ParamsInt("lessonID")
-	if err != nil {
-		return err
-	}
 
-	return u.service.SetTeacher(userID, lessonID)
+	return u.service.SetTeacher(userID)
 }
 
 func (u *UserHandler) GetStudents(c *fiber.Ctx) error {

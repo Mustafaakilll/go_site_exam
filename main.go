@@ -119,10 +119,10 @@ func main() {
 	studentTeacherAPI.Get("/:lessonID", userHandler.GetStudentsByTeacher)
 
 	teacherAPI := api.Group("/teacher")
+	teacherAPI.Get("/:userID", userHandler.SetTeacher)
 	teacherAPI.Get("/", userHandler.GetTeacher)
 
 	teacherLessonAPI := api.Group("/teacher-lesson")
-	teacherLessonAPI.Get("/:userID/:lessonID", userHandler.SetTeacher)
 	teacherLessonAPI.Get("/:userID", lessonHandler.GetLessonByTeacher)
 
 	lessonAPI := api.Group("/lessons")
