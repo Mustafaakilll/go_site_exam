@@ -69,3 +69,15 @@ func (cs *CodeSubmissionHandler) GetCodeSubmissionByID(c *fiber.Ctx) error {
 	}
 	return c.JSON(codeSubmission)
 }
+
+func (cs *CodeSubmissionHandler) GetCodeSubmissionsByCodeID(c *fiber.Ctx) error {
+	codeID, err := c.ParamsInt("codeID")
+	if err != nil {
+		return err
+	}
+	codeSubmissions, err := cs.service.GetCodeSubmissionsByCodeID(utils.StringToInt(codeID))
+	if err != nil {
+		return err
+	}
+	return c.JSON(codeSubmissions)
+}

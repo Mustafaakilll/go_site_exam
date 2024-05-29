@@ -61,3 +61,17 @@ func (r *CodeSubmissionRepository) GetCodeSubmissionByID(id int) (*entity.CodeSu
 	}
 	return &codeSubmission, nil
 }
+
+func (r *CodeSubmissionRepository) GetCodeSubmissionsByCodeID(codeID int) (*entity.CodeSubmission, error) {
+	var codeSubmissions []entity.CodeSubmission
+	err := r.DB.
+		Preload("Code").
+		Preload("Code.Lesson").
+		Where("code_id = ?", codeID).
+		Find(&codeSubmissions).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return &codeSubmissions, nil
+}

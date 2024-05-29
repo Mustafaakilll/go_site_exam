@@ -77,3 +77,25 @@ func (s *CodeSubmissionService) GetCodeSubmissionByID(id int) (*CodeSubmissionDT
 	}
 	return codeSubmissionDTO, nil
 }
+
+func (s *CodeSubmissionService) GetCodeSubmissionsByCodeID(codeID int) (*CodeSubmissionResponseDTO, error) {
+	codeSubmissions, err := s.repository.GetCodeSubmissionsByCodeID(codeID)
+	if err != nil {
+		return nil, err
+	}
+	codeSubmissionDTOs := []CodeSubmissionDTO{}
+	for i := range codeSubmissions {
+		codeSubmissionDTO := new(CodeSubmissionDTO)
+		err := utils.JSONtoDTO(codeSubmissions[i], codeSubmissionDTO)
+		if err != nil {
+			return nil, errors.New("failed to convert code submission entity to code submission dto")
+		}
+		codeSubmissionDTOs = append(codeSubmissionDTOs, *codeSubmissionDTO)
+	}
+
+	var resultDTO CodeSubmissionResponseDTO
+	resultDTO.Count = len(codeSubmissionDTOs)
+	resultDTO.Data = codeSubmissionDTOs
+
+	return &resultDTO, nil
+}

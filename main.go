@@ -170,6 +170,9 @@ func main() {
 	codeSubmissionAPI.Delete("/:id", codeSubmissionHandler.DeleteCodeSubmission)
 	codeSubmissionAPI.Put("/", codeSubmissionHandler.UpdateCodeSubmission)
 
+	codeSubmissionCodeAPI := api.Group("/code-submission-code")
+	codeSubmissionCodeAPI.Get("/:codeID", codeSubmissionHandler.GetCodeSubmissionByCodeID)
+
 	codeAPI := api.Group("/codes")
 	codeAPI.Get("/", codeHandler.GetCodes)
 	codeAPI.Get("/:id", codeHandler.GetCodeByID)
