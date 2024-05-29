@@ -93,3 +93,15 @@ func (q *QuizHandler) GetQuizByTeacher(c *fiber.Ctx) error {
 	}
 	return c.JSON(quizzes)
 }
+
+func (q *QuizHandler) GetJoinedUserByQuizID(c *fiber.Ctx) error {
+	quizID, err := c.ParamsInt("quizID")
+	if err != nil {
+		return err
+	}
+	quizzes, err := q.service.GetJoinedUserByQuizID(quizID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(quizzes)
+}

@@ -81,11 +81,16 @@ func (r *QuestionRepository) GetQuestionByID(id int) (*entity.Question, error) {
 	return &question, nil
 }
 
-func (r *QuestionRepository) GetQuestionsWithChoicesByQuizID(quizID int) ([]QuestionWithChoicesDTO, error) {
-	var result []QuestionWithChoicesDTO
-
-	err := r.DB.
-		Raw("select * from questions join choices on choices.question_id = questions.id join quizzes on quizzes.id = questions.quiz_id where quizzes.id=?", quizID).
-		Scan(&result).Error
-	return result, err
-}
+// func (r *QuestionRepository) GetQuestionsWithChoicesByQuizID(quizID int) ([]entity.Question, error) {
+// 	var questions []entity.Choice
+// 	err := r.DB.
+// 		Preload("Question").
+// 		Preload("Question.Quiz").
+// 		Where("quiz_id = ?", quizID).
+// 		Find(&questions).
+// 		Error
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return questions, nil
+// }

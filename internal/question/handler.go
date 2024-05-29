@@ -88,18 +88,18 @@ func (q *QuestionHandler) GetQuestionByID(c *fiber.Ctx) error {
 	return c.JSON(question)
 }
 
-func (q *QuestionHandler) GetQuestionsWithChoices(c *fiber.Ctx) error {
-	p := new(BaseRequest)
-	if err := c.QueryParser(p); err != nil {
-		return err
-	}
-	questionID, err := c.ParamsInt("quizID")
-	if err != nil {
-		return err
-	}
-	questions, err := q.service.GetQuestionsWithChoices(questionID)
-	if err != nil {
-		return err
-	}
-	return c.JSON(questions)
-}
+// func (q *QuestionHandler) GetQuestionsWithChoices(c *fiber.Ctx) error {
+// 	p := new(BaseRequest)
+// 	if err := c.QueryParser(p); err != nil {
+// 		return err
+// 	}
+// 	questionID, err := c.ParamsInt("quizID")
+// 	if err != nil {
+// 		return err
+// 	}
+// 	questions, err := q.service.GetQuestionsWithChoices(questionID)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	return c.JSON(questions)
+// }

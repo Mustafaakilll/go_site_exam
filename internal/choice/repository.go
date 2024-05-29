@@ -81,31 +81,25 @@ func (r *ChoiceRepository) GetChoiceByID(id int) (entity.Choice, error) {
 	return choice, err
 }
 
-// func (r *ChoiceRepository) GetChoicesWithQuestionsByQuizID(quizID int) ([]entity.Choice, error) {
-// 	var choices []entity.Choice
-// 	query := r.DB.
-// 		Joins("JOIN questions ON choices.question_id = questions.id").
-// 		Where("questions.quiz_id = ?", quizID)
-// 	err := query.
-// 		Preload("Question").
-// 		Preload("Question.Quiz").
-// 		Preload("Question.Quiz.Teacher").
-// 		Preload("Question.Quiz.Lesson").
-// 		Find(&choices).
-// 		Error
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return choices, nil
+func (r *ChoiceRepository) GetQuestionsWithChoicesByQuizID(quizID int) ([]entity.Choice, error) {
+	// select * from quizzes join questions on questions.quiz_id = quizzes.id join choices on choices.question_id = questions.id where quizzes.id = 1
 
-// var choices []entity.Choice
-// err := r.DB.
-// 	Preload("Question").
-// 	Where("question_id IN (?)", r.DB.Model(&entity.Question{}).Select("id").Where("quiz_id = ?", quizID).QueryExpr()).
-// 	Find(&choices).
-// 	Error
-// if err != nil {
-// 	return nil, err
-// }
-// return choices, nil
-// }
+	var choices []entity.Choice
+	err := r.DB.
+		Joins("Question").
+		Joins("Question.Quiz").
+		Where("quiz_id = ?", quizID).
+		Find(&choices).
+		Error
+
+	// var choices []entity.Choice
+	// err := r.DB.
+	// 	Preload("Question").
+	// 	Preload("Question.Quiz").
+	// 	Find(&choices).
+	// 	Error
+	if err != nil {
+		return nil, err
+	}
+	return choices, nil
+}

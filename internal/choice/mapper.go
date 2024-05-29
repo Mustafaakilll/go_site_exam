@@ -48,3 +48,11 @@ type ChoiceDTO struct {
 	IsCorrect bool            `json:"is_correct"`
 	Question  entity.Question `json:"question"`
 }
+
+type QuestionWithChoicesDTO struct {
+	ID      int         `json:"id"`
+	Text    string      `json:"text"`
+	Type    int         `json:"type"`
+	Point   int         `json:"point"`
+	Choices []ChoiceDTO `json:"choices"`
+}

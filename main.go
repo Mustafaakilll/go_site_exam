@@ -151,7 +151,7 @@ func main() {
 
 	questionChoiceAPI := api.Group("/question-choices")
 	questionChoiceAPI.Get("/:questionID", choiceHandler.GetChoicesByQuestionID)
-	questionChoiceAPI.Get("quiz/:quizID", questionHandler.GetQuestionsWithChoices)
+	questionChoiceAPI.Get("quiz/:quizID", choiceHandler.GetQuestionsWithChoicesByQuizID)
 
 	codeAnswerAPI := api.Group("/code-answers")
 	codeAnswerAPI.Get("/", codeAnswerHandler.GetCodeAnswers)
@@ -227,6 +227,7 @@ func main() {
 	userQuizAPI.Post("/", userQuizHandler.CreateUserQuiz)
 	userQuizAPI.Put("/", userQuizHandler.UpdateUserQuiz)
 	userQuizAPI.Delete("/:id", userQuizHandler.DeleteUserQuiz)
+	userQuizAPI.Get("/joined/:quizID", codeHandler.GetUsersCodes)
 
 	app.Listen(":8081")
 }

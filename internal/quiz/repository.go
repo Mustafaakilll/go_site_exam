@@ -82,3 +82,14 @@ func (r *QuizRepository) GetQuizByTeacher(req *BaseRequest, teacherID int) ([]en
 		Error
 	return quizzes, err
 }
+
+func (r *QuizRepository) GetJoinedUserByQuizID(quizID int) ([]entity.User, error) {
+	var users []entity.User
+	err := r.DB.
+		Preload("UserType").
+		Joins("JOIN quiz_user ON users.id = quiz_user.user_id").
+		Where("quiz_user.quiz_id = ?", quizID).
+		Find(&users).
+		Error
+	return users, err
+}

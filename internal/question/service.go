@@ -101,11 +101,3 @@ func (s *QuestionService) GetQuestionByID(id int) (*QuestionDTO, error) {
 	}
 	return questionDTO, nil
 }
-
-func (s *QuestionService) GetQuestionsWithChoices(questionID int) ([]QuestionWithChoicesDTO, error) {
-	question, err := s.repository.GetQuestionsWithChoicesByQuizID(questionID)
-	if err != nil {
-		return nil, err
-	}
-	return question, nil
-}

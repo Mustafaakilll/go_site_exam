@@ -107,3 +107,7 @@ func (s *QuizService) GetQuizByTeacher(req *BaseRequest, teacherID int) (*QuizRe
 	resultDTO.Data = quizDTOs
 	return &resultDTO, nil
 }
+
+func (s *QuizService) GetJoinedUserByQuizID(quizID int) ([]entity.User, error) {
+	return s.repository.GetJoinedUserByQuizID(quizID)
+}
