@@ -14,7 +14,7 @@ type BaseResponse struct {
 
 type CreateQuestionRequest struct {
 	Text  string `json:"text"`
-	Type  string `json:"type"`
+	Type  int    `json:"type"`
 	Point int    `json:"point"`
 
 	QuizID int `json:"quiz_id"`
