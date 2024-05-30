@@ -76,7 +76,7 @@ func (r *UserQuizRepository) GetUserQuizByUserIDAndQuizID(userID, quizID uint) (
 	return userQuiz, err
 }
 
-func (r *UserQuizRepository) GetUserQuizByUserID(userID uint) ([]entity.UserQuiz, error) {
+func (r *UserQuizRepository) GetUserQuizByUserID(userID int) ([]entity.UserQuiz, error) {
 	var userQuizzes []entity.UserQuiz
 	err := r.DB.
 		Preload("User").

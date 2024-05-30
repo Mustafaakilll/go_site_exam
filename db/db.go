@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 	"github.com/mustafaakilll/go-site-exam/db/seeders"
@@ -16,18 +17,18 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	// host := os.Getenv("DB_HOST")
-	// user := os.Getenv("DB_USER")
-	// password := os.Getenv("DB_PASSWORD")
-	// database := os.Getenv("DB_DATABASE")
-	// port := os.Getenv("DB_PORT")
+	host := os.Getenv("DB_HOST")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	database := os.Getenv("DB_DATABASE")
+	port := os.Getenv("DB_PORT")
 	var err error
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%v sslmode=disable",
-		"localhost",
-		"postgres",
-		"password",
-		"examsite",
-		5432,
+		host,
+		user,
+		password,
+		database,
+		port,
 	)
 
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{

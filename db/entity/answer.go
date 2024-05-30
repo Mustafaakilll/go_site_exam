@@ -15,8 +15,6 @@ type Answer struct {
 
 	QuestionID int      `json:"question_id"`
 	Question   Question `gorm:"foreignKey:QuestionID" json:"question"`
-	ChoiceID   int      `json:"choice_id"`
-	Choice     Choice   `gorm:"foreignKey:ChoiceID" json:"choice"`
 	UserID     int      `json:"user_id"`
 	User       User     `gorm:"foreignKey:UserID" json:"user"`
 }

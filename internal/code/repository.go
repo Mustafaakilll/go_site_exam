@@ -25,7 +25,6 @@ func (r *CodeRepository) GetCodes(req *BaseRequest) ([]entity.Code, error) {
 		query = query.Offset(req.Offset)
 	}
 	err := query.
-		Preload("Lesson").
 		Find(&codes).
 		Error
 

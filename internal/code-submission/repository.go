@@ -66,7 +66,6 @@ func (r *CodeSubmissionRepository) GetCodeSubmissionsByCodeID(codeID int) ([]ent
 	var codeSubmissions []entity.CodeSubmission
 	err := r.DB.
 		Preload("Code").
-		Preload("Code.Lesson").
 		Where("code_id = ?", codeID).
 		Find(&codeSubmissions).
 		Error

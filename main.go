@@ -88,10 +88,9 @@ func main() {
 		return c.JSON(fiber.Map{"message": "Hello, World!"})
 	})
 
-	app.Post("/login", authHandler.Login)
-	app.Post("/register", authHandler.Register)
-
 	api := app.Group("/api/v1")
+	api.Post("/login", authHandler.Login)
+	api.Post("/register", authHandler.Register)
 	api = api.Use(middleware.AuthMiddleware)
 	userApi := api.Group("/users")
 	userApi.Get("/", userHandler.GetUsers)

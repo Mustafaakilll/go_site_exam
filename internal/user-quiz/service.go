@@ -79,7 +79,7 @@ func (s *UserQuizService) DeleteUserQuiz(id int) error {
 }
 
 func (s *UserQuizService) GetUsersQuizzesByUserID(request *BaseRequest, userID int) (*UserQuizResponseDTO, error) {
-	userQuizzes, err := s.repository.GetUsersQuizzesByUserID(userID, request)
+	userQuizzes, err := s.repository.GetUserQuizByUserID(userID)
 	if err != nil {
 		return nil, err
 	}
