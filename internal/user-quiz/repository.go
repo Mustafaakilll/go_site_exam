@@ -205,3 +205,12 @@ func (r *UserQuizRepository) GetAnswerByAnswerID(answerID int) (entity.Answer, e
 		Error
 	return answer, err
 }
+
+func (r *UserQuizRepository) GetUserQuizByUserAndQuizID(userID, quizID int) (entity.UserQuiz, error) {
+	var answer entity.UserQuiz
+	err := r.DB.
+		Where("user_id = ? and quiz_id=?", userID, quizID).
+		First(&answer).
+		Error
+	return answer, err
+}

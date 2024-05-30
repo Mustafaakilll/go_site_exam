@@ -2,6 +2,7 @@ package userQuiz
 
 import (
 	"errors"
+
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 	"github.com/mustafaakilll/go-site-exam/pkg/utils"
 )
@@ -170,4 +171,17 @@ func (s *UserQuizService) GetUserQuizWithAnswersByUserAndQuizID(userID, quizID i
 	}
 
 	return data, nil
+}
+
+func (s *UserQuizService) GetUserQuizByUserAndQuizID(userID, quizID int) (*UserQuizDTO, error) {
+	userQuiz, err := s.repository.GetUserQuizByUserAndQuizID(userID, quizID)
+	if err != nil {
+		return nil, err
+	}
+	userQuizDTO := new(UserQuizDTO)
+	err = utils.JSONtoDTO(userQuiz, userQuizDTO)
+	if err != nil {
+		return nil, errors.New("failed to convert user quiz entity to user quiz dto")
+	}
+	return userQuizDTO, nil
 }

@@ -229,6 +229,7 @@ func main() {
 	userQuizAPI.Post("/", userQuizHandler.CreateUserQuiz)
 	userQuizAPI.Put("/", userQuizHandler.UpdateUserQuiz)
 	userQuizAPI.Delete("/:id", userQuizHandler.DeleteUserQuiz)
+	userQuizAPI.Get("/:quizID/:userID", userQuizHandler.GetUserQuizByUserAndQuizID)
 	userQuizAPI.Get("/joined/:quizID", codeHandler.GetUsersCodes)
 
 	app.Listen(":8081")

@@ -120,3 +120,20 @@ func (u *UserQuizHandler) GetUserQuizWithAnswersByUserAndQuizID(c *fiber.Ctx) er
 	}
 	return c.JSON(userQuiz)
 }
+
+func (u *UserQuizHandler) GetUserQuizByUserAndQuizID(c *fiber.Ctx) error {
+	quizID, err := c.ParamsInt("quizID")
+	if err != nil {
+		return err
+	}
+
+	userID, err := c.ParamsInt("userID")
+	if err != nil {
+		return err
+	}
+	userQuiz, err := u.service.GetUserQuizByUserAndQuizID(userID, quizID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(userQuiz)
+}

@@ -12,11 +12,11 @@ type UserAnswer struct {
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
 
-	UserID   int    `gorm:"user_id"`
+	UserID   int    `gorm:"user_id" json:"user_id"`
 	User     User   `gorm:"foreignKey:UserID" json:"user"`
-	QuizID   int    `gorm:"quiz_id"`
+	QuizID   int    `gorm:"quiz_id" json:"quiz_id"`
 	Quiz     Quiz   `gorm:"foreignKey:QuizID" json:"quiz"`
-	AnswerID int    `gorm:"answer_id"`
+	AnswerID int    `gorm:"answer_id" json:"answer_id"`
 	Answer   Answer `gorm:"foreignKey:AnswerID" json:"answer"`
 }
 
