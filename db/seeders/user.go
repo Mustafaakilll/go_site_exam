@@ -9,7 +9,6 @@ type UserSeeder struct{}
 func (u *UserSeeder) Run() []entity.User {
 	seed := []entity.User{
 		{
-			ID:         1,
 			Username:   "admin",
 			UserTypeID: 1,
 			Email:      "admin@admin.com",
