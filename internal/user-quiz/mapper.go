@@ -53,41 +53,17 @@ type QuestionDTO struct {
 	Text       string        `json:"text"`
 	Type       int           `json:"type"`
 	Point      int           `json:"point"`
-	UserAnswer UserAnswerDTO `json:"useranswer"`
+	UserAnswer UserAnswerDTO `json:"user_answer"`
 }
 
 type UserAnswerDTO struct {
-	ID       int    `json:"ID"`
-	UserID   int    `json:"UserID"`
-	QuizID   int    `json:"QuizID"`
-	AnswerID int    `json:"AnswerID"`
-	Answer   Answer `json:"Answer"`
+	ID       int    `json:"id"`
+	UserID   int    `json:"user_id"`
+	QuizID   int    `json:"quiz_id"`
+	AnswerID int    `json:"answer_id"`
+	Answer   Answer `json:"answer"`
 }
 
-type UserQuizWithAnswer struct {
-	ID       int    `json:"ID"`
-	UserID   int    `json:"UserID"`
-	QuizID   int    `json:"QuizID"`
-	Quiz     Quiz   `json:"Quiz"`
-	LessonID int    `json:"LessonID"`
-	Lesson   Lesson `json:"Lesson"`
-	AnswerID int    `json:"AnswerID"`
-	Answer   Answer `json:"Answer"`
-}
-type Quiz struct {
-	ID          int    `json:"ID"`
-	Title       string `json:"Title"`
-	Description string `json:"Description"`
-	Duration    int    `json:"Duration"`
-	TeacherID   int    `json:"TeacherID"`
-}
-type Lesson struct {
-	ID         int    `json:"ID"`
-	Name       string `json:"Name"`
-	Definition string `json:"Definition"`
-	LessonCode string `json:"LessonCode"`
-	TeacherID  int    `json:"TeacherID"`
-}
 type Question struct {
 	ID    int    `json:"ID"`
 	Text  string `json:"Text"`
