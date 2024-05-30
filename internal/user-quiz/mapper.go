@@ -1,6 +1,10 @@
 package userQuiz
 
-import "github.com/mustafaakilll/go-site-exam/db/entity"
+import (
+	"time"
+
+	"github.com/mustafaakilll/go-site-exam/db/entity"
+)
 
 type BaseRequest struct {
 	Limit  int `json:"limit"`
@@ -32,9 +36,10 @@ type UserQuizResponseDTO struct {
 }
 
 type UserQuizDTO struct {
-	ID       int         `json:"id"`
-	Result   int         `json:"result"`
-	IsReview bool        `json:"is_review"`
-	User     entity.User `json:"user"`
-	Quiz     entity.Quiz `json:"quiz"`
+	ID           int         `json:"id"`
+	Result       int         `json:"result"`
+	IsReview     bool        `json:"is_review"`
+	StartingTime time.Time   `json:"StartingTime"`
+	User         entity.User `json:"user"`
+	Quiz         entity.Quiz `json:"quiz"`
 }
