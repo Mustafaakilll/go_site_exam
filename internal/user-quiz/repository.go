@@ -189,8 +189,8 @@ func (r *UserQuizRepository) GetQuestionsByQuizID(quizID int) ([]entity.Question
 func (r *UserQuizRepository) GetUsersAnswersByQuestionID(questionID int) ([]entity.UserAnswer, error) {
 	var userAnswers []entity.UserAnswer
 	err := r.DB.
-		Preload("Answer").
-		Preload("Answer.Question", "id=?", questionID).
+		Preload("Answer", "question_id=?", questionID).
+		Preload("Answer.Question").
 		Find(&userAnswers).
 		Error
 	return userAnswers, err
@@ -199,7 +199,6 @@ func (r *UserQuizRepository) GetUsersAnswersByQuestionID(questionID int) ([]enti
 func (r *UserQuizRepository) GetAnswerByAnswerID(answerID int) (entity.Answer, error) {
 	var answer entity.Answer
 	err := r.DB.
-		Omit(clause.Associations).
 		Preload("Question").
 		Where("id = ?", answerID).
 		First(&answer).

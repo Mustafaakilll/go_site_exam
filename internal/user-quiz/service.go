@@ -2,7 +2,6 @@ package userQuiz
 
 import (
 	"errors"
-
 	"github.com/mustafaakilll/go-site-exam/db/entity"
 	"github.com/mustafaakilll/go-site-exam/pkg/utils"
 )
@@ -136,28 +135,34 @@ func (s *UserQuizService) GetUserQuizWithAnswersByUserAndQuizID(userID, quizID i
 				userAnswers, _ := s.repository.GetUsersAnswersByQuestionID(question.ID)
 				if len(userAnswers) > 0 {
 					for _, userAnswer := range userAnswers {
+						if userAnswer.Answer.QuestionID != question.ID {
+							continue
+						}
 						answer, _ := s.repository.GetAnswerByAnswerID(userAnswer.AnswerID)
 
-						answerDTO := Answer{
+						answerDTO := &Answer{
 							ID:         answer.ID,
 							Text:       answer.Text,
 							QuestionID: answer.QuestionID,
 						}
-						userAnserDTO := UserAnswerDTO{
+						userAnswerDTO := &UserAnswerDTO{
 							ID:       userAnswer.ID,
 							UserID:   userAnswer.UserID,
 							QuizID:   userAnswer.QuizID,
 							AnswerID: userAnswer.AnswerID,
-							Answer:   answerDTO,
+							Answer:   *answerDTO,
 						}
-						questionDTO := QuestionDTO{
+						questionDTO := &QuestionDTO{
 							ID:         question.ID,
 							Text:       question.Text,
 							Type:       question.Type,
 							Point:      question.Point,
-							UserAnswer: userAnserDTO,
+							UserAnswer: *userAnswerDTO,
 						}
-						data = append(data, Data{Question: questionDTO})
+						data = append(data, Data{Question: *questionDTO})
+						answerDTO = nil
+						userAnswerDTO = nil
+						questionDTO = nil
 					}
 				}
 			}
