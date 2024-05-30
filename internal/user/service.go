@@ -168,8 +168,8 @@ func (u *UserService) GetStudentsByTeacher(teacherID int) (*PaginatedUserRespons
 	}, nil
 }
 
-func (u *UserService) GetUsersQuizzesByLessonID(lessonID int, req *models.PaginateRequest) (*PaginatedUserResponse, error) {
-	users, err := u.repository.GetUsersQuizzesByLessonID(lessonID, req)
+func (u *UserService) GetUsersQuizzesByQuizID(quizID int, req *models.PaginateRequest) (*PaginatedUserResponse, error) {
+	users, err := u.repository.GetUsersQuizzesByQuizID(quizID, req)
 	if err != nil {
 		return nil, err
 	}

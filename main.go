@@ -113,7 +113,7 @@ func main() {
 
 	studentQuizAPI := api.Group("/student-quiz")
 	studentQuizAPI.Get("/:userID", userQuizHandler.GetUsersQuizByUserID)
-	studentQuizAPI.Get("/lesson/:lessonID", userHandler.GetUsersQuizzesByLessonID)
+	studentQuizAPI.Get("/lesson/:quizID", userHandler.GetUsersQuizzesByQuizID)
 
 	studentTeacherAPI := api.Group("/student-teacher")
 	studentTeacherAPI.Get("/:lessonID", userHandler.GetStudentsByTeacher)

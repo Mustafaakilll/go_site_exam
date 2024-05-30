@@ -167,8 +167,8 @@ func (u *UserHandler) GetStudentsByTeacher(c *fiber.Ctx) error {
 	return c.JSON(users)
 }
 
-func (u *UserHandler) GetUsersQuizzesByLessonID(c *fiber.Ctx) error {
-	lessonID, err := c.ParamsInt("lessonID")
+func (u *UserHandler) GetUsersQuizzesByQuizID(c *fiber.Ctx) error {
+	quizID, err := c.ParamsInt("quizID")
 	if err != nil {
 		return err
 	}
@@ -176,7 +176,7 @@ func (u *UserHandler) GetUsersQuizzesByLessonID(c *fiber.Ctx) error {
 	if err := c.QueryParser(request); err != nil {
 		return err
 	}
-	users, err := u.service.GetUsersQuizzesByLessonID(lessonID, request)
+	users, err := u.service.GetUsersQuizzesByQuizID(quizID, request)
 	if err != nil {
 		return err
 	}
