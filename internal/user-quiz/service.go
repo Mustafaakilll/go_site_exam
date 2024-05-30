@@ -117,3 +117,52 @@ func (s *UserQuizService) GetUsersQuizzesByLessonID(request *BaseRequest, lesson
 	resultDTO.Data = userQuizDTOs
 	return &resultDTO, nil
 }
+
+func (s *UserQuizService) GetUserQuizWithAnswersByUserAndQuizID(userID, quizID int) ([]Data, error) {
+	quizzes, err := s.repository.GetUserQuizByUserID(userID)
+	if err != nil {
+		return nil, err
+	}
+	data := []Data{}
+	for _, quiz := range quizzes {
+		if quiz.QuizID == quizID {
+			userQuizDTO := new(UserQuizDTO)
+			err := utils.JSONtoDTO(quiz, userQuizDTO)
+			if err != nil {
+				return nil, errors.New("failed to convert user quiz entity to user quiz dto")
+			}
+			questions, _ := s.repository.GetQuestionsByQuizID(quizID)
+			for _, question := range questions {
+				userAnswers, _ := s.repository.GetUsersAnswersByQuestionID(question.ID)
+				if len(userAnswers) > 0 {
+					for _, userAnswer := range userAnswers {
+						answer, _ := s.repository.GetAnswerByAnswerID(userAnswer.AnswerID)
+
+						answerDTO := Answer{
+							ID:         answer.ID,
+							Text:       answer.Text,
+							QuestionID: answer.QuestionID,
+						}
+						userAnserDTO := UserAnswerDTO{
+							ID:       userAnswer.ID,
+							UserID:   userAnswer.UserID,
+							QuizID:   userAnswer.QuizID,
+							AnswerID: userAnswer.AnswerID,
+							Answer:   answerDTO,
+						}
+						questionDTO := QuestionDTO{
+							ID:         question.ID,
+							Text:       question.Text,
+							Type:       question.Type,
+							Point:      question.Point,
+							UserAnswer: userAnserDTO,
+						}
+						data = append(data, Data{Question: questionDTO})
+					}
+				}
+			}
+		}
+	}
+
+	return data, nil
+}

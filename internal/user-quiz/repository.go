@@ -65,16 +65,16 @@ func (r *UserQuizRepository) GetUserQuizByID(id int) (entity.UserQuiz, error) {
 	return userQuiz, err
 }
 
-func (r *UserQuizRepository) GetUserQuizByUserIDAndQuizID(userID, quizID uint) (entity.UserQuiz, error) {
-	var userQuiz entity.UserQuiz
-	err := r.DB.
-		Preload("User").
-		Preload("Quiz").
-		Where("user_id = ? AND quiz_id = ?", userID, quizID).
-		First(&userQuiz).
-		Error
-	return userQuiz, err
-}
+// func (r *UserQuizRepository) GetUserQuizByUserIDAndQuizID(userID, quizID uint) (entity.UserQuiz, error) {
+// 	var userQuiz entity.UserQuiz
+// 	err := r.DB.
+// 		Preload("User").
+// 		Preload("Quiz").
+// 		Where("user_id = ? AND quiz_id = ?", userID, quizID).
+// 		First(&userQuiz).
+// 		Error
+// 	return userQuiz, err
+// }
 
 func (r *UserQuizRepository) GetUserQuizByUserID(userID int) ([]entity.UserQuiz, error) {
 	var userQuizzes []entity.UserQuiz
@@ -133,4 +133,76 @@ func (r *UserQuizRepository) GetUsersQuizzesByLessonID(lessonID int, req *BaseRe
 		Find(&userQuizzes).
 		Error
 	return userQuizzes, err
+}
+
+// func (r *UserQuizRepository) GetUserQuizWithAnswersByUserAndQuizID(userID, quizID int) (entity.UserQuiz, error) {
+// 	var userQuiz entity.UserQuiz
+// 	// r.DB.Exec("SELECT * FROM user_quizzes WHERE user_id = ? AND quiz_id = ?", userID, quizID)
+// 	// select * from user_answers join user_quizzes on user_quizzes.quiz_id = user_answers.quiz_id join questions on questions.quiz_id = user_answers.quiz_id;
+// 	err := r.DB.
+// 		Joins("JOIN user_answers ON user_quizzes.quiz_id = user_answers.quiz_id").
+// 		Joins("JOIN questions ON questions.quiz_id = user_answers.quiz_id").
+// 		Where("user_quizzes.quiz_id = ? and user_quizzes.user_id = ?", quizID, userID).
+// 		Find(&userQuiz).Error
+//
+// 	fmt.Printf("%+v", userQuiz)
+//
+// 	// err := r.DB.
+// 	// 	Preload("User").
+// 	// 	Preload("User.UserType").
+// 	// 	Preload("Quiz").
+// 	// 	Preload("Quiz.Lesson").
+// 	// 	Preload("Quiz.Teacher").
+// 	// 	Joins("LEFT JOIN user_answers ON user_quizzes.id = user_answers.user_id").
+// 	// 	Joins("LEFT JOIN questions ON questions.quiz_id = user_quizzes.quiz_id").
+// 	// 	Where("user_quizzes.quiz_id = ? and user_quizzes.user_id = ?", quizID, userID).
+// 	// 	Find(&userQuiz).Error
+// 	return userQuiz, err
+// }
+
+// func (r *UserQuizRepository) GetUsersQuizzesByUserID(userID, quizID int) (entity.UserQuiz, error) {
+// 	var userQuiz entity.UserQuiz
+// 	err := r.DB.
+// 		Preload("User").
+// 		Preload("Quiz").
+// 		Preload("Quiz.Lesson").
+// 		Preload("Quiz.Teacher").
+// 		Preload("UserAnswers").
+// 		Preload("UserAnswers.Question").
+// 		Preload("UserAnswers.Question.Answers").
+// 		Where("quiz_id = ? AND user_id = ?", quizID, userID).
+// 		First(&userQuiz).
+// 		Error
+// 	return userQuiz, err
+// }
+
+func (r *UserQuizRepository) GetQuestionsByQuizID(quizID int) ([]entity.Question, error) {
+	var questions []entity.Question
+	err := r.DB.
+		Preload("Quiz").
+		Where("quiz_id = ?", quizID).
+		Find(&questions).
+		Error
+	return questions, err
+}
+
+func (r *UserQuizRepository) GetUsersAnswersByQuestionID(questionID int) ([]entity.UserAnswer, error) {
+	var userAnswers []entity.UserAnswer
+	err := r.DB.
+		Preload("Answer").
+		Preload("Answer.Question", "id=?", questionID).
+		Find(&userAnswers).
+		Error
+	return userAnswers, err
+}
+
+func (r *UserQuizRepository) GetAnswerByAnswerID(answerID int) (entity.Answer, error) {
+	var answer entity.Answer
+	err := r.DB.
+		Omit(clause.Associations).
+		Preload("Question").
+		Where("id = ?", answerID).
+		First(&answer).
+		Error
+	return answer, err
 }

@@ -103,3 +103,20 @@ func (u *UserQuizHandler) GetUsersQuizzesByLessonID(c *fiber.Ctx) error {
 	}
 	return c.JSON(userQuiz)
 }
+
+func (u *UserQuizHandler) GetUserQuizWithAnswersByUserAndQuizID(c *fiber.Ctx) error {
+	quizID, err := c.ParamsInt("quizID")
+	if err != nil {
+		return err
+	}
+	userID, err := c.ParamsInt("userID")
+	if err != nil {
+		return err
+	}
+
+	userQuiz, err := u.service.GetUserQuizWithAnswersByUserAndQuizID(userID, quizID)
+	if err != nil {
+		return err
+	}
+	return c.JSON(userQuiz)
+}
